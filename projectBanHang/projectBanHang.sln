@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.35325.158
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projectBanHang", "projectBanHang\projectBanHang.csproj", "{E05659AC-8DD2-4E02-8E11-FB7A0B698E7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{F334806A-833C-4B06-BB94-10A796F3CAE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E05659AC-8DD2-4E02-8E11-FB7A0B698E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E05659AC-8DD2-4E02-8E11-FB7A0B698E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E05659AC-8DD2-4E02-8E11-FB7A0B698E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E05659AC-8DD2-4E02-8E11-FB7A0B698E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F334806A-833C-4B06-BB94-10A796F3CAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F334806A-833C-4B06-BB94-10A796F3CAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F334806A-833C-4B06-BB94-10A796F3CAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F334806A-833C-4B06-BB94-10A796F3CAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46234D17-4136-450F-B04C-3A06F63E2745}
+	EndGlobalSection
+EndGlobal

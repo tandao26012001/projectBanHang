@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayOutAdmin.cshtml";
+}
+
+<!-- page content -->
+<div class="row" style="display: block;">
+    <div class="clearfix"></div>
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Danh sách<small>tài khoản đăng nhập</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            <tr class="headings">
+                                <th>
+                                    <input type="checkbox" id="check-all" class="flat">
+                                </th>
+                                <th class="column-title">STT </th>
+                                <th class="column-title">Tên tài khoản </th>
+                                <th class="column-title">Họ và tên </th>
+                                <th class="column-title">Email</th>
+                                <th class="column-title">Địa chỉ </th>
+                                <th class="column-title">Số điện thoại </th>
+                                <th class="column-title no-link last">
+                                    <span class="nobr">Action</span>
+                                </th>
+                                <th class="bulk-actions" colspan="7">
+                                    <a class="antoo" style="color:#fff; font-weight:500;">Đã chọn:  ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="odd pointer">
+                                <td class="a-center ">
+                                    <input type="checkbox" class="flat" name="table_records">
+                                </td>
+                                <td class=" ">121000039</td>
+                                <td class=" ">May 23, 2014 11:30:12 PM</td>
+                                <td class=" ">
+                                    121000208 <i class="success fa fa-long-arrow-up"></i>
+                                </td>
+                                <td class=" ">John Blank L</td>
+                                <td class=" ">Paid</td>
+                                <td class="a-right a-right ">$741.20</td>
+                                <td class=" last">
+                                    <a href="#">View</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
