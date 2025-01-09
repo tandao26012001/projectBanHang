@@ -1,26 +1,14 @@
-﻿@model  projectBanHang.Models.CreateAccountViewModel
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Areas/Admin/Views/Shared/_LayOutAdmin.cshtml";
-}
+﻿@model projectBanHang.Models.CreateAccountViewModel
+
+@{ ViewBag.Title = "Create";
+                Layout = "~/Areas/Admin/Views/Shared/_layoutAdmin.cshtml"; }
 
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Form Validation</h3>
-            </div>
-
-            <div class="title_right">
-                <div class="col-md-5 col-sm-5 form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
+                <h3>Form Đăng ký tài khoản quản trị</h3>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -29,7 +17,6 @@
             <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Form validation <small>sub title</small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li>
                                 <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -48,129 +35,16 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        @*<form class="" action="" method="post" novalidate>
-            <p>
-                For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
-            </p>
-            <span class="section">Personal Info</span>
+                        <span class="section">Personal Info</span>
+                        @using (Html.BeginForm("Create", "Account", FormMethod.Post))
+                        {
             <div class="field item form-group">
                 <label class="col-form-label col-md-3 col-sm-3  label-align">Name<span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6">
                     <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="ex. John f. Kennedy" required="required" />
                 </div>
             </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Occupation<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" name="occupation" data-validate-length-range="5,15" type="text" />
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">email<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" name="email" required="required" type="email" />
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Confirm email address<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="email" name="confirm_email" data-validate-linked='email' required='required' />
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Number <span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="number" name="number" data-validate-minmax="10,100" required='required'>
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Date<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="date" name="date" required='required'>
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Time<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="time" name="time" required='required'>
-                </div>
-            </div>
-
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Password<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="password" id="password1" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}" title="Minimum 8 Characters Including An Upper And Lower Case Letter, A Number And A Unique Character" required />
-
-                    <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()">
-                        <i id="slash" class="fa fa-eye-slash"></i>
-                        <i id="eye" class="fa fa-eye"></i>
-                    </span>
-                </div>
-            </div>
-
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Repeat password<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="password" name="password2" data-validate-linked='password' required='required' />
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">Telephone<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" type="tel" name="phone" required='required' data-validate-length-range="8,20" />
-                </div>
-            </div>
-            <div class="field item form-group">
-                <label class="col-form-label col-md-3 col-sm-3  label-align">message<span class="required">*</span></label>
-                <div class="col-md-6 col-sm-6">
-                    <textarea required="required" name='message'></textarea>
-                </div>
-            </div>
-            <div class="ln_solid">
-                <div class="form-group">
-                    <div class="col-md-6 offset-md-3">
-                        <button type='submit' class="btn btn-primary">Submit</button>
-                        <button type='reset' class="btn btn-success">Reset</button>
-                    </div>
-                </div>
-            </div>
-        </form>*@
-                        @using (Html.BeginForm("Create", "Account", FormMethod.Post))
-                        {
-                            @Html.ValidationSummary(false)
-                            @Html.AntiForgeryToken()
-                            <div class="form-group">
-                                <label>Tài khoản</label>
-                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Họ tên</label>
-                                @Html.TextBoxFor(x => x.FullName, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Quyền</label>
-                                @Html.DropDownListFor(x => x.Role, ViewBag.Role as SelectList, "- Chọn quyền -", new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Mật khẩu</label>
-                                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <label>Nhập lại Mật khẩu</label>
-                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success">Thêm mới</button>
-                            </div>
-                        }
+            }
                     </div>
                 </div>
             </div>

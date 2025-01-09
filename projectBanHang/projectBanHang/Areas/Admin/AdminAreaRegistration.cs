@@ -18,7 +18,7 @@ namespace projectBanHang.Areas.Admin
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "projectBanHang.Areas.Admin.Controllers" }
+                namespaces: new[] {"projectBanHang.Areas.Admin.Controllers"}
             );
         }
     }
