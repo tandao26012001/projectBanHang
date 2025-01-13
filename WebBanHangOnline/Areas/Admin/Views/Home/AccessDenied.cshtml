@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "AccessDenied";
+    Layout = "~/Areas/Admin/Views/Shared/_Page403.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="col-middle">
+        <div class="text-center text-center">
+            <h1 class="error-number">403</h1>
+            <h2>Access denied</h2>
+            <p>
+                @ViewBag.Message
+                <a href="javascript:history.back()">Nhấn vào đây để quay lại</a>
+            </p>
+        </div>
+    </div>
+</div>
+

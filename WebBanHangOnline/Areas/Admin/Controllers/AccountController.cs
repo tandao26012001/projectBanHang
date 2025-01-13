@@ -79,20 +79,44 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            // Xóa thông tin đăng nhập trước đó nếu có
+            HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            // Thực hiện đăng nhập
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    // Người dùng đăng nhập thành công
+                    var user = await UserManager.FindByNameAsync(model.UserName);
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("", "Người dùng không tồn tại.");
+                        return View(model);
+                    }
+
+                    // Nếu muốn chỉ cho phép Admin hoặc Employee truy cập hệ thống, kiểm tra vai trò tại đây
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+                    if (!roles.Contains("Admin") && !roles.Contains("Employee"))
+                    {
+                        // Nếu không thuộc vai trò nào hợp lệ, đăng xuất và hiển thị thông báo
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        ModelState.AddModelError("", "Tài khoản của bạn không có quyền truy cập vào hệ thống.");
+                        return View(model);
+                    }
+
+                    // Cho phép người dùng tiếp tục
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng");
+                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng.");
                     return View(model);
             }
         }
@@ -108,7 +132,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Create()
         {
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
@@ -118,7 +141,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateAccountViewModel model)
         {
@@ -138,7 +160,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     {
                         foreach (var r in model.Roles)
                         {
-                            UserManager.AddToRole(user.Id, "Admin");
+                            UserManager.AddToRole(user.Id, r);
                         }
                     }
 
