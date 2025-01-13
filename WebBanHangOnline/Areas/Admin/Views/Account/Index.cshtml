@@ -1,97 +1,120 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.ApplicationUser>
-@{
-    ViewBag.Title = "Quản lý tài khoản";
-}
-
-@section naviheader{
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin" class="nav-link">Trang chủ</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin" class="nav-link">@ViewBag.Title</a>
-        </li>
-    </ul>
-}
-<!-- Main content -->
-<section class="content">
-
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Danh sách tài khoản</h3>
-
-            <div class="card-tools">
-                <a href="/admin/account/create" class="btn btn-success">Thêm mới</a>
+@{ ViewBag.Title = "Quản lý tài khoản"; }
+<!-- /.content -->
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Danh sách <small>người quản trị</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a href="/Admin/Account/Create"><i class="fa fa-plus-square"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Họ và tên</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Tài khoản</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null && Model.Any())
+                                            {
+                                                var i = 1;
+                                                foreach (var item in Model)
+                                                {
+                                <tr id="trow_@item.Id">
+                                    <td>@i</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.UserName</td>
+                                    <td>
+                                        <a href="/admin/account/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="#" data-user="@item.UserName" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                    </td>
+                                </tr>
+i++;
+                            }
+                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <form enctype="multipart/form-data"></form>
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tài khoản</th>
-                        <th>Họ tên</th>
-                        <th>Email</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        var i = 1;
-                        foreach (var item in Model)
-                        {
-                            <tr id="trow_@item.Id">
-                                <td>@i</td>
-                                <td>@item.UserName</td>
-                                <td>@item.FullName</td>
-                                <td>@item.Email</td>
-                                <td>
-                                    <a href="/admin/account/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                    <a href="#" data-user="@item.UserName" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                                </td>
-                            </tr>
-                            i++;
-                        }
-
-                    }
-                </tbody>
-            </table>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-
-        </div>
-        <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
+</div>
+<!-- /page content -->
 
-</section>
-<!-- /.content -->
 @section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Thêm thư viện SweetAlert2 -->
     <script>
         $(document).ready(function () {
             $('.btnDelete').click(function () {
                 var user = $(this).data('user');
                 var id = $(this).data('id');
-                $.ajax({
-                    url: '/admin/account/DeleteAccount',
-                    type: 'POST',
-                    data: { user: user, id: id },
-                    success: function (res) {
-                        if (res.Success) {
-                            $('#trow_' + id).remove();
-                        }
+
+                // Hiển thị popup xác nhận xóa
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa?',
+                    text: `Bạn đang xóa tài khoản: ${user}. Thao tác này không thể hoàn tác!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Nếu người dùng nhấn "Xóa", gửi AJAX request
+                        $.ajax({
+                            url: '/admin/account/DeleteAccount',
+                            type: 'POST',
+                            data: { user: user, id: id },
+                            success: function (res) {
+                                if (res.Success) {
+                                    Swal.fire(
+                                        'Đã xóa!',
+                                        `Tài khoản ${user} đã được xóa thành công.`,
+                                        'success'
+                                    );
+                                    $('#trow_' + id).remove(); // Xóa dòng trong bảng
+                                } else {
+                                    Swal.fire(
+                                        'Lỗi!',
+                                        'Không thể xóa tài khoản này. Vui lòng thử lại.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function () {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Đã xảy ra lỗi trong quá trình xóa. Vui lòng thử lại.',
+                                    'error'
+                                );
+                            }
+                        });
                     }
                 });
             });
         });
     </script>
 }
+

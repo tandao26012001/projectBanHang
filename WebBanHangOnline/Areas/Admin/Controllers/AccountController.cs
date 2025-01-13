@@ -92,7 +92,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng");
                     return View(model);
             }
         }
@@ -138,7 +138,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     {
                         foreach (var r in model.Roles)
                         {
-                            UserManager.AddToRole(user.Id, r);
+                            UserManager.AddToRole(user.Id, "Admin");
                         }
                     }
 
@@ -211,7 +211,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                             var checkRole = rolesForUser.FirstOrDefault(x => x.Equals(r));
                             if (checkRole == null)
                             {
-                                UserManager.AddToRole(user.Id, r);
+                                //UserManager.AddToRole(user.Id, r);
+                                UserManager.UpdateSecurityStamp(user.Id); // Cập nhật SecurityStamp
                             }
 
                         }
