@@ -1733,7 +1733,7 @@
 		 * sZeroRecords - assuming that is given.
 		 */
 		if ( ! lang.sEmptyTable && zeroRecords &&
-			defaults.sEmptyTable === "No data available in table" )
+			defaults.sEmptyTable === "Không có dữ liệu có sẵn trong bảng" )
 		{
 			_fnMap( lang, lang, 'sZeroRecords', 'sEmptyTable' );
 		}
@@ -11363,7 +11363,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "Không có dữ liệu có sẵn trong bảng",
 	
 	
 			/**

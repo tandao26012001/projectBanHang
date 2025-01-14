@@ -32,7 +32,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+                model.Alias = Models.Common.Filter.FilterChar(model.Title);
                 db.Categories.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -53,7 +53,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 db.Categories.Attach(model);
                 model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+                model.Alias = Models.Common.Filter.FilterChar(model.Title);
                 db.Entry(model).Property(x => x.Title).IsModified = true;
                 db.Entry(model).Property(x => x.Description).IsModified = true;
                 db.Entry(model).Property(x => x.Link).IsModified = true;
