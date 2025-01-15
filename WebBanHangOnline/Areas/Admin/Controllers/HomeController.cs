@@ -10,11 +10,5 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             return View();
         }
-        [AllowAnonymous]
-        public ActionResult AccessDenied()
-        {
-            ViewBag.Message = "Bạn không có quyền truy cập vào chức năng này.";
-            return View();
-        }
     }
 }

@@ -8127,8 +8127,6 @@
     <Content Include="Content\assets\vendors\validator\.bower.json" />
     <Content Include="Content\assets\vendors\validator\package.json" />
     <Content Include="Content\assets\vendors\validator\README.md" />
-    <Content Include="Areas\Admin\Views\Shared\_Page403.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\AccessDenied.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
