@@ -1,81 +1,7 @@
 ﻿@model WebBanHangOnline.Models.EF.News
 @{ ViewBag.Title = "Thêm mới tin tức";
-                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; }
 
-<!-- Main content -->
-<section class="content">
-
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Thông tin thêm mới Tin tức</h3>
-        </div>
-        <div class="card-body">
-            <div class="bs-stepper-content">
-                @using (Html.BeginForm("Add", "News", FormMethod.Post, new { }))
-                {
-    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true) <!-- your steps content here -->
-                                                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1">Tiêu đề</label>
-                                                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
-                                                            @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputFile">Ảnh đại diện</label>
-                                                            <div class="input-group">
-                                                                <div class="custom-file">
-                                                                    @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                                                                </div>
-                                                                <div class="input-group-append">
-                                                                    <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage');" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Mô tả</label>
-                                                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Chi tiết</label>
-                                                            @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Hiển thị</label>
-                                                            @Html.CheckBoxFor(x => x.IsActive, new { @checked = "@checked" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Seo title</label>
-                                                            @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">SeoDescription</label>
-                                                            @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">SeoKeywords</label>
-                                                            @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
-                                                        </div>
-                                                        <div class="form-group">
-
-                                                            <button type="submit" class="btn btn-primary">Lưu</button>
-                                                            <a href="/admin/news" class="btn btn-danger">Quay lại</a>
-                                                        </div>
-                                                    </div>}
-
-            </div>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-
-        </div>
-        <!-- /.card-footer-->
-    </div>
-    <!-- /.card -->
-
-</section>
-<!-- /.content -->
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -94,108 +20,74 @@
                     </div>
                     <div class="x_content">
 
-                        @using (Html.BeginForm("Add", "Category", FormMethod.Post))
+                        @using (Html.BeginForm("Add", "News", FormMethod.Post))
                         {
             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(false)
-                        <form class="" action="" method="post" novalidate>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu đề <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="Title" required="required" />
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ảnh đại diện <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" onclick="BrowseServer('txtImage');">Tải ảnh lên</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <textarea required="required" name="Description"></textarea>
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Chi tiết tin tức <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
-                                </div>
-                            </div>
-                            @*<div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Hiển thị bài viết <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.CheckBoxFor(x => x.IsActive, new { @checked = "@checked" })
-                                    <div class="checkbox">
-                                        <label class="">
-                                            <div class="icheckbox_flat-green" style="position: relative;">
-                                                <input type="checkbox" class="flat" checked="checked" style="position: absolute; opacity: 0;">
-                                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                                            </div>
-                                            Checked
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>*@
-                            <div class="form-group row">
-                                <label class="control-label col-md-3 col-sm-3 ">Switch</label>
-                                <div class="col-md-9 col-sm-9 ">
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch" checked /> Checked
-                                        </label>
-                                    </div>
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch" /> Unchecked
-                                        </label>
-                                    </div>
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch" disabled="disabled" /> Disabled
-                                        </label>
-                                    </div>
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch" disabled="disabled" checked="checked" /> Disabled Checked
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoTitle <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <textarea required="required" name="SeoTitle"></textarea>
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoDescription <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <textarea required="required" name="SeoDescription"></textarea>
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoKeywords <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <textarea required="required" name="SeoKeywords"></textarea>
-                                </div>
-                            </div>
-                            <div class="ln_solid">
-                                <div class="form-group">
-                                    <div class="col-md-6 offset-md-3">
-                                        <button type='submit' class="btn btn-success">Thêm mới</button>
-                                        <button type='reset' class="btn btn-success">Nhập lại</button>
-                                        <a href="/admin/news" class="btn btn-success">Trở về</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>}
+                                            <form class="" action="" method="post" novalidate>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu đề <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="Title" required="required" />
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Thuộc danh mục <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        @Html.DropDownListFor(m => m.CategoryId, Model.Category, "Chọn danh mục", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Ảnh đại diện <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-group">
+                                                            @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control", @title = "Đường dẫn ảnh" })
+                                                            <span class="input-group-btn">
+                                                                <input type="button" value="Chọn ảnh" class="btn btn-primary" onclick="BrowseServer('txtImage');">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <textarea required="required" name="Description"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Chi tiết tin tức <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">SeoTitle <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <textarea required="required" name="SeoTitle"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">SeoDescription <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <textarea required="required" name="SeoDescription"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="field item form-group">
+                                                    <label class="col-form-label col-md-3 col-sm-3  label-align">SeoKeywords <span class="required">*</span></label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <textarea required="required" name="SeoKeywords"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="ln_solid">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 offset-md-3">
+                                                            <button type='submit' class="btn btn-success">Thêm mới</button>
+                                                            <button type='reset' class="btn btn-primary">Nhập lại</button>
+                                                            <a href="/admin/news" class="btn btn-danger">Trở về</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>}
 
                     </div>
                 </div>
@@ -205,10 +97,10 @@
 </div>
 <!-- /page content -->
 @*@section scripts{
-    <script src="~/Scripts/jsConvert.js"></script>
-}*@
+        <script src="~/Scripts/jsConvert.js"></script>
+    }*@
 
-@section  scripts{
+@*@section  scripts{
     <script>
         $(document).ready(function () {
             CKEDITOR.replace('txtDetail', {
@@ -224,5 +116,40 @@
             finder.popup();
         }
 
+    </script>
+}*@
+
+@section scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Khởi tạo CKEditor
+            if (typeof CKEDITOR !== 'undefined') {
+                CKEDITOR.replace('txtDetail', {
+                    customConfig: '/content/ckeditor/config.js', // Đường dẫn cấu hình tùy chỉnh
+                    extraAllowedContent: 'span', // Cho phép các thẻ HTML bổ sung
+                });
+            } else {
+                console.error('CKEditor chưa được tải. Vui lòng kiểm tra lại.');
+            }
+
+            // Hàm duyệt và chọn ảnh từ CKFinder
+            window.BrowseServer = function (fieldId) {
+                if (typeof CKFinder !== 'undefined') {
+                    var finder = new CKFinder();
+                    finder.selectActionFunction = function (fileUrl) {
+                        // Gán URL file được chọn vào trường nhập liệu
+                        var inputField = document.getElementById(fieldId);
+                        if (inputField) {
+                            inputField.value = fileUrl;
+                        } else {
+                            console.error(`Không tìm thấy phần tử với ID: ${fieldId}`);
+                        }
+                    };
+                    finder.popup(); // Hiển thị popup CKFinder
+                } else {
+                    console.error('CKFinder chưa được tải. Vui lòng kiểm tra lại.');
+                }
+            };
+        });
     </script>
 }

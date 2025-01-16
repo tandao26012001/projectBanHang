@@ -27,6 +27,6 @@ namespace WebBanHangOnline.Models.EF
         public string SeoDescription { get; set; }
         public string SeoKeywords { get; set; }
         public bool IsActive { get; set; }
-        public virtual Category Category { get; set; }
+        public IEnumerable<SelectListItem> Category { get; set; } // Danh sách các Category
     }
 }

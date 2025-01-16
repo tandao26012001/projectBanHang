@@ -33,9 +33,21 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(items);
         }
 
+        [HttpGet]
         public ActionResult Add()
         {
-            return View();
+            var categories = db.Categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Title
+            }).ToList();
+
+            var model = new News
+            {
+                Category = categories
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -44,14 +56,29 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.CreatedDate = DateTime.Now;
-                model.CategoryId = 6;
-                model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                db.News.Add(model);
+                var news = new News
+                {
+                    Title = model.Title,
+                    Image = model.Image,
+                    Alias = Models.Common.Filter.FilterChar(model.Title),
+                    Detail = model.Detail,
+                    CategoryId = model.CategoryId,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                };
+
+                db.News.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            // Load lại danh sách Category nếu có lỗi
+            model.Category = db.Categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Title
+            }).ToList();
+
             return View(model);
         }
 
