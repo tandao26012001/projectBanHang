@@ -19,9 +19,20 @@
     <link href="~/Content/assets/vendors/nprogress/nprogress.css" rel="stylesheet" />
     <!-- iCheck -->
     <link href="~/Content/assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
+    <!-- bootstrap-wysiwyg -->
+    <!--<link href="~/Content/assets/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet" />-->
     <!-- bootstrap-progressbar -->
     <link href="~/Content/assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link href="~/Content/assets/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="~/Content/assets/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="~/Content/assets/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/Content/assets/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
     <!-- JQVMap -->
     <link href="~/Content/assets/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
     <!-- bootstrap-daterangepicker -->
@@ -33,8 +44,14 @@
     <link href="~/Content/assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+    <!-- NProgress -->
+    <link href="~/Content/assets/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Dropzone.js -->
+    <link href="~/Content/assets/vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="~/Content/assets/build/css/custom.min.css" rel="stylesheet">
+
 </head>
 
 <body class="nav-md">
@@ -106,11 +123,49 @@
     <!-- bootstrap-daterangepicker -->
     <script src="~/Content/assets/vendors/moment/min/moment.min.js"></script>
     <script src="~/Content/assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Content/assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+
+    <!-- bootstrap-wysiwyg -->
+    <script src="~/Content/assets/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="~/Content/assets/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="~/Content/assets/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="~/Content/assets/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="~/Content/assets/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/assets/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="~/Content/assets/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="~/Content/assets/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="~/Content/assets/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="~/Content/assets/vendors/starrr/dist/starrr.js"></script>
+
+    <!-- NProgress -->
+    <script src="~/Content/assets/vendors/nprogress/nprogress.js"></script>
+    <!-- Dropzone.js -->
+    <script src="~/Content/assets/vendors/dropzone/dist/min/dropzone.min.js"></script>
+
+    <!--Auto numeric-->
+    <script src="~/Scripts/autoNumeric-1.9.45.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="~/Content/assets/build/js/custom.min.js"></script>
-    <script src="~/Content/ckeditor/ckeditor.js"></script>
     <script src="~/Content/ckfinder/ckfinder.js"></script>
+    <script src="~/Content/ckeditor/ckeditor.js"></script>
+
+    <script>
+        window.onload = function () {
+            if (typeof CKFinder !== "undefined") {
+                console.log("CKFinder đã tải, phiên bản: ", CKFinder.VERSION);
+            } else {
+                console.error("CKFinder chưa được tải.");
+            }
+        };
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

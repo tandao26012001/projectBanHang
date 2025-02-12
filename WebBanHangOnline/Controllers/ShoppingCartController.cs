@@ -295,7 +295,7 @@ namespace WebBanHangOnline.Controllers
                 };
                 if (checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault) != null)
                 {
-                    item.ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault).Image;
+                    item.ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault).ImageUrl;
                 }
                 item.Price = checkProduct.Price;
                 if (checkProduct.PriceSale > 0)

@@ -13,10 +13,5 @@ CKFinder.customConfig = function( config )
 	//config.uiColor = '#BDE31E';
 	//config.language = 'vi';
 	//config.removePlugins = 'basket';
-	CKFinder.define(function (config) {
-		config.connectorPath = '/ckfinder/connector'; // Đường dẫn đến tệp xử lý kết nối
-		config.language = 'vi'; // Ngôn ngữ
-		config.chooseFiles = true; // Cho phép chọn file
-		config.defaultViewType = 'thumbnails'; // Kiểu hiển thị mặc định
-	});
+
 };

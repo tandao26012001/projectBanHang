@@ -24,7 +24,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             db.ProductImages.Add(new ProductImage { 
                 ProductId=productId,
-                Image=url,
+                ImageUrl=url,
                 IsDefault=false
             });
             db.SaveChanges();

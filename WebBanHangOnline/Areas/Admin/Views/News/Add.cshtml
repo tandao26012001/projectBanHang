@@ -38,7 +38,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="field item form-group">
-                                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Ảnh đại diện <span class="required">*</span></label>
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                                        Ảnh đại diện <span class="required">*</span>
+                                                    </label>
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control", @title = "Đường dẫn ảnh" })
@@ -96,60 +98,36 @@
     </div>
 </div>
 <!-- /page content -->
-@*@section scripts{
-        <script src="~/Scripts/jsConvert.js"></script>
-    }*@
 
-@*@section  scripts{
-    <script>
-        $(document).ready(function () {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Kiểm tra CKEditor đã được tải chưa
+        if (typeof CKEDITOR !== "undefined") {
             CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
+                filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+                filebrowserUploadUrl: '/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images'
             });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
-            };
-            finder.popup();
+
+            // Tích hợp CKFinder vào CKEditor
+            CKFinder.setupCKEditor(null, '/ckfinder/');
+        } else {
+            console.error("CKEditor chưa được tải.");
         }
 
-    </script>
-}*@
-
-@section scripts{
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Khởi tạo CKEditor
-            if (typeof CKEDITOR !== 'undefined') {
-                CKEDITOR.replace('txtDetail', {
-                    customConfig: '/content/ckeditor/config.js', // Đường dẫn cấu hình tùy chỉnh
-                    extraAllowedContent: 'span', // Cho phép các thẻ HTML bổ sung
-                });
+        // Hàm mở CKFinder để chọn ảnh và gán URL vào trường nhập liệu
+        window.BrowseServer = function (fieldId) {
+            if (typeof CKFinder !== "undefined") {
+                var finder = new CKFinder();
+                finder.selectActionFunction = function (fileUrl) {
+                    document.getElementById(fieldId).value = fileUrl; // Gán đường dẫn vào textbox
+                };
+                finder.popup();
             } else {
-                console.error('CKEditor chưa được tải. Vui lòng kiểm tra lại.');
+                console.error("CKFinder chưa được tải.");
             }
+        };
+    });
+</script>
 
-            // Hàm duyệt và chọn ảnh từ CKFinder
-            window.BrowseServer = function (fieldId) {
-                if (typeof CKFinder !== 'undefined') {
-                    var finder = new CKFinder();
-                    finder.selectActionFunction = function (fileUrl) {
-                        // Gán URL file được chọn vào trường nhập liệu
-                        var inputField = document.getElementById(fieldId);
-                        if (inputField) {
-                            inputField.value = fileUrl;
-                        } else {
-                            console.error(`Không tìm thấy phần tử với ID: ${fieldId}`);
-                        }
-                    };
-                    finder.popup(); // Hiển thị popup CKFinder
-                } else {
-                    console.error('CKFinder chưa được tải. Vui lòng kiểm tra lại.');
-                }
-            };
-        });
-    </script>
-}

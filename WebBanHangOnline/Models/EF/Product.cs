@@ -44,16 +44,19 @@ namespace WebBanHangOnline.Models.EF
         public int ViewCount { get; set; }
         public bool IsHome { get; set; }
         public bool IsSale { get; set; }
-        public bool IsFeature { get; set; }
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
         public int ProductCategoryId { get; set; }
+        [StringLength(8)]
+        public string ColorCode { get; set; }
+        [StringLength(250)]
+        public string ShortDescription { get; set; }
+        [StringLength(8)]
+        public string Size { get; set; }
 
         [StringLength(250)]
         public string SeoTitle { get; set; }
         [StringLength(500)]
-        public string SeoDescription { get; set; }
-        [StringLength(250)]
         public string SeoKeywords { get; set; }
 
         public virtual ProductCategory ProductCategory { get; set; }

@@ -14,25 +14,29 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/News
-        public ActionResult Index(string Searchtext, int? page)
+        //public ActionResult Index(string Searchtext, int? page)
+        //{
+        //    var pageSize = 10;
+        //    if (page == null)
+        //    {
+        //        page = 1;
+        //    }
+        //    IEnumerable<News> items = db.News.OrderByDescending(x => x.Id);
+        //    if (!string.IsNullOrEmpty(Searchtext))
+        //    {
+        //        items= items.Where(x=>x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
+        //    }
+        //    var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+        //     items = items.ToPagedList(pageIndex, pageSize);
+        //    ViewBag.PageSize = pageSize;
+        //    ViewBag.Page = page;
+        //    return View(items);
+        //}
+        public ActionResult Index()
         {
-            var pageSize = 10;
-            if (page == null)
-            {
-                page = 1;
-            }
-            IEnumerable<News> items = db.News.OrderByDescending(x => x.Id);
-            if (!string.IsNullOrEmpty(Searchtext))
-            {
-                items= items.Where(x=>x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
-            }
-            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-             items = items.ToPagedList(pageIndex, pageSize);
-            ViewBag.PageSize = pageSize;
-            ViewBag.Page = page;
-            return View(items);
+            var item = db.News.ToList();
+            return View(item);
         }
-
         [HttpGet]
         public ActionResult Add()
         {

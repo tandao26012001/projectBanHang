@@ -14,21 +14,25 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Products
-        public ActionResult Index(int? page)
+        //public ActionResult Index(int? page)
+        //{
+        //    IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
+        //    var pageSize = 10;
+        //    if (page == null)
+        //    {
+        //        page = 1;
+        //    }
+        //    var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+        //    items = items.ToPagedList(pageIndex, pageSize);
+        //    ViewBag.PageSize = pageSize;
+        //    ViewBag.Page = page;
+        //    return View(items);
+        //}
+        public ActionResult Index()
         {
-            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
-            var pageSize = 10;
-            if (page == null)
-            {
-                page = 1;
-            }
-            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            items = items.ToPagedList(pageIndex, pageSize);
-            ViewBag.PageSize = pageSize;
-            ViewBag.Page = page;
-            return View(items);
+            var item = db.Products.ToList();
+            return View(item);
         }
-
         public ActionResult Add()
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
@@ -51,7 +55,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                             model.ProductImage.Add(new ProductImage
                             {
                                 ProductId = model.Id,
-                                Image = Images[i],
+                                ImageUrl = Images[i],
                                 IsDefault = true
                             });
                         }
@@ -60,7 +64,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                             model.ProductImage.Add(new ProductImage
                             {
                                 ProductId = model.Id,
-                                Image = Images[i],
+                                ImageUrl = Images[i],
                                 IsDefault = false
                             });
                         }

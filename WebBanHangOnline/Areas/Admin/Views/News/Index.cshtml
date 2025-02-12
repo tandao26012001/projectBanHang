@@ -1,6 +1,5 @@
-﻿@model PagedList.PagedList<WebBanHangOnline.Models.EF.News>
-@using PagedList.Mvc;
-@using PagedList;
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.News>
+
 @{ ViewBag.Title = "Danh sách tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; }
 <!-- /.content -->
@@ -17,7 +16,7 @@
                                 <a href="/admin/news/add"><i class="fa fa-plus-square"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-trash BtnDeleteAll"></i></a>
+                                <a href="#" class="BtnDeleteAll"><i class="fa fa-trash"></i></a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
@@ -29,6 +28,7 @@
                                     <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th><input type="checkbox" id="SelectAll" /></th>
                                                 <th>STT</th>
                                                 <th>Hình ảnh</th>
                                                 <th>Tiêu đề</th>
@@ -44,17 +44,19 @@
                                                 foreach (var item in Model)
                                                 {
                                                     var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-close'></i>";
-                                <tr id="trow_@item.Id">
-                                    <td>@i</td>
-                                    <td><img src="@item.Image" width="50" /></td>
-                                    <td>@item.Title</td>
-                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                    <td style="text-align:center"><a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a></td>
-                                    <td>
-                                        <a href="/admin/news/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                                    </td>
-                                </tr>i++;
+                                            <tr id="trow_@item.Id">
+                                                <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                                                <td>@i</td>
+                                                <td><img src="@item.Image" width="50" /></td>
+                                                <td>@item.Title</td>
+                                                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                                <td style="text-align:center"><a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a></td>
+                                                <td>
+                                                    <a href="/admin/news/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                                    <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                                </td>
+                                            </tr>
+                                            i++;
                                                 }
                                             }
                                         </tbody>
@@ -74,19 +76,53 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Thêm thư viện SweetAlert2 -->
     <script>
         $(document).ready(function () {
-            $('body').on('click', '#BtnDeleteAll', function (e) {
-                e.preventDefault();
-                let str = "";
-                const checkboxes = $(this).parents('.card').find('tr td input:checkbox');
-                let i = 0;
 
-                checkboxes.each(function () {
-                    if (this.checked) {
-                        const _id = $(this).val();
-                        str += (i === 0) ? _id : "," + _id;
-                        i++;
-                    }
+            $('body').on('change', '#SelectAll', function () {
+                $('.cbkItem').prop('checked', this.checked);
+            });
+
+            $('body').on('click', '.BtnDeleteAll', function (e) {
+                e.preventDefault();
+
+                let selectedIds = [];
+                $('.cbkItem:checked').each(function () {
+                    selectedIds.push($(this).val());
                 });
+
+                if (selectedIds.length > 0) {
+                    Swal.fire({
+                        title: 'Bạn có chắc muốn xóa các bản ghi này?',
+                        text: 'Thao tác này không thể hoàn tác!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xóa',
+                        cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '/admin/news/deleteAll',
+                                type: 'POST',
+                                data: { ids: selectedIds.join(',') },
+                                success: function (rs) {
+                                    if (rs.success) {
+                                        Swal.fire('Đã xóa!', 'Các bản ghi đã được xóa thành công.', 'success').then(() => {
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire('Lỗi!', 'Không thể xóa các bản ghi này. Vui lòng thử lại.', 'error');
+                                    }
+                                },
+                                error: function () {
+                                    Swal.fire('Lỗi!', 'Đã xảy ra lỗi trong quá trình xóa. Vui lòng thử lại.', 'error');
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire('Thông báo', 'Vui lòng chọn ít nhất một bản ghi để xóa.', 'info');
+                }
 
                 if (str.length > 0) {
                     Swal.fire({
