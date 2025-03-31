@@ -490,7 +490,6 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Extensions.Primitives.x
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.xml
-D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.Cookies.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.Facebook.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.Google.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
