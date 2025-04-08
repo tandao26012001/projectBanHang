@@ -460,7 +460,6 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Memory.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Numerics.Vectors.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Runtime.CompilerServices.Unsafe.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Threading.Tasks.Extensions.dll
-D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.ValueTuple.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Helpers.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Mvc.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Optimization.dll
@@ -469,6 +468,7 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.Deployment.dl
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.Razor.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\WebGrease.dll
+D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.ValueTuple.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\CKFinder.pdb
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\Dapper.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\EntityFramework.xml
@@ -504,7 +504,6 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Memory.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Numerics.Vectors.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Runtime.CompilerServices.Unsafe.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Threading.Tasks.Extensions.xml
-D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.ValueTuple.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Helpers.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Mvc.xml
 D:\PROJECT\projectBanHang\WebBanHangOnline\bin\System.Web.Razor.xml
