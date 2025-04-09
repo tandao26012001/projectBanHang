@@ -8,342 +8,246 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+        @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { id = "product-form", @data_parsley_validate = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-        <div class="row">
-            <!-- Input Sizing -->
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <h5 class="card-header">@ViewBag.Title</h5>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Tên sản phẩm</label>
-                            <input id="defaultInput" class="form-control" type="text" placeholder="Tên sản phẩm" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Mã sản phẩm</label>
-                            <input id="defaultInput" class="form-control" type="text" placeholder="Mã sản phẩm" />
-                        </div>
-                    </div>
-                    <hr class="m-0" />
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="defaultSelect" class="form-label">Danh mục sản phẩm</label>
-                            @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "- Chọn danh mục sản phẩm -", new { @class = "form-select", @required = "required", @data_parsley_trigger = "change", @rows = "5" })
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Giới thiệu ngắn về sản phẩm</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
+            <div class="row">
+                <!-- Input Sizing -->
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">@ViewBag.Title</h5>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Tên sản phẩm</label>
+                                <input id="defaultInput" class="form-control" type="text" placeholder="Tên sản phẩm" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Mã sản phẩm</label>
+                                <input id="defaultInput" class="form-control" type="text" placeholder="Mã sản phẩm" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="defaultSelect" class="form-label">Danh mục sản phẩm</label>
+                                @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "- Chọn danh mục sản phẩm -", new { @class = "form-select", @required = "required", @data_parsley_trigger = "change", @rows = "5" })
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Giới thiệu ngắn về sản phẩm</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" required data-parsley-trigger="change"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Chi tiết sản phẩm</label>
+                                @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail", @required = "required" })
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Input Sizing -->
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <h5 class="card-header">@ViewBag.Title</h5>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Số lượng</label>
-                            <input id="defaultInput" class="form-control" type="text" placeholder="Số lượng" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Giá bán ra</label>
-                            <input id="demoPrice" name="demoPrice" class="form-control" type="text" placeholder="Giá bán ra" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Giá nhập vào</label>
-                            <input id="OriginalPrice" name="demoOriginalPrice" class="form-control" type="text" placeholder="Giá nhập vào" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="defaultInput" class="form-label">Giá khuyến mãi</label>
-                            <input id="demoPriceSale" name="demoPriceSale" class="form-control" type="text" placeholder="Giá khuyến mãi" />
-                        </div>
-                        <div class="row gy-3">
-                            <div class="col-md">
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked />
-                                    <label class="form-check-label" for="defaultCheck1"> Hiển thị tất cả các trang </label>
+                <!-- Input Sizing -->
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">@ViewBag.Title</h5>
+                        <div class="card-body">
+                            <div class="card">
+                                <h5 class="card-header">Table Basic</h5>
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Hình ảnh</th>
+                                                <th>Chọn làm ảnh đại diện</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            <tr>
+                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong></td>
+                                                <td>Albert Cook</td>
+                                                <td>
+                                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                        <li data-bs-toggle="tooltip"
+                                                            data-popup="tooltip-custom"
+                                                            data-bs-placement="top"
+                                                            class="avatar avatar-xs pull-up"
+                                                            title="Lilian Fuller">
+                                                            <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                                    <label class="form-check-label" for="defaultCheck1"> Hiển thị trang chủ  </label>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Số lượng</label>
+                                <input id="defaultInput" class="form-control" type="text" placeholder="Số lượng" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Giá bán ra</label>
+                                <input id="demoPrice" name="demoPrice" class="form-control" type="text" placeholder="Giá bán ra" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Giá nhập vào</label>
+                                <input id="OriginalPrice" name="demoOriginalPrice" class="form-control" type="text" placeholder="Giá nhập vào" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="defaultInput" class="form-label">Giá khuyến mãi</label>
+                                <input id="demoPriceSale" name="demoPriceSale" class="form-control" type="text" placeholder="Giá khuyến mãi" required data-parsley-trigger="change" />
+                            </div>
+                            <div class="row gy-3">
+                                <div class="col-md">
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked required data-parsley-trigger="change" />
+                                        <label class="form-check-label" for="defaultCheck1"> Hiển thị tất cả các trang </label>
+                                    </div>
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                                        <label class="form-check-label" for="defaultCheck1"> Hiển thị trang chủ  </label>
+                                    </div>
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                                        <label class="form-check-label" for="defaultCheck1"> Hiển thị trang khuyến mại </label>
+                                    </div>
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                                        <label class="form-check-label" for="defaultCheck1"> Hiển thị trang nổi bật </label>
+                                    </div>
                                 </div>
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                                    <label class="form-check-label" for="defaultCheck1"> Hiển thị trang khuyến mại </label>
-                                </div>
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                                    <label class="form-check-label" for="defaultCheck1"> Hiển thị trang nổi bật </label>
-                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+                                <a href="/admin/products" type="button" class="btn rounded-pill btn-outline-secondary">Trở lại</a>
+                                <button type="submit" class="btn rounded-pill btn-outline-success">Thêm mới</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Chi tiết sản phẩm -->
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <h5 class="card-header">@ViewBag.Title</h5>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Chi tiết sản phẩm</label>
-                            @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlReadOnlyInput1" class="form-label">Read only</label>
-                            <input class="form-control"
-                                   type="text"
-                                   id="exampleFormControlReadOnlyInput1"
-                                   placeholder="Readonly input here..."
-                                   readonly />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlReadOnlyInputPlain1" class="form-label">Read plain</label>
-                            <input type="text"
-                                   readonly
-                                   class="form-control-plaintext"
-                                   id="exampleFormControlReadOnlyInputPlain1"
-                                   value="email@example.com" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect1" class="form-label">Example select</label>
-                            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleDataList" class="form-label">Datalist example</label>
-                            <input class="form-control"
-                                   list="datalistOptions"
-                                   id="exampleDataList"
-                                   placeholder="Type to search..." />
-                            <datalist id="datalistOptions">
-                                <option value="San Francisco"></option>
-                                <option value="New York"></option>
-                                <option value="Seattle"></option>
-                                <option value="Los Angeles"></option>
-                                <option value="Chicago"></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect2" class="form-label">Example multiple select</label>
-                            <select multiple
-                                    class="form-select"
-                                    id="exampleFormControlSelect2"
-                                    aria-label="Multiple select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Hình ảnh sản phẩm -->
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <h5 class="card-header">Form Controls</h5>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                            <input type="email"
-                                   class="form-control"
-                                   id="exampleFormControlInput1"
-                                   placeholder="name@example.com" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlReadOnlyInput1" class="form-label">Read only</label>
-                            <input class="form-control"
-                                   type="text"
-                                   id="exampleFormControlReadOnlyInput1"
-                                   placeholder="Readonly input here..."
-                                   readonly />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlReadOnlyInputPlain1" class="form-label">Read plain</label>
-                            <input type="text"
-                                   readonly
-                                   class="form-control-plaintext"
-                                   id="exampleFormControlReadOnlyInputPlain1"
-                                   value="email@example.com" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect1" class="form-label">Example select</label>
-                            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleDataList" class="form-label">Datalist example</label>
-                            <input class="form-control"
-                                   list="datalistOptions"
-                                   id="exampleDataList"
-                                   placeholder="Type to search..." />
-                            <datalist id="datalistOptions">
-                                <option value="San Francisco"></option>
-                                <option value="New York"></option>
-                                <option value="Seattle"></option>
-                                <option value="Los Angeles"></option>
-                                <option value="Chicago"></option>
-                            </datalist>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect2" class="form-label">Example multiple select</label>
-                            <select multiple
-                                    class="form-select"
-                                    id="exampleFormControlSelect2"
-                                    aria-label="Multiple select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
         <!-- / Content -->
-        <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
-            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                    ©
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script>
-                    , made with ❤️ by
-                    <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                </div>
-                <div>
-                    <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                    <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-                    <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                       target="_blank"
-                       class="footer-link me-4">Documentation</a>
-
-                    <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                       target="_blank"
-                       class="footer-link me-4">Support</a>
-                </div>
-            </div>
-        </footer>
-        <!-- / Footer -->
-
-        <div class="content-backdrop fade"></div>
     </div>
     <!-- Content wrapper -->
 </div>
 
-    @section  scripts{
-        <script>
-            $(document).ready(function () {
-                // Khởi tạo Parsley cho form
-                var form = $("#demo-form2");
-                if (form.length) {
-                    form.parsley();
+@section  scripts{
+
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.3/dist/parsley.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#product-form').parsley();
+
+            $('#product-form').on('submit', function (e) {
+                if (!$(this).parsley().isValid()) {
+                    e.preventDefault(); // chặn submit nếu chưa hợp lệ
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Khởi tạo Parsley cho form
+            var form = $("#demo-form2");
+            if (form.length) {
+                form.parsley();
+            } else {
+                console.error("Form #demo-form2 không tồn tại!");
+            }
+
+            // Kiểm tra hợp lệ
+            $("#submit-btn").on("click", function () {
+                if ($("#demo-form2").parsley().isValid()) {
+                    $(".bs-callout-info").removeClass("hidden");
                 } else {
-                    console.error("Form #demo-form2 không tồn tại!");
+                    $(".bs-callout-info").addClass("hidden");
                 }
+            });
+        });
 
-                // Kiểm tra hợp lệ
-                $("#submit-btn").on("click", function () {
-                    if ($("#demo-form2").parsley().isValid()) {
-                        $(".bs-callout-info").removeClass("hidden");
-                    } else {
-                        $(".bs-callout-info").addClass("hidden");
-                    }
-                });
+        $(document).ready(function () {
+            $('.auto').autoNumeric('init');
+            $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPrice').autoNumeric('get');
+                $('#Price').val(demoGet);
+                $('#Price').autoNumeric('set', demoGet);
+            });
+            $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPriceSale').autoNumeric('get');
+                $('#PriceSale').val(demoGet);
+                $('#PriceSale').autoNumeric('set', demoGet);
+            });
+            $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoOriginalPrice').autoNumeric('get');
+                $('#OriginalPrice').val(demoGet);
+                $('#OriginalPrice').autoNumeric('set', demoGet);
+            });
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/content/ckeditor/config.js',
+                extraAllowedContent: 'span',
             });
 
-            $(document).ready(function () {
-                $('.auto').autoNumeric('init');
-                $('#demoPrice').bind('blur focusout keypress keyup', function () {
-                    var demoGet = $('#demoPrice').autoNumeric('get');
-                    $('#Price').val(demoGet);
-                    $('#Price').autoNumeric('set', demoGet);
-                });
-                $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
-                    var demoGet = $('#demoPriceSale').autoNumeric('get');
-                    $('#PriceSale').val(demoGet);
-                    $('#PriceSale').autoNumeric('set', demoGet);
-                });
-                $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
-                    var demoGet = $('#demoOriginalPrice').autoNumeric('get');
-                    $('#OriginalPrice').val(demoGet);
-                    $('#OriginalPrice').autoNumeric('set', demoGet);
-                });
-                CKEDITOR.replace('txtDetail', {
-                    customConfig: '/content/ckeditor/config.js',
-                    extraAllowedContent: 'span',
-                });
-
-                $('body').on('click', '.btnXoaAnh', function () {
-                    var conf = confirm('Bạn có muốn xóa ảnh này không?');
-                    if (conf === true) {
-                        var _id = $(this).data('id');
-                        $('#trow_' + _id).fadeTo('fast', 0.5, function () {
-                            $(this).slideUp('fast', function () { $(this).remove(); });
-                        });
-                        var temp = $('#tCurrentId').val();
-                        var currentId = parseInt(temp) - 1;
-                        $('#tCurrentId').val(currentId);
-                    }
-                });
+            $('body').on('click', '.btnXoaAnh', function () {
+                var conf = confirm('Bạn có muốn xóa ảnh này không?');
+                if (conf === true) {
+                    var _id = $(this).data('id');
+                    $('#trow_' + _id).fadeTo('fast', 0.5, function () {
+                        $(this).slideUp('fast', function () { $(this).remove(); });
+                    });
+                    var temp = $('#tCurrentId').val();
+                    var currentId = parseInt(temp) - 1;
+                    $('#tCurrentId').val(currentId);
+                }
             });
-            function BrowseServer(field) {
-                var finder = new CKFinder();
-                finder.selectActionFunction = function (fileUrl) {
-                    addImageProduct(fileUrl);
-                };
-                finder.popup();
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                addImageProduct(fileUrl);
+            };
+            finder.popup();
+        }
+        function addImageProduct(url) {
+            var temp = $('#tCurrentId').val();
+            var currentId = parseInt(temp) + 1;
+            var str = "";
+            if (currentId == 1) {
+                str += `<tr id="trow_${currentId}">
+                                                                                    <td class="text-center">${currentId}</td>
+                                                                                    <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                                                                                    <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
+                                                                                    <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                                                                                    </tr>`;
             }
-            function addImageProduct(url) {
-                var temp = $('#tCurrentId').val();
-                var currentId = parseInt(temp) + 1;
-                var str = "";
-                if (currentId == 1) {
-                    str += `<tr id="trow_${currentId}">
-                                                                <td class="text-center">${currentId}</td>
-                                                                <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                                                <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
-                                                                <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                                                </tr>`;
-                }
-                else {
-                    str += `<tr id="trow_${currentId}">
-                                                                <td class="text-center">${currentId}</td>
-                                                                <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                                                <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
-                                                                <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                                                </tr>`;
-                }
-                $('#tbHtml').append(str);
-                $('#tCurrentId').val(currentId);
-                //$('#tbHtml tr td a').each(function () {
-                //    $(this).click(function () {
-                //        var conf = confirm('Bạn có muốn xóa ảnh này không?');
-                //        if (conf === true) {
-                //            var _id = $(this).data('id');
-                //            $('#trow_' + _id).fadeTo('fast',1, function () {
-                //                $(this).slideUp('fast', function () { $(this).remove(); });
-                //            });
-                //            var temp = $('#tCurrentId').val();
-                //            var currentId = parseInt(temp) - 1;
-                //            $('#tCurrentId').val(currentId);
-                //            }
-                //        });
-                //    });
+            else {
+                str += `<tr id="trow_${currentId}">
+                                                                                    <td class="text-center">${currentId}</td>
+                                                                                    <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                                                                                    <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
+                                                                                    <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                                                                                    </tr>`;
             }
+            $('#tbHtml').append(str);
+            $('#tCurrentId').val(currentId);
+            //$('#tbHtml tr td a').each(function () {
+            //    $(this).click(function () {
+            //        var conf = confirm('Bạn có muốn xóa ảnh này không?');
+            //        if (conf === true) {
+            //            var _id = $(this).data('id');
+            //            $('#trow_' + _id).fadeTo('fast',1, function () {
+            //                $(this).slideUp('fast', function () { $(this).remove(); });
+            //            });
+            //            var temp = $('#tCurrentId').val();
+            //            var currentId = parseInt(temp) - 1;
+            //            $('#tCurrentId').val(currentId);
+            //            }
+            //        });
+            //    });
+        }
 
-        </script>
-    }
+    </script>
+}
