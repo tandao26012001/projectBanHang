@@ -8,7 +8,7 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
-        @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { id = "product-form", @data_parsley_validate = "" }))
+        @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { id = "product-form", @data_parsley_validate = "Vui lòng nhập đầy đủ thông tin" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
@@ -21,7 +21,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="defaultInput" class="form-label">Tên sản phẩm</label>
-                                <input id="defaultInput" class="form-control" type="text" placeholder="Tên sản phẩm" required data-parsley-trigger="change" />
+                                <input id="defaultInput" class="form-control" type="text" placeholder="Tên sản phẩm" required data-parsley-required-message="Tên sản phẩm không được để trống!" />
                             </div>
                             <div class="mb-3">
                                 <label for="defaultInput" class="form-label">Mã sản phẩm</label>
@@ -82,7 +82,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="defaultInput" class="form-label">Số lượng</label>
-                                <input id="defaultInput" class="form-control" type="text" placeholder="Số lượng" required data-parsley-trigger="change" />
+                                <input id="defaultInput" name="Quantity" class="form-control" type="text" placeholder="Số lượng" required data-parsley-trigger="change" />
                             </div>
                             <div class="mb-3">
                                 <label for="defaultInput" class="form-label">Giá bán ra</label>
@@ -134,37 +134,13 @@
 </div>
 
 @section  scripts{
-
-    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.3/dist/parsley.min.js"></script>
-
-    <script>
+    @*<script>
         $(document).ready(function () {
             $('#product-form').parsley();
 
             $('#product-form').on('submit', function (e) {
                 if (!$(this).parsley().isValid()) {
                     e.preventDefault(); // chặn submit nếu chưa hợp lệ
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            // Khởi tạo Parsley cho form
-            var form = $("#demo-form2");
-            if (form.length) {
-                form.parsley();
-            } else {
-                console.error("Form #demo-form2 không tồn tại!");
-            }
-
-            // Kiểm tra hợp lệ
-            $("#submit-btn").on("click", function () {
-                if ($("#demo-form2").parsley().isValid()) {
-                    $(".bs-callout-info").removeClass("hidden");
-                } else {
-                    $(".bs-callout-info").addClass("hidden");
                 }
             });
         });
@@ -217,19 +193,19 @@
             var str = "";
             if (currentId == 1) {
                 str += `<tr id="trow_${currentId}">
-                                                                                    <td class="text-center">${currentId}</td>
-                                                                                    <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                                                                    <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
-                                                                                    <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                                                                    </tr>`;
+                        <td class="text-center">${currentId}</td>
+                        <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                        <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
+                        <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                        </tr>`;
             }
             else {
                 str += `<tr id="trow_${currentId}">
-                                                                                    <td class="text-center">${currentId}</td>
-                                                                                    <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                                                                    <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
-                                                                                    <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                                                                    </tr>`;
+                        <td class="text-center">${currentId}</td>
+                        <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                        <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
+                        <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                        </tr>`;
             }
             $('#tbHtml').append(str);
             $('#tCurrentId').val(currentId);
@@ -248,6 +224,41 @@
             //        });
             //    });
         }
+
+    </script>*@
+    <script>
+        $(document).ready(function () {
+            // Khởi tạo AutoNumeric
+            new AutoNumeric('#demoPrice', { decimalPlaces: 0 });
+            new AutoNumeric('#demoPriceSale', { decimalPlaces: 0 });
+            new AutoNumeric('#demoOriginalPrice', { decimalPlaces: 0 });
+
+            // Cập nhật giá trị ẩn khi form submit
+            $('#product-form').on('submit', function (e) {
+                // Lấy và gán giá trị từ AutoNumeric vào các input ẩn
+                $('#Price').val(AutoNumeric.getAutoNumericElement('#demoPrice').getNumber());
+                $('#PriceSale').val(AutoNumeric.getAutoNumericElement('#demoPriceSale').getNumber());
+                $('#OriginalPrice').val(AutoNumeric.getAutoNumericElement('#demoOriginalPrice').getNumber());
+
+                // Kiểm tra validation
+                if (!$(this).parsley().isValid()) {
+                    e.preventDefault(); // Ngăn submit nếu chưa hợp lệ
+                    showAlert('Vui lòng nhập đầy đủ thông tin!', 'danger');
+                }
+            });
+
+            //// ParsleyJS khởi tạo
+            //$('#product-form').parsley();
+        });
+        $(document).ready(function () {
+            $('#product-form').parsley();
+
+            $('#product-form').on('submit', function (e) {
+                if (!$(this).parsley().isValid()) {
+                    e.preventDefault(); // chặn submit nếu chưa hợp lệ
+                }
+            });
+        });
 
     </script>
 }
