@@ -28,11 +28,40 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //    ViewBag.Page = page;
         //    return View(items);
         //}
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var item = db.Products.ToList();
+        //    return View(item);
+        //}
+        public ActionResult Index(string searchText)
         {
-            var item = db.Products.ToList();
-            return View(item);
+            var items = db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Title.Contains(searchText) || x.ProductCode.Contains(searchText));
+            }
+
+            ViewBag.SearchText = searchText; // để giữ giá trị khi submit
+            return View(items.OrderByDescending(x => x.Id).ToList());
         }
+
+        [HttpGet]
+        public JsonResult GetSuggestions(string term)
+        {
+            var suggestions = db.Products
+                .Where(p => p.Title.Contains(term) || p.ProductCode.Contains(term))
+                .Select(p => new
+                {
+                    label = p.Title + " (" + p.ProductCode + ")",
+                    value = p.Title // giá trị điền vào ô tìm kiếm
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Add()
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
@@ -100,15 +129,26 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Gán giá trị hợp lệ nếu CreatedDate hoặc ModifiedDate chưa được gán
+                if (model.CreatedDate < new DateTime(1753, 1, 1))
+                {
+                    model.CreatedDate = DateTime.Now;
+                }
+
                 model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+
                 db.Products.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
             return View(model);
         }
+
 
         [HttpPost]
         public ActionResult Delete(int id)
@@ -132,7 +172,36 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
             return Json(new { success = false });
         }
+        [HttpPost]
+        public ActionResult DeleteAll(string ids)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(ids))
+                {
+                    var idList = ids.Split(',').Select(int.Parse).ToList();
 
+                    foreach (var id in idList)
+                    {
+                        var product = db.Products.Find(id);
+                        if (product != null)
+                        {
+                            db.Products.Remove(product);
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    return Json(new { success = true });
+                }
+
+                return Json(new { success = false, message = "Danh sách rỗng" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
         [HttpPost]
         public ActionResult IsActive(int id)
         {

@@ -518,8 +518,11 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateDatabase070101.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateDatabase1001.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateProduct1202.resources
+D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.InitialCreate1404.resources
+D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateProduct1404.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.GenerateResource.cache
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.CoreCompileInputs.cache
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHa.7E290493.Up2Date
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.dll
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.pdb
+D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateProductCategory1404.resources

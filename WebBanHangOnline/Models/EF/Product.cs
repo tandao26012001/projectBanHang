@@ -49,8 +49,6 @@ namespace WebBanHangOnline.Models.EF
         public int ProductCategoryId { get; set; }
         [StringLength(8)]
         public string ColorCode { get; set; }
-        [StringLength(250)]
-        public string ShortDescription { get; set; }
         [StringLength(8)]
         public string Size { get; set; }
 
@@ -58,7 +56,6 @@ namespace WebBanHangOnline.Models.EF
         public string SeoTitle { get; set; }
         [StringLength(500)]
         public string SeoKeywords { get; set; }
-
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImage { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

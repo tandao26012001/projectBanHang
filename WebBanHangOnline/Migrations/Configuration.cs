@@ -9,7 +9,7 @@ namespace WebBanHangOnline.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(WebBanHangOnline.Models.ApplicationDbContext context)

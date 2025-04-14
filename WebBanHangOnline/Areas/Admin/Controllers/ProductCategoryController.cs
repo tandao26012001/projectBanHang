@@ -31,7 +31,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+                model.Alias = Models.Common.Filter.FilterChar(model.Title);
                 db.ProductCategories.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System.Core" />
+    <Reference Include="System.Core" />
     <Reference Include="CKFinder, Version=2.4.0.2631, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ckfinder\bin\Release\CKFinder.dll</HintPath>
@@ -280,6 +280,18 @@
     <Compile Include="Migrations\202502120640541_UpdateProduct-1202.cs" />
     <Compile Include="Migrations\202502120640541_UpdateProduct-1202.Designer.cs">
       <DependentUpon>202502120640541_UpdateProduct-1202.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504140653579_InitialCreate1404.cs" />
+    <Compile Include="Migrations\202504140653579_InitialCreate1404.Designer.cs">
+      <DependentUpon>202504140653579_InitialCreate1404.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504140658012_UpdateProduct1404.cs" />
+    <Compile Include="Migrations\202504140658012_UpdateProduct1404.Designer.cs">
+      <DependentUpon>202504140658012_UpdateProduct1404.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504140954528_UpdateProductCategory1404.cs" />
+    <Compile Include="Migrations\202504140954528_UpdateProductCategory1404.Designer.cs">
+      <DependentUpon>202504140954528_UpdateProductCategory1404.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3463,6 +3475,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502120640541_UpdateProduct-1202.resx">
       <DependentUpon>202502120640541_UpdateProduct-1202.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504140653579_InitialCreate1404.resx">
+      <DependentUpon>202504140653579_InitialCreate1404.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504140658012_UpdateProduct1404.resx">
+      <DependentUpon>202504140658012_UpdateProduct1404.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504140954528_UpdateProductCategory1404.resx">
+      <DependentUpon>202504140954528_UpdateProductCategory1404.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
