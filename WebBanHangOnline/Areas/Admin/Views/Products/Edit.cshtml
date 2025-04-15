@@ -68,7 +68,30 @@
                                         </tr>
                                     </thead>
                                     <tbody id="imageTable" class="table-border-bottom-0">
-                                        <!-- Ảnh sẽ được thêm bằng JavaScript -->
+                                        @{
+                                            var imgIndex = 1;
+                                            var images = ViewBag.ProductImages as List<WebBanHangOnline.Models.EF.ProductImage>;
+                                        }
+                                        @if (images != null)
+                                        {
+                                            foreach (var img in images)
+                                            {
+                                                <tr id="trow_@imgIndex">
+                                                    <td class="text-center">@imgIndex</td>
+                                                    <td class="text-center">
+                                                        <img width="80" src="@img.ImageUrl" />
+                                                        <input type="hidden" name="Images" value="@img.ImageUrl" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="radio" name="rDefault" value="@imgIndex" @(img.IsDefault ? "checked" : "") />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="#" data-id="@imgIndex" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>
+                                                    </td>
+                                                </tr>
+                                                imgIndex++;
+                                            }
+                                        }
                                     </tbody>
                                 </table>
                             </div>

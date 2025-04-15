@@ -40,17 +40,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            var categories = db.Categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Title
-            }).ToList();
+            var model = new News();
 
-            var model = new News
-            {
-                Category = categories
-            };
-
+            ViewBag.Category = new SelectList(db.Categories.ToList(), "Id", "Title");
             return View(model);
         }
 
@@ -75,17 +67,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            // Load lại danh sách Category nếu có lỗi
-            model.Category = db.Categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Title
-            }).ToList();
-
+            LoadCategory();
             return View(model);
         }
-
+        private void LoadCategory()
+        {
+            ViewBag.Category = new SelectList(db.Categories.ToList(), "Id", "Title");
+        }
         public ActionResult Edit(int id)
         {
             var item = db.News.Find(id);

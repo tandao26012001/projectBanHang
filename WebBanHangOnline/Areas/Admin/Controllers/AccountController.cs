@@ -128,7 +128,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            Session.Clear();
+            Session.Abandon();
+            Response.Cookies.Clear();
+            return RedirectToAction("Login", "Account");
         }
         //
         // GET: /Account/Register

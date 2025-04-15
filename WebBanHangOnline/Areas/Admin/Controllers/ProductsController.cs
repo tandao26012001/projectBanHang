@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -119,17 +120,21 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
+
             var item = db.Products.Find(id);
+            var images = db.ProductImages.Where(x => x.ProductId == id).ToList();
+            ViewBag.ProductImages = images;
+
             return View(item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product model)
+        [ValidateInput(false)]
+        public ActionResult Edit(Product model, FormCollection form)
         {
             if (ModelState.IsValid)
             {
-                // Gán giá trị hợp lệ nếu CreatedDate hoặc ModifiedDate chưa được gán
                 if (model.CreatedDate < new DateTime(1753, 1, 1))
                 {
                     model.CreatedDate = DateTime.Now;
@@ -139,16 +144,39 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
 
                 db.Products.Attach(model);
-                db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
+
+                // --- Cập nhật ảnh ---
+                var productImages = db.ProductImages.Where(x => x.ProductId == model.Id);
+                db.ProductImages.RemoveRange(productImages);
+                db.SaveChanges();
+
+                var images = form.GetValues("Images");
+                var defaultIndex = form["rDefault"];
+
+                if (images != null)
+                {
+                    for (int i = 0; i < images.Length; i++)
+                    {
+                        var img = new ProductImage
+                        {
+                            ProductId = model.Id,
+                            ImageUrl = images[i],
+                            IsDefault = (defaultIndex == (i + 1).ToString()) // vì index trong table bắt đầu từ 1
+                        };
+                        db.ProductImages.Add(img);
+                    }
+                    db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
 
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
+            ViewBag.ProductImages = db.ProductImages.Where(x => x.ProductId == model.Id).ToList();
             return View(model);
         }
-
 
         [HttpPost]
         public ActionResult Delete(int id)
@@ -159,7 +187,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 var checkImg = item.ProductImage.Where(x => x.ProductId == item.Id);
                 if (checkImg != null)
                 {
-                    foreach(var img in checkImg)
+                    foreach (var img in checkImg)
                     {
                         db.ProductImages.Remove(img);
                         db.SaveChanges();

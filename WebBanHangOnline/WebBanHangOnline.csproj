@@ -289,9 +289,17 @@
     <Compile Include="Migrations\202504140658012_UpdateProduct1404.Designer.cs">
       <DependentUpon>202504140658012_UpdateProduct1404.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504140954528_UpdateProductCategory1404.cs" />
-    <Compile Include="Migrations\202504140954528_UpdateProductCategory1404.Designer.cs">
-      <DependentUpon>202504140954528_UpdateProductCategory1404.cs</DependentUpon>
+    <Compile Include="Migrations\202504150045429_UpdateProductCategory1504.cs" />
+    <Compile Include="Migrations\202504150045429_UpdateProductCategory1504.Designer.cs">
+      <DependentUpon>202504150045429_UpdateProductCategory1504.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504150732156_UpdateNews1504.cs" />
+    <Compile Include="Migrations\202504150732156_UpdateNews1504.Designer.cs">
+      <DependentUpon>202504150732156_UpdateNews1504.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504150822356_UpdateCategory1504.cs" />
+    <Compile Include="Migrations\202504150822356_UpdateCategory1504.Designer.cs">
+      <DependentUpon>202504150822356_UpdateCategory1504.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3482,8 +3490,14 @@
     <EmbeddedResource Include="Migrations\202504140658012_UpdateProduct1404.resx">
       <DependentUpon>202504140658012_UpdateProduct1404.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504140954528_UpdateProductCategory1404.resx">
-      <DependentUpon>202504140954528_UpdateProductCategory1404.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504150045429_UpdateProductCategory1504.resx">
+      <DependentUpon>202504150045429_UpdateProductCategory1504.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504150732156_UpdateNews1504.resx">
+      <DependentUpon>202504150732156_UpdateNews1504.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504150822356_UpdateCategory1504.resx">
+      <DependentUpon>202504150822356_UpdateCategory1504.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

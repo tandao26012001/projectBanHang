@@ -28,8 +28,6 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(150)]
         public string SeoTitle { get; set; }// seo tu khoa cho google
-        [StringLength(250)]
-        public string SeoDescription { get; set; }
         [StringLength(150)]
         public string SeoKeywords { get; set; }
         public bool IsActive { get; set; }

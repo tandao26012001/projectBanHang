@@ -1,96 +1,74 @@
 ﻿@model WebBanHangOnline.Models.EF.Category
 @{ ViewBag.Title = "Cập nhật danh mục";
-                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; }
 
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>Sửa tài khoản người quản trị</h3>
-            </div>
-        </div>
-        <div class="clearfix"></div>
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/admin">Trang chủ</a> /</span> @ViewBag.Title</h4>
+
+    <!-- Basic Layout -->
+
+    @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { id = "form-add" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
         <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <div class="clearfix"></div>
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@ViewBag.Title</h5>
                     </div>
-                    <div class="x_content">
-
-                        @using (Html.BeginForm("Edit", "Category", FormMethod.Post))
-                        {
-            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(false)
-                        <form class="" action="" method="post" novalidate>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tên danh mục <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên danh mục" })
-                                </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tên danh mục</label>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Tên danh mục", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Thứ tự xuất hiện</label>
+                            @Html.TextBoxFor(x => x.Position, new { @class = "form-control", placeholder = "Thứ tự xuất hiện", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SeoTitle</label>
+                            @Html.TextBoxFor(x => x.SeoTitle, new { @class = "form-control", placeholder = "SeoTitle", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SeoKeywords</label>
+                            @Html.TextBoxFor(x => x.SeoKeywords, new { @class = "form-control", placeholder = "SeoKeywords", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giới thiệu ngắn</label>
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3, required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="form-check mt-3">
+                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", @checked = "checked" })
+                            <label class="form-check-label">Hiển thị lên menu</label>
+                        </div>
+                        <!-- Nút submit -->
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+                                <a href="/admin/category" type="button" class="btn rounded-pill btn-outline-secondary">Trở lại</a>
+                                <button type="submit" class="btn rounded-pill btn-outline-success">Sửa lại</button>
                             </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Alias <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextBoxFor(x => x.Alias, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Liên kết <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextBoxFor(x => x.Link, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoTitle <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoDescription <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">SeoKeywords <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Thứ tự xuất hiện <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    @Html.TextBoxFor(x => x.Position, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="ln_solid">
-                                <div class="form-group">
-                                    <div class="col-md-6 offset-md-3">
-                                        <button type='submit' class="btn btn-success">Sửa</button>
-                                        <a href="/Admin/Category" class="btn btn-primary">Trở lại</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>}
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
-<!-- /page content -->
+<!-- / Content -->
 
-@section scripts{
-    <script src="~/Scripts/jsConvert.js"></script>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#form-add').parsley(); // Khởi động parsley
+        });
+    </script>
+    <script>
+        $('form').on('submit', function (e) {
+            console.log('Form is submitting');
+        });
+    </script>
 }
