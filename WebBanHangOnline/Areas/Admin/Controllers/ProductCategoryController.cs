@@ -8,15 +8,24 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
+    [CustomAuthorize(Roles = "Admin,Employee")]
     public class ProductCategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/ProductCategory
-        public ActionResult Index()
+        public ActionResult Index(string searchText)
         {
-            var items = db.ProductCategories;
-            return View(items);
+            var items = db.ProductCategories.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Title.Contains(searchText));
+            }
+
+            ViewBag.SearchText = searchText; // để giữ giá trị khi submit
+            return View(items.OrderByDescending(x => x.Id).ToList());
         }
+
         [HttpGet]
         public JsonResult GetSuggestions(string term)
         {

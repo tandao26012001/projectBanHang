@@ -51,6 +51,10 @@
                             <label class="form-label">Chi tiết tin tức</label>
                             @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
                         </div>
+                        <div class="form-check mt-3">
+                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", @checked = "checked" })
+                            <label class="form-check-label">Hiển thị tất cả các trang</label>
+                        </div>
                         <!-- Nút submit -->
                         <div class="card-body">
                             <div class="demo-inline-spacing">

@@ -12,7 +12,7 @@ using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [CustomAuthorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -53,10 +53,32 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/Account
-        public ActionResult Index()
+        public ActionResult Index(string searchText)
         {
-            var ítems = db.Users.ToList();
-            return View(ítems);
+            var items = db.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.FullName.Contains(searchText) || x.UserName.Contains(searchText));
+            }
+
+            ViewBag.SearchText = searchText; // để giữ giá trị khi submit
+            return View(items.OrderByDescending(x => x.Id).ToList());
+        }
+        [HttpGet]
+        public JsonResult GetSuggestions(string term)
+        {
+            var suggestions = db.Users
+                .Where(p => p.FullName.Contains(term) || p.UserName.Contains(term))
+                .Select(p => new
+                {
+                    label = p.FullName + " (" + p.UserName + ")",
+                    value = p.FullName // giá trị điền vào ô tìm kiếm
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
         //
         // GET: /Account/Login
@@ -99,14 +121,20 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     var roles = await UserManager.GetRolesAsync(user.Id);
                     if (!roles.Contains("Admin") && !roles.Contains("Employee"))
                     {
-                        // Nếu không thuộc vai trò nào hợp lệ, đăng xuất và hiển thị thông báo
                         AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                         ModelState.AddModelError("", "Tài khoản của bạn không có quyền truy cập vào hệ thống.");
                         return View(model);
                     }
 
-                    // Cho phép người dùng tiếp tục
+                    // Xử lý returnUrl nếu cần thiết
+                    if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+                    {
+                        returnUrl = Url.Action("Index", "Home");
+                    }
+
+                    // Sau đó redirect về trang hợp lệ
                     return RedirectToLocal(returnUrl);
+
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -138,7 +166,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
-            return View();
+
+            var model = new CreateAccountViewModel(); // Luôn khởi tạo model
+            return View(model);
         }
 
         //
@@ -152,6 +182,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
+                    Image = model.Image,
                     Email = model.Email,
                     FullName = model.FullName,
                     Phone = model.Phone
@@ -179,7 +210,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 AddErrors(result);
             }
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
+            var roles = db.Roles?.ToList() ?? new List<IdentityRole>();
+            ViewBag.Role = new SelectList(roles, "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -187,101 +219,116 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
-            var item = UserManager.FindById(id);
-            var newUser = new EditAccountViewModel();
-            if (item != null)
+            var user = UserManager.FindById(id);
+            if (user == null) return HttpNotFound();
+            var role = UserManager.GetRoles(user.Id).FirstOrDefault();
+
+            var model = new EditAccountViewModel
             {
-                var rolesForUser = UserManager.GetRoles(id);
-                var roles = new List<string>();
-                if (rolesForUser != null)
-                {
-                    foreach (var role in rolesForUser)
-                    {
-                        roles.Add(role);
+                FullName = user.FullName,
+                Image = user.Image,
+                Email = user.Email,
+                Phone = user.Phone,
+                UserName = user.UserName,
+                Roles = role
+            };
 
-                    }
-
-                }
-                newUser.FullName = item.FullName;
-                newUser.Email = item.Email;
-                newUser.Phone = item.Phone;
-                newUser.UserName = item.UserName;
-                newUser.Roles = roles;
-            }
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
-            return View(newUser);
+            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Roles);
+            return View(model);
         }
 
+
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        // POST
         public async Task<ActionResult> Edit(EditAccountViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = UserManager.FindByName(model.UserName);
-                user.FullName = model.FullName;
-                user.Phone = model.Phone;
-                user.Email = model.Email;
-                var result = await UserManager.UpdateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    var rolesForUser = UserManager.GetRoles(user.Id);
-                    if (model.Roles != null)
-                    {
-
-                        foreach (var r in model.Roles)
-                        {
-                            var checkRole = rolesForUser.FirstOrDefault(x => x.Equals(r));
-                            if (checkRole == null)
-                            {
-                                //UserManager.AddToRole(user.Id, r);
-                                UserManager.UpdateSecurityStamp(user.Id); // Cập nhật SecurityStamp
-                            }
-
-                        }
-                    }
-
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Account");
-                }
-                AddErrors(result);
+                ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Roles);
+                return View(model);
             }
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
-            // If we got this far, something failed, redisplay form
+
+            var user = await UserManager.FindByNameAsync(model.UserName);
+            if (user == null) return HttpNotFound();
+
+            user.FullName = model.FullName;
+            user.Image = model.Image;
+            user.Phone = model.Phone;
+            user.Email = model.Email;
+
+            var result = await UserManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                var currentRoles = await UserManager.GetRolesAsync(user.Id);
+                await UserManager.RemoveFromRolesAsync(user.Id, currentRoles.ToArray());
+
+                if (!string.IsNullOrEmpty(model.Roles))
+                {
+                    await UserManager.AddToRoleAsync(user.Id, model.Roles);
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            AddErrors(result);
+            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Roles);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteAccount(string user, string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var code = new { Success = false };//mặc định không xóa thành công.
-            var item = UserManager.FindByName(user);
-            if (item != null)
+            if (string.IsNullOrEmpty(id))
+                return Json(new { success = false, message = "ID không hợp lệ." });
+
+            // Không cho người dùng tự xóa chính mình
+            if (User.Identity.GetUserId() == id)
+                return Json(new { success = false, message = "Bạn không thể tự xoá chính mình." });
+
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+                return Json(new { success = false, message = "Không tìm thấy người dùng." });
+
+            var roles = await UserManager.GetRolesAsync(id);
+            if (roles.Any())
+                await UserManager.RemoveFromRolesAsync(id, roles.ToArray());
+
+            var result = await UserManager.DeleteAsync(user);
+            return Json(new { success = result.Succeeded });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteAll(string ids)
+        {
+            if (string.IsNullOrEmpty(ids))
+                return Json(new { success = false, message = "Danh sách ID rỗng." });
+
+            var idList = ids.Split(',').ToList();
+            string currentUserId = User.Identity.GetUserId();
+            bool allDeleted = true;
+
+            foreach (var id in idList)
             {
-                var rolesForUser = UserManager.GetRoles(id);
-                if (rolesForUser != null)
+                // Không cho xóa chính mình
+                if (id == currentUserId)
+                    continue;
+
+                var user = await UserManager.FindByIdAsync(id);
+                if (user != null)
                 {
-                    foreach (var role in rolesForUser)
-                    {
-                        //roles.Add(role);
-                        await UserManager.RemoveFromRoleAsync(id, role);
-                    }
+                    var roles = await UserManager.GetRolesAsync(id);
+                    if (roles.Any())
+                        await UserManager.RemoveFromRolesAsync(id, roles.ToArray());
 
+                    var result = await UserManager.DeleteAsync(user);
+                    if (!result.Succeeded)
+                        allDeleted = false;
                 }
-
-                var res = await UserManager.DeleteAsync(item);
-                code = new { Success = res.Succeeded };
             }
-            return Json(code);
+
+            return Json(new { success = allDeleted, message = allDeleted ? null : "Một số tài khoản không thể xoá." });
         }
 
         private IAuthenticationManager AuthenticationManager

@@ -1,98 +1,103 @@
 ﻿@model WebBanHangOnline.Models.CreateAccountViewModel
-@{ ViewBag.Title = "Thêm mới tài khoản"; }
+@{
+    ViewBag.Title = "Thêm mới tài khoản";
+}
 
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>Thêm mới tài khoản người quản trị</h3>
-            </div>
-        </div>
-        <div class="clearfix"></div>
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/admin">Trang chủ</a> /</span> @ViewBag.Title</h4>
+
+    <!-- Basic Layout -->
+
+    @using (Html.BeginForm("Create", "Account", FormMethod.Post, new { id = "form-add" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
         <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <div class="clearfix"></div>
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@ViewBag.Title</h5>
                     </div>
-                    <div class="x_content">
-
-                        @using (Html.BeginForm("Create", "Account", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(false)
-                            <form class="" action="" method="post" novalidate>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Họ và tên <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="FullName" placeholder="ex. John f. Kennedy" required="required" />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Tên tài khoản <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" name="UserName" data-validate-length-range="5,15" type="text" />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Email <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" name="Email" required="required" type="email" />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Nhập lại email <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" type="email" name="Confirm_Email" data-validate-linked='email' required='required' />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Số điện thoại <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" type="number" name="Phone" data-validate-minmax="10,100" required='required'>
-                                    </div>
-                                </div>
-
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Mật khẩu <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" type="password" id="password1" name="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*.]).{6,}" title="Minimum 6 Characters Including An Upper And Lower Case Letter, A Number And A Unique Character" required />
-
-                                        <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()">
-                                            <i id="slash" class="fa fa-eye-slash"></i>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Nhập lại mật khẩu <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" type="password" name="ConfirmPassword" data-validate-linked='password' required='required' />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Quyền <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        @Html.DropDownListFor(x => x.Roles, ViewBag.Role as SelectList, "- Chọn quyền -", new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="ln_solid">
-                                    <div class="form-group">
-                                        <div class="col-md-6 offset-md-3">
-                                            <button type='submit' class="btn btn-success">Thêm mới</button>
-                                            <button type='reset' class="btn btn-success">Nhập lại</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        }
-
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Họ tên đầy đủ</label>
+                            @Html.TextBoxFor(x => x.FullName, new { @class = "form-control", placeholder = "Họ tên đầy đủ", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên đăng nhập</label>
+                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Tên đăng nhập", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hình ảnh đại diện</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control", @title = "Đường dẫn ảnh" })
+                                <button type="button" class="btn btn-primary" onclick="BrowseServer('txtImage');">Chọn ảnh</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img id="previewImage" src="@Model.Image" style="margin-top:10px; max-height:150px;" />
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mật khẩu</label>
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Mật khẩu", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nhập lại mật khẩu</label>
+                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control", placeholder = "Nhập lại mật khẩu", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", placeholder = "Số điện thoại", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phân quyền</label>
+                            @Html.DropDownListFor(x => x.Roles, ViewBag.Role as SelectList, "- Chọn quyền -", new { @class = "form-control" })
+                        </div>
+                        <!-- Nút submit -->
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+                                <a href="/admin/account" type="button" class="btn rounded-pill btn-outline-secondary">Trở lại</a>
+                                <button type="submit" class="btn rounded-pill btn-outline-success">Thêm mới</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
-<!-- /page content -->
+<!-- / Content -->
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#form-add').parsley(); // Khởi động parsley
+        });
+    </script>
+    <script>
+        $('form').on('submit', function (e) {
+            console.log('Form is submitting');
+        });
+    </script>
+    <script>
+        function BrowseServer(inputId) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                var input = document.getElementById(inputId);
+                if (input) input.value = fileUrl;
+
+                var preview = document.getElementById('previewImage');
+                if (preview) preview.src = fileUrl; // chỉ gán nếu tồn tại
+            };
+            finder.popup();
+        }
+    </script>
+}

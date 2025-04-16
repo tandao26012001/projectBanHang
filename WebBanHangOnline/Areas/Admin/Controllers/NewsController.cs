@@ -9,7 +9,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [CustomAuthorize(Roles = "Admin,Employee")]
     public class NewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,10 +32,32 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //    ViewBag.Page = page;
         //    return View(items);
         //}
-        public ActionResult Index()
+        public ActionResult Index(string searchText)
         {
-            var item = db.News.ToList();
-            return View(item);
+            var items = db.News.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Title.Contains(searchText));
+            }
+
+            ViewBag.SearchText = searchText; // để giữ giá trị khi submit
+            return View(items.OrderByDescending(x => x.Id).ToList());
+        }
+        [HttpGet]
+        public JsonResult GetSuggestions(string term)
+        {
+            var suggestions = db.News
+                .Where(p => p.Title.Contains(term))
+                .Select(p => new
+                {
+                    label = p.Title,
+                    value = p.Title // giá trị điền vào ô tìm kiếm
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Add()
@@ -57,6 +79,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     Title = model.Title,
                     Image = model.Image,
                     Alias = Models.Common.Filter.FilterChar(model.Title),
+                    SeoTitle = model.SeoTitle,
+                    SeoKeywords = model.SeoKeywords,
                     Detail = model.Detail,
                     CategoryId = model.CategoryId,
                     CreatedDate = DateTime.Now,
@@ -77,6 +101,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var item = db.News.Find(id);
+            ViewBag.Category = new SelectList(db.Categories.ToList(), "Id", "Title", item.CategoryId); // <-- đây là điểm quan trọng
             return View(item);
         }
 
@@ -93,6 +118,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Category = new SelectList(db.Categories.ToList(), "Id", "Title", model.CategoryId);
             return View(model);
         }
 

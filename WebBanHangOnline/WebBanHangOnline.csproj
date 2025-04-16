@@ -48,7 +48,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Core" />
+    <Reference Include="System.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.Core.dll</HintPath>
+    </Reference>
     <Reference Include="CKFinder, Version=2.4.0.2631, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ckfinder\bin\Release\CKFinder.dll</HintPath>
@@ -301,11 +304,16 @@
     <Compile Include="Migrations\202504150822356_UpdateCategory1504.Designer.cs">
       <DependentUpon>202504150822356_UpdateCategory1504.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504160519463_AddImageToUser.cs" />
+    <Compile Include="Migrations\202504160519463_AddImageToUser.Designer.cs">
+      <DependentUpon>202504160519463_AddImageToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
     <Compile Include="Models\Common\Filter.cs" />
     <Compile Include="Models\Common\ThongKeTruyCap.cs" />
+    <Compile Include="Models\CustomAuthorizeAttribute.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\EF\Adv.cs" />
     <Compile Include="Models\EF\Category.cs" />
@@ -338,6 +346,7 @@
     <Content Include="Content\assets\img\avatars\5.png" />
     <Content Include="Content\assets\img\avatars\6.png" />
     <Content Include="Content\assets\img\avatars\7.png" />
+    <Content Include="Content\assets\img\avatars\default.jpg" />
     <Content Include="Content\assets\img\backgrounds\18.jpg" />
     <Content Include="Content\assets\img\elements\1.jpg" />
     <Content Include="Content\assets\img\elements\11.jpg" />
@@ -3370,6 +3379,10 @@
     <Content Include="Content\assets\vendor\fonts\boxicons\boxicons.ttf" />
     <Content Include="Content\assets\vendor\fonts\boxicons\boxicons.woff" />
     <Content Include="Content\assets\vendor\fonts\boxicons\boxicons.woff2" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout404.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Page404.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutBaoTri.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\UnderMaintenance.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <None Include="Scripts\jquery-3.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
@@ -3498,6 +3511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504150822356_UpdateCategory1504.resx">
       <DependentUpon>202504150822356_UpdateCategory1504.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504160519463_AddImageToUser.resx">
+      <DependentUpon>202504160519463_AddImageToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

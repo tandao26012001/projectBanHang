@@ -32,7 +32,6 @@
     <link rel="stylesheet" href="~/Content/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="~/Content/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="~/Content/assets/css/demo.css" />
-
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
@@ -46,6 +45,16 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="~/Content/assets/js/config.js"></script>
 </head>
+@using Microsoft.AspNet.Identity
+@{
+    var userName = User.Identity.GetUserName();
+    var claimsIdentity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+    var roleClaim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Role);
+    var role = roleClaim != null ? roleClaim.Value : "Không rõ quyền";
+    var db = new WebBanHangOnline.Models.ApplicationDbContext();
+    var user = db.Users.FirstOrDefault(u => u.UserName == userName);
+    var imageUrl = user?.Image ?? Url.Content("~/Content/assets/img/avatars/default.jpg");
+}
 
 <body>
     <!-- Layout wrapper -->
@@ -92,7 +101,7 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="~/Content/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <img src="@imageUrl" alt="Avatar" class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -101,51 +110,30 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="~/Content/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="@imageUrl" alt="Avatar" class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block">@userName</span>
+                                                    <small class="text-muted">@role</small>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
+                                    <li><div class="dropdown-divider"></div></li>
                                     <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bx bx-user me-2"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bx bx-cog me-2"></i>
-                                            <span class="align-middle">Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <span class="d-flex align-items-center align-middle">
-                                                <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                                <span class="flex-grow-1 align-middle">Billing</span>
-                                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
-                                        </a>
+                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="bx bx-power-off me-2"></i>
+                                                <span class="align-middle">Đăng xuất</span>
+                                            </button>
+                                        }
                                     </li>
                                 </ul>
                             </li>
+
                             <!--/ User -->
                         </ul>
                     </div>
@@ -188,12 +176,11 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
     @*<div class="buy-now">
-        <a href="#"
-           target="_blank"
-           class="btn btn-danger btn-buy-now">Trở về đầu trang</a>
-    </div>*@
+            <a href="#"
+               target="_blank"
+               class="btn btn-danger btn-buy-now">Trở về đầu trang</a>
+        </div>*@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

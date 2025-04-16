@@ -523,6 +523,7 @@ D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateProductCategory1504.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateNews1504.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateCategory1504.resources
+D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.AddImageToUser.resources
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.GenerateResource.cache
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.CoreCompileInputs.cache
 D:\PROJECT\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHa.7E290493.Up2Date

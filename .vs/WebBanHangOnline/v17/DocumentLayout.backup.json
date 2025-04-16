@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\PROJECT\\projectBanHang\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\views\\news\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\views\\news\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NewsController.cs",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\NewsController.cs",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Controllers\\NewsController.cs",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\NewsController.cs",
-              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Controllers\\NewsController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwC0AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T08:57:19.513Z",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-16T09:53:48.147Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Add.cshtml",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\News\\Add.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Views\\News\\Add.cshtml",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\News\\Add.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Views\\News\\Add.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAgwA4AAAAgAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADcAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-16T09:41:22.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-15T09:03:44.789Z",
+              "WhenOpened": "2025-04-16T09:40:57.583Z",
               "EditorCaption": ""
             }
           ]

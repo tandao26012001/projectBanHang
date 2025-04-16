@@ -84,6 +84,7 @@ namespace WebBanHangOnline.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        public string Image { get; set; }
     }
     public class EditAccountViewModel
     {
@@ -93,12 +94,13 @@ namespace WebBanHangOnline.Models
         public string FullName { get; set; }
 
         public string Phone { get; set; }
-        public List<string> Roles { get; set; }
+        public string Roles { get; set; }
 
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        public string Image { get; set; }
 
     }
     public class RegisterViewModel

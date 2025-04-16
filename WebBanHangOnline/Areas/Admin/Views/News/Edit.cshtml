@@ -3,144 +3,87 @@
     ViewBag.Title = "Cập nhật tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<!-- Content -->
 
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/admin">Trang chủ</a> /</span> @ViewBag.Title</h4>
 
-@section naviheader{
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin" class="nav-link">Trang chủ</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/news" class="nav-link">Tin tức</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Cập nhật</a>
-        </li>
-    </ul>
-}
+    <!-- Basic Layout -->
 
+    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { id = "form-add" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Thêm mới Tin tức</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
-                    <li class="breadcrumb-item active">Cập nhật</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
-<!-- Main content -->
-<section class="content">
-
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Thông tin Cập nhật Tin tức</h3>
-        </div>
-        <div class="card-body">
-            @if (Model != null)
-            {
-                <div class="bs-stepper-content">
-                    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        @Html.HiddenFor(x => x.Id)
-                        @Html.HiddenFor(x => x.CategoryId)
-                        @Html.HiddenFor(x => x.CreatedDate)
-                        <!-- your steps content here -->
-                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Tiêu đề</label>
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
-                            @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@ViewBag.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tiêu đề bài viết</label>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Tiêu đề bài viết", required = "required", @data_parsley_required_message = "Không được để trống" })
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Ảnh đại diện</label>
+                        <div class="mb-3">
+                            <label class="form-label">Hình ảnh đại diện</label>
                             <div class="input-group">
-                                <div class="custom-file">
-                                    @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                                </div>
-                                <div class="input-group-append">
-                                    <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage');" />
-                                </div>
+                                @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control", @title = "Đường dẫn ảnh" })
+                                <button type="button" class="btn btn-primary" onclick="BrowseServer('txtImage');">Chọn ảnh</button>
                             </div>
+                            <img id="previewImage" src="@Model.Image" style="margin-top:10px; max-height:150px;" />
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Mô tả</label>
-                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            @Html.DropDownListFor(x => x.CategoryId, ViewBag.Category as SelectList, "- Chọn danh mục -", new { @class = "form-select", required = "required", @data_parsley_trigger = "change" })
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Chi tiết</label>
+
+                        <div class="mb-3">
+                            <label class="form-label">SeoTitle</label>
+                            @Html.TextBoxFor(x => x.SeoTitle, new { @class = "form-control", placeholder = "SeoTitle", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SeoKeywords</label>
+                            @Html.TextBoxFor(x => x.SeoKeywords, new { @class = "form-control", placeholder = "SeoKeywords", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Chi tiết tin tức</label>
                             @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Hiển thị</label>
-                            @Html.CheckBoxFor(x => x.IsActive)
+                        <div class="form-check mt-3">
+                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", @checked = "checked" })
+                            <label class="form-check-label">Hiển thị tất cả các trang</label>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Seo title</label>
-                            @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">SeoDescription</label>
-                            @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">SeoKeywords</label>
-                            @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                            <a href="/admin/news" class="btn btn-danger">Quay lại</a>
+                        <!-- Nút submit -->
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+                                <a href="/admin/news" type="button" class="btn rounded-pill btn-outline-secondary">Trở lại</a>
+                                <button type="submit" class="btn rounded-pill btn-outline-success">Sửa lại</button>
+                            </div>
                         </div>
                     </div>
-
-                    }
-
                 </div>
-            }
-
+            </div>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-
-        </div>
-        <!-- /.card-footer-->
-    </div>
-    <!-- /.card -->
-
-</section>
-<!-- /.content -->
-
+    }
+</div>
+<!-- / Content -->
 @section  scripts{
     <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-        });
-        function BrowseServer(field) {
+        function BrowseServer(inputId) {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
+                document.getElementById(inputId).value = fileUrl;
+                document.getElementById('previewImage').src = fileUrl;
             };
             finder.popup();
         }
 
+        // CKEditor
+        CKEDITOR.replace('txtDetail', {
+            customConfig: '/content/ckeditor/config.js',
+            extraAllowedContent: 'span',
+        });
     </script>
 }

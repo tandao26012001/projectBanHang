@@ -9,15 +9,38 @@ using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [CustomAuthorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Role
-        public ActionResult Index()
+        public ActionResult Index(string searchText)
         {
-            var items = db.Roles.ToList();
-            return View(items);
+            var items = db.Roles.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Name.Contains(searchText));
+            }
+
+            ViewBag.SearchText = searchText; // để giữ giá trị khi submit
+            return View(items.OrderByDescending(x => x.Id).ToList());
+        }
+
+        [HttpGet]
+        public JsonResult GetSuggestions(string term)
+        {
+            var suggestions = db.Roles
+                .Where(p => p.Name.Contains(term))
+                .Select(p => new
+                {
+                    label = p.Name,
+                    value = p.Name // giá trị điền vào ô tìm kiếm
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -55,6 +78,39 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            var role = db.Roles.Find(id);
+            if (role != null && role.Name != "Admin") // Không cho xoá quyền Admin
+            {
+                db.Roles.Remove(role);
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, message = "Không thể xoá quyền hoặc quyền không tồn tại." });
+        }
+        [HttpPost]
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var idList = ids.Split(',');
+                foreach (var id in idList)
+                {
+                    var role = db.Roles.Find(id);
+                    if (role != null && role.Name != "Admin") // Bảo vệ quyền Admin
+                    {
+                        db.Roles.Remove(role);
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, message = "Danh sách quyền cần xoá rỗng." });
         }
 
     }
