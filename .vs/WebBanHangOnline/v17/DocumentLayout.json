@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "D:\\PROJECT\\projectBanHang\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\views\\products\\partial_producthots.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\products\\partial_producthots.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\models\\ef\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\models\\ef\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Views\\Account\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAALoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-16T09:53:48.147Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAADcAAAAdAAAAAAAAAA==",
+              "Title": "ProductImage.cs",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Models\\EF\\ProductImage.cs",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Models\\EF\\ProductImage.cs",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Models\\EF\\ProductImage.cs",
+              "RelativeToolTip": "WebBanHangOnline\\Models\\EF\\ProductImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-16T09:41:22.025Z",
+              "WhenOpened": "2025-04-17T09:42:51.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Partial_ProductHots.cshtml",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Partial_ProductHots.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Products\\Partial_ProductHots.cshtml",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Partial_ProductHots.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\Products\\Partial_ProductHots.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACMAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-16T09:40:57.583Z",
+              "WhenOpened": "2025-04-17T09:00:59.98Z",
               "EditorCaption": ""
             }
           ]

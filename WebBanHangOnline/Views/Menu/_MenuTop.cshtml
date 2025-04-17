@@ -2,7 +2,10 @@
 
 @if (Model != null && Model.Any())
 {
-<ul class="navbar_menu">
+<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+    <li class="nav-item active">
+        <a class="nav-link" href="/trang-chu">Trang chủ</a>
+    </li>
     @foreach (var item in Model)
     {
         if (item.Alias.Equals("trang-chu"))
@@ -13,13 +16,7 @@
         {
             item.Alias = item.Link;
         }
-        <li><a href="/@item.Alias">@item.Title</a></li>
+        <li><a class="nav-link" href="/@item.Alias">@item.Title</a></li>
     }
-
-    @*<li><a href="#">shop</a></li>
-    <li><a href="#">promotion</a></li>
-    <li><a href="#">pages</a></li>
-    <li><a href="#">blog</a></li>
-    <li><a href="contact.html">contact</a></li>*@
 </ul>
 }

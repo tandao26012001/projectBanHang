@@ -2,120 +2,336 @@
     ViewBag.Title = "Shop Online";
     ViewBag.SeoDescription = "Shop Online";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
-<!-- Slider -->
+<!-- Start Hero Section -->
+<div class="hero" style="
+    position: relative;
+    background-image: url('/Content/servers/images/headerbanner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+">
+    <!-- Overlay tối -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Độ tối: 0.5 */
+        z-index: 1;
+    "></div>
 
-<div class="main_slider" style="background-image:url(Content/assets/images/slider_1.jpg)">
-    <div class="container fill_height">
-        <div class="row align-items-center fill_height">
-            <div class="col">
-                <div class="main_slider_content">
-                    <h6>Spring / Summer Collection 2017</h6>
-                    <h1>Get up to 30% Off New Arrivals</h1>
-                    <div class="red_button shop_now_button"><a href="#">shop now</a></div>
+    <div class="container" style="z-index: 2; position: relative;">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Khám phá phong cách riêng của bạn tại<span clsas="d-block">[Tên shop]</span></h1>
+                    <p class="mb-4">
+                        Chúng tôi không chỉ bán quần áo – chúng tôi mang đến xu hướng, cá tính và sự tự tin. Từ những thiết kế thanh lịch, năng động đến phong cách cá tính, nổi bật – tất cả đều được chọn lọc kỹ càng để phù hợp với bạn. Hãy để [Tên shop] đồng hành cùng bạn trên hành trình định hình phong cách sống mỗi ngày.
+                    </p>
+                    <p><a href="/san-pham" class="btn btn-secondary me-2">Mua sắm ngay</a><a href="/gioi-thieu" class="btn btn-white-outline">Xem thêm</a></p>
                 </div>
             </div>
+            <!--<div class="col-lg-7">
+                <div class="hero-img-wrap">-->
+            @*<img src="~/Content/servers/images/couch.png" class="img-fluid">*@
+            <!--<img src="~/Content/servers/images/headerbanner.png" class="img-fluid" />
+                </div>
+            </div>-->
         </div>
     </div>
 </div>
-
-<!-- Banner -->
-@Html.Action("MenuProductCategory", "Menu")
-
-<!-- New Arrivals -->
-
-<div class="new_arrivals">
+<!-- End Hero Section -->
+@Html.Action("Partial_ProductHots", "Products")
+<!-- Start Why Choose Us Section -->
+<div class="why-choose-section">
     <div class="container">
-        @*@Html.Action("MenuArrivals", "Menu")*@
-    </div>
-</div>
-
-<!-- Deal of the week -->
-
-<div class="deal_ofthe_week">
-    <div class="container">
-        <div class="row align-items-center">
+        <div class="row justify-content-between">
             <div class="col-lg-6">
-                <div class="deal_ofthe_week_img">
-                    <img src="~/Content/assets/images/deal_ofthe_week.png" alt="">
-                </div>
-            </div>
-            <div class="col-lg-6 text-right deal_ofthe_week_col">
-                <div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
-                    <div class="section_title">
-                        <h2>Deal Of The Week</h2>
+                <h2 class="section-title">Why Choose Us</h2>
+                <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
+
+                <div class="row my-5">
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="~/Content/servers/images/truck.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Fast &amp; Free Shipping</h3>
+                            <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                        </div>
                     </div>
-                    <ul class="timer">
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="day" class="timer_num">03</div>
-                            <div class="timer_unit">Day</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="hour" class="timer_num">15</div>
-                            <div class="timer_unit">Hours</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="minute" class="timer_num">45</div>
-                            <div class="timer_unit">Mins</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="second" class="timer_num">23</div>
-                            <div class="timer_unit">Sec</div>
-                        </li>
-                    </ul>
-                    <div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="~/Content/servers/images/bag.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Easy to Shop</h3>
+                            <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="~/Content/servers/images/support.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>24/7 Support</h3>
+                            <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="~/Content/servers/images/return.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Hassle Free Returns</h3>
+                            <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
+            <div class="col-lg-5">
+                <div class="img-wrap">
+                    <img src="~/Content/servers/images/why-choose-us-img.jpg" alt="Image" class="img-fluid">
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
-<!-- Best Sellers -->
-@Html.Action("Partial_ProductSales", "Products")
-<!-- Benefit -->
-
-<div class="benefit">
+<!-- End Why Choose Us Section -->
+<!-- Start We Help Section -->
+<div class="we-help-section">
     <div class="container">
-        <div class="row benefit_row">
-            <div class="col-lg-3 benefit_col">
-                <div class="benefit_item d-flex flex-row align-items-center">
-                    <div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
-                    <div class="benefit_content">
-                        <h6>free shipping</h6>
-                        <p>Suffered Alteration in Some Form</p>
+        <div class="row justify-content-between">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="imgs-grid">
+                    <div class="grid grid-1"><img src="~/Content/servers/images/img-grid-1.jpg" alt="Untree.co"></div>
+                    <div class="grid grid-2"><img src="~/Content/servers/images/img-grid-2.jpg" alt="Untree.co"></div>
+                    <div class="grid grid-3"><img src="~/Content/servers/images/img-grid-3.jpg" alt="Untree.co"></div>
+                </div>
+            </div>
+            <div class="col-lg-5 ps-lg-5">
+                <h2 class="section-title mb-4">We Help You Make Modern Interior Design</h2>
+                <p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada</p>
+
+                <ul class="list-unstyled custom-list my-4">
+                    <li>Donec vitae odio quis nisl dapibus malesuada</li>
+                    <li>Donec vitae odio quis nisl dapibus malesuada</li>
+                    <li>Donec vitae odio quis nisl dapibus malesuada</li>
+                    <li>Donec vitae odio quis nisl dapibus malesuada</li>
+                </ul>
+                <p><a herf="#" class="btn">Explore</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End We Help Section -->
+<!-- Start Popular Product -->
+<div class="popular-product">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="product-item-sm d-flex">
+                    <div class="thumbnail">
+                        <img src="~/Content/servers/images/product-1.png" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="pt-3">
+                        <h3>Nordic Chair</h3>
+                        <p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
+                        <p><a href="#">Read More</a></p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 benefit_col">
-                <div class="benefit_item d-flex flex-row align-items-center">
-                    <div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-                    <div class="benefit_content">
-                        <h6>cach on delivery</h6>
-                        <p>The Internet Tend To Repeat</p>
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="product-item-sm d-flex">
+                    <div class="thumbnail">
+                        <img src="~/Content/servers/images/product-2.png" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="pt-3">
+                        <h3>Kruzo Aero Chair</h3>
+                        <p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
+                        <p><a href="#">Read More</a></p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 benefit_col">
-                <div class="benefit_item d-flex flex-row align-items-center">
-                    <div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
-                    <div class="benefit_content">
-                        <h6>45 days return</h6>
-                        <p>Making it Look Like Readable</p>
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="product-item-sm d-flex">
+                    <div class="thumbnail">
+                        <img src="~/Content/servers/images/product-3.png" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="pt-3">
+                        <h3>Ergonomic Chair</h3>
+                        <p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio </p>
+                        <p><a href="#">Read More</a></p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 benefit_col">
-                <div class="benefit_item d-flex flex-row align-items-center">
-                    <div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-                    <div class="benefit_content">
-                        <h6>opening all week</h6>
-                        <p>8AM - 09PM</p>
+
+        </div>
+    </div>
+</div>
+<!-- End Popular Product -->
+<!-- Start Testimonial Slider -->
+<div class="testimonial-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mx-auto text-center">
+                <h2 class="section-title">Testimonials</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="testimonial-slider-wrap text-center">
+
+                    <div id="testimonial-nav">
+                        <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
+                        <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
                     </div>
+
+                    <div class="testimonial-slider">
+
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                        </blockquote>
+
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="~/Content/servers/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Maria Jones</h3>
+                                            <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
+
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                        </blockquote>
+
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="~/Content/servers/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Maria Jones</h3>
+                                            <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
+
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                        </blockquote>
+
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="~/Content/servers/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Maria Jones</h3>
+                                            <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
+
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- End Testimonial Slider -->
+<!-- Start Blog Section -->
+<div class="blog-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="section-title">Recent Blog</h2>
+            </div>
+            <div class="col-md-6 text-start text-md-end">
+                <a href="#" class="more">View All Posts</a>
+            </div>
+        </div>
 
-<!-- Blogs -->
-@Html.Action("Partial_News_Home", "News")
+        <div class="row">
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img src="~/Content/servers/images/post-1.jpg" alt="Image" class="img-fluid"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">First Time Home Owner Ideas</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 19, 2021</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img src="~/Content/servers/images/post-2.jpg" alt="Image" class="img-fluid"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">How To Keep Your Furniture Clean</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Robert Fox</a></span> <span>on <a href="#">Dec 15, 2021</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img src="~/Content/servers/images/post-3.jpg" alt="Image" class="img-fluid"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">Small Space Furniture Apartment Ideas</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 12, 2021</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Blog Section -->

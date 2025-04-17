@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 @using WebBanHangOnline.Common
+
 @if (Model != null && Model.Any())
 {
 
@@ -23,7 +24,7 @@
                                 var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
                                 if (img != null)
                                 {
-                                    strImge = img.Image;
+                                    strImge = img.ImageUrl;
                                 }
 
                                 <div class="owl-item product_slider_item">

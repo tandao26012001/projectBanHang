@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace WebBanHangOnline.Models.EF
 {
     [Table("tb_Product")]

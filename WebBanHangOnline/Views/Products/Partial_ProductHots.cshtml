@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
+@using WebBanHangOnline.Common
+@using System.Linq
+
+<style>
+    .old-price {
+        text-decoration: line-through;
+        opacity: 0.6;
+        font-size: 90%;
+        margin-left: 5px;
+        color: #888; /* hoặc dùng text-muted */
+    }
+</style>
+
+@if (Model != null && Model.Any())
+{
+    <!-- Start Product Section -->
+    <div class="product-section">
+        <div class="container">
+            <div class="row">
+                <!-- Start Column 1 -->
+                <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                    <h2 class="mb-4 section-title">Sản phẩm nổi bật – Tâm điểm phong cách</h2>
+                    <p class="mb-4">Khẳng định cá tính với sản phẩm nổi bật tại Shop – nơi xu hướng thời trang giao thoa cùng chất lượng. Từng thiết kế đều được chọn lọc kỹ lưỡng từ chất liệu đến kiểu dáng, mang đến sự thoải mái, thanh lịch và đầy tự tin cho người mặc. Dù là phong cách năng động, trẻ trung hay tinh tế, thanh lịch – đây chính là item không thể thiếu trong tủ đồ của bạn!</p>
+                    <p><a href="shop.html" class="btn">Explore</a></p>
+                </div>
+                <!-- End Column 1 -->
+
+                @foreach (var item in Model)
+                {
+                    var strImge = "";
+                    var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                    if (img != null)
+                    {
+                        strImge = img.ImageUrl;
+                    }
+                    <!-- Start Column 2 -->
+                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                        <a class="product-item" href="#">
+                            <!--Thêm vào giỏ hàng-->
+                            <img src="@strImge" class="img-fluid product-thumbnail" alt="@item.Title">
+                            <h3 class="product-title">@item.Title</h3>
+                            @if (item.PriceSale > 0)
+                            {
+                                <strong class="product_price">
+                                    @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
+                                    <span class="old-price">
+                                        @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                                    </span>
+                                </strong>
+                            }
+                            else
+                            {
+                                <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
+                            }
+                            <span class="icon-cross">
+                                <img src="~/Content/servers/images/cross.svg" class="img-fluid">
+                            </span>
+                        </a>
+                    </div>
+                    <!-- End Column 2 -->
+                }
+            </div>
+        </div>
+    </div>
+    <!-- End Product Section -->
+}

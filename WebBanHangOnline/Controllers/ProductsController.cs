@@ -60,6 +60,11 @@ namespace WebBanHangOnline.Controllers
             var items = db.Products.Where(x => x.IsSale && x.IsActive).Take(12).ToList();
             return PartialView(items);
         }
+        public ActionResult Partial_ProductHots()
+        {
+            var items = db.Products.Where(x => x.IsHot && x.IsActive).Take(12).ToList();
+            return PartialView(items);
+        }
 
       
     }
