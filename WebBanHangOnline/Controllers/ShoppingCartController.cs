@@ -160,17 +160,14 @@ namespace WebBanHangOnline.Controllers
             }
             return PartialView();
         }
-
         [AllowAnonymous]
-        public ActionResult ShowCount()
+        public JsonResult GetCount()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
-            if (cart != null)
-            {
-                return Json(new { Count = cart.Items.Count }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { Count = 0 }, JsonRequestBehavior.AllowGet);
+            var cart = Session["Cart"] as List<ShoppingCartItem>;
+            int count = cart != null ? cart.Sum(x => x.Quantity) : 0;
+            return Json(new { count }, JsonRequestBehavior.AllowGet);
         }
+
         [AllowAnonymous]
         public ActionResult Partial_CheckOut()
         {
@@ -273,41 +270,47 @@ namespace WebBanHangOnline.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddToCart(int id, int quantity)
+        public JsonResult AddToCart(int id, int quantity = 1)
         {
-            var code = new { Success = false, msg = "", code = -1, Count = 0 };
-            var db = new ApplicationDbContext();
-            var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
-            if (checkProduct != null)
+            var result = new { success = false, message = "", code = -1, count = 0 };
+
+            using (var db = new ApplicationDbContext())
             {
-                ShoppingCart cart = (ShoppingCart)Session["Cart"];
-                if (cart == null)
+                var product = db.Products.FirstOrDefault(x => x.Id == id);
+                if (product == null)
                 {
-                    cart = new ShoppingCart();
+                    result = new { success = false, message = "Sản phẩm không tồn tại", code = 0, count = 0 };
+                    return Json(result);
                 }
-                ShoppingCartItem item = new ShoppingCartItem
+
+                // Khởi tạo giỏ hàng nếu chưa có
+                var cart = Session["Cart"] as ShoppingCart ?? new ShoppingCart();
+
+                var item = new ShoppingCartItem
                 {
-                    ProductId = checkProduct.Id,
-                    ProductName = checkProduct.Title,
-                    CategoryName = checkProduct.ProductCategory.Title,
-                    Alias = checkProduct.Alias,
-                    Quantity = quantity
+                    ProductId = product.Id,
+                    ProductName = product.Title,
+                    CategoryName = product.ProductCategory?.Title,
+                    Alias = product.Alias,
+                    Quantity = quantity,
+                    Price = product.PriceSale > 0 ? (decimal)product.PriceSale : product.Price,
+                    ProductImg = product.ProductImage?.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? ""
                 };
-                if (checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault) != null)
-                {
-                    item.ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault).ImageUrl;
-                }
-                item.Price = checkProduct.Price;
-                if (checkProduct.PriceSale > 0)
-                {
-                    item.Price = (decimal)checkProduct.PriceSale;
-                }
                 item.TotalPrice = item.Quantity * item.Price;
+
+                // Thêm vào giỏ
                 cart.AddToCart(item, quantity);
                 Session["Cart"] = cart;
-                code = new { Success = true, msg = "Thêm sản phẩm vào giở hàng thành công!", code = 1, Count = cart.Items.Count };
+
+                result = new
+                {
+                    success = true,
+                    message = "Thêm sản phẩm vào giỏ hàng thành công!",
+                    code = 1,
+                    count = cart.Items.Count
+                };
             }
-            return Json(code);
+            return Json(result);
         }
 
 

@@ -3234,6 +3234,7 @@
     <Content Include="Content\servers\images\envelope-outline.svg" />
     <Content Include="Content\servers\images\favicon.png" />
     <Content Include="Content\servers\images\headerbanner.png" />
+    <Content Include="Content\servers\images\image-vi-sao-lua-chon-cua-hang.png" />
     <Content Include="Content\servers\images\img-grid-1.jpg" />
     <Content Include="Content\servers\images\img-grid-2.jpg" />
     <Content Include="Content\servers\images\img-grid-3.jpg" />
@@ -3263,6 +3264,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\add-to-cart.js" />
     <Content Include="Scripts\autoNumeric-1.9.45.js" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Content\clients\dist\css\adminlte.css.map" />

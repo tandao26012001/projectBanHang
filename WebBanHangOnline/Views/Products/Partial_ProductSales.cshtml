@@ -1,77 +1,100 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 @using WebBanHangOnline.Common
+@using System.Linq
+<style>
+    .old-price {
+        text-decoration: line-through;
+        opacity: 0.6;
+        font-size: 90%;
+        margin-left: 5px;
+        color: #888;
+    }
+
+    .product-item {
+        transition: transform 0.3s ease-in-out;
+        position: relative; /* Đảm bảo nút nổi định vị đúng */
+    }
+
+    .product-thumbnail {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .product-item:hover .product-thumbnail {
+        opacity: 0.85;
+        transform: scale(1.03);
+    }
+
+    .btn-float-cart {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 50px;
+        padding: 8px 16px;
+    }
+
+    .product-item:hover .btn-float-cart {
+        display: flex;
+    }
+</style>
 
 @if (Model != null && Model.Any())
 {
-
-    <div class="best_sellers">
+    <!-- Start Product Section -->
+    <div class="product-section">
         <div class="container">
             <div class="row">
-                <div class="col text-center">
-                    <div class="section_title new_arrivals_title">
-                        <h2>Best Sellers</h2>
-                    </div>
+                <!-- Start Column 1 -->
+                <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                    <h2 class="mb-4 section-title">CƠ HỘI VÀNG - SĂN DEAL GIÁ SỐC!</h2>
+                    <p class="mb-4">Đừng bỏ lỡ cơ hội sở hữu những sản phẩm yêu thích với mức giá ưu đãi cực hấp dẫn! Số lượng có hạn, nhanh tay kẻo lỡ! Chất lượng đảm bảo, giá cực “mềm” – chỉ áp dụng trong thời gian khuyến mãi.</p>
+                    <p><a href="/san-pham" class="btn">Xem thêm</a></p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="product_slider_container">
-                        <div class="owl-carousel owl-theme product_slider">
+                <!-- End Column 1 -->
+                @foreach (var item in Model)
+                {
+                    var strImge = "";
+                    var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                    if (img != null)
+                    {
+                        strImge = img.ImageUrl;
+                    }
+                    <!-- Start Column 2 -->
+                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                        <div class="product-item position-relative overflow-hidden text-center">
+                            <a href="/chi-tiet/@item.Alias-p-@item.Id" class="text-decoration-none d-block position-relative">
+                                <img src="@strImge" class="img-fluid product-thumbnail transition-hover" alt="@item.Title">
+                                <h3 class="product-title mt-2 text-dark">@item.Title</h3>
+                            </a>
 
-                            @foreach (var item in Model)
+                            @if (item.PriceSale > 0)
                             {
-                                var strImge = "";
-                                var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-                                if (img != null)
-                                {
-                                    strImge = img.ImageUrl;
-                                }
-
-                                <div class="owl-item product_slider_item">
-                                    <div class="product-item @item.ProductCategory.Alias">
-                                        <div class="product discount product_filter">
-                                            <div class="product_image">
-                                                <img src="@strImge" alt="@item.Title">
-                                            </div>
-                                            <div class="favorite favorite_left"></div>
-                                            @if (item.PriceSale > 0)
-                                            {
-                                                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-                                            }
-                                            @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
-                                            <div class="product_info">
-                                                <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
-                                                @if (item.PriceSale > 0)
-                                                {
-                                                    <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</span></div>
-
-                                                }
-                                                else
-                                                {
-                                                    <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</div>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">add to cart</a></div>
-                                    </div>
-                                </div>
-
+                                <strong class="product_price">
+                                    @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
+                                    <span class="old-price ms-2 text-muted text-decoration-line-through">
+                                        @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                                    </span>
+                                </strong>
+                            }
+                            else
+                            {
+                                <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
                             }
 
-                        </div>
-
-                        <!-- Slider Navigation -->
-
-                        <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
-                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                        </div>
-                        <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            <a href="javascript:;" class="btn btn-outline-light btn-sm btn-float-cart d-flex align-items-center justify-content-center btnAddToCart" data-id="@item.Id">
+                                <i class="fa fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </a>
                         </div>
                     </div>
-                </div>
+                    <!-- End Column 2 -->
+                }
             </div>
         </div>
     </div>
-
+    <!-- End Product Section -->
 }

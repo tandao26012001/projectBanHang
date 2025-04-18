@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Template Name: UntreeStore
 * Template Author: Untree.co
 * Author URI: https://untree.co/
@@ -198,7 +198,7 @@ a {
   color: #2f2f2f; }
 
 .product-section {
-  padding: 7rem 0; }
+  padding: 3.5rem 0; }
   .product-section .product-item {
     text-align: center;
     text-decoration: none;
@@ -270,7 +270,7 @@ a {
       height: 70%; }
 
 .why-choose-section {
-  padding: 7rem 0; }
+  padding: 3.5rem 0; }
   .why-choose-section .img-wrap {
     position: relative; }
     .why-choose-section .img-wrap:before {
@@ -312,7 +312,7 @@ a {
     color: #6a6a6a; }
 
 .we-help-section {
-  padding: 7rem 0; }
+  padding: 3.5rem 0; }
   .we-help-section .imgs-grid {
     display: -ms-grid;
     display: grid;
@@ -380,7 +380,7 @@ a {
       top: 8px; }
 
 .popular-product {
-  padding: 0 0 7rem 0; }
+  padding: 0 0 3.5rem 0; }
   .popular-product .product-item-sm h3 {
     font-size: 14px;
     font-weight: 700;
@@ -508,7 +508,7 @@ a {
   padding: 7rem 0 12rem 0 !important; }
 
 .blog-section {
-  padding: 7rem 0 12rem 0; }
+  padding: 3.5rem 0 12rem 0; }
   .blog-section .post-entry a {
     text-decoration: none; }
   .blog-section .post-entry .post-thumbnail {

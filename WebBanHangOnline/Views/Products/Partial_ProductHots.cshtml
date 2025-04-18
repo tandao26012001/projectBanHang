@@ -1,14 +1,45 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 @using WebBanHangOnline.Common
 @using System.Linq
-
 <style>
     .old-price {
         text-decoration: line-through;
         opacity: 0.6;
         font-size: 90%;
         margin-left: 5px;
-        color: #888; /* hoặc dùng text-muted */
+        color: #888;
+    }
+
+    .product-item {
+        transition: transform 0.3s ease-in-out;
+        position: relative; /* Đảm bảo nút nổi định vị đúng */
+    }
+
+    .product-thumbnail {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .product-item:hover .product-thumbnail {
+        opacity: 0.85;
+        transform: scale(1.03);
+    }
+
+    .btn-float-cart {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 50px;
+        padding: 8px 16px;
+    }
+
+    .product-item:hover .btn-float-cart {
+        display: flex;
     }
 </style>
 
@@ -22,7 +53,7 @@
                 <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
                     <h2 class="mb-4 section-title">Sản phẩm nổi bật – Tâm điểm phong cách</h2>
                     <p class="mb-4">Khẳng định cá tính với sản phẩm nổi bật tại Shop – nơi xu hướng thời trang giao thoa cùng chất lượng. Từng thiết kế đều được chọn lọc kỹ lưỡng từ chất liệu đến kiểu dáng, mang đến sự thoải mái, thanh lịch và đầy tự tin cho người mặc. Dù là phong cách năng động, trẻ trung hay tinh tế, thanh lịch – đây chính là item không thể thiếu trong tủ đồ của bạn!</p>
-                    <p><a href="shop.html" class="btn">Explore</a></p>
+                    <p><a href="/san-pham" class="btn">Xem thêm</a></p>
                 </div>
                 <!-- End Column 1 -->
 
@@ -36,15 +67,17 @@
                     }
                     <!-- Start Column 2 -->
                     <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                        <a class="product-item" href="#">
-                            <!--Thêm vào giỏ hàng-->
-                            <img src="@strImge" class="img-fluid product-thumbnail" alt="@item.Title">
-                            <h3 class="product-title">@item.Title</h3>
+                        <div class="product-item position-relative overflow-hidden text-center">
+                            <a href="/chi-tiet/@item.Alias-p-@item.Id" class="text-decoration-none d-block position-relative">
+                                <img src="@strImge" class="img-fluid product-thumbnail transition-hover" alt="@item.Title">
+                                <h3 class="product-title mt-2 text-dark">@item.Title</h3>
+                            </a>
+
                             @if (item.PriceSale > 0)
                             {
                                 <strong class="product_price">
                                     @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
-                                    <span class="old-price">
+                                    <span class="old-price ms-2 text-muted text-decoration-line-through">
                                         @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
                                     </span>
                                 </strong>
@@ -53,10 +86,11 @@
                             {
                                 <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
                             }
-                            <span class="icon-cross">
-                                <img src="~/Content/servers/images/cross.svg" class="img-fluid">
-                            </span>
-                        </a>
+
+                            <a href="javascript:;" class="btn btn-outline-light btn-sm btn-float-cart d-flex align-items-center justify-content-center btnAddToCart" data-id="@item.Id">
+                                <i class="fa fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </a>
+                        </div>
                     </div>
                     <!-- End Column 2 -->
                 }

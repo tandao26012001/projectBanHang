@@ -22,6 +22,10 @@
     <link href="~/Content/servers/css/tiny-slider.css" rel="stylesheet">
     <link href="~/Content/servers/css/style.css" rel="stylesheet">
     <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/add-to-cart.js"></script>
 </head>
 
 <body>
@@ -40,8 +44,16 @@
                 @Html.Action("MenuTop", "Menu")
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="/dang-nhap"><img src="~/Content/servers/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="/gio-hang"><img src="~/Content/servers/images/cart.svg"></a></li>
+                    <li>
+                        <a class="nav-link position-relative" href="/gio-hang">
+                            <img src="~/Content/servers/images/cart.svg">
+                            <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                0
+                            </span>
+                        </a>
+                    </li>
                 </ul>
+
             </div>
         </div>
 
