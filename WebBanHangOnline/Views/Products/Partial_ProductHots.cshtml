@@ -87,9 +87,14 @@
                                 <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
                             }
 
-                            <a href="javascript:;" class="btn btn-outline-light btn-sm btn-float-cart d-flex align-items-center justify-content-center btnAddToCart" data-id="@item.Id">
-                                <i class="fa fa-cart-plus me-1"></i> Thêm vào giỏ
-                            </a>
+                            <div class="d-flex justify-content-between gap-2 mt-2">
+                                <a href="javascript:;" title="Thêm vào giỏ hàng" class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center btnAddToCart flex-fill" data-id="@item.Id">
+                                    <i class="fa fa-cart-plus me-1"></i>
+                                </a>
+                                <a href="javascript:;" title="Yêu thích" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center btnAddToWishlist flex-fill" data-id="@item.Id">
+                                    <i class="fa fa-heart me-1"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <!-- End Column 2 -->

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\PROJECT\\projectBanHang\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\project\\projectbanhang\\webbanhangonline\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,26 +24,26 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAADcAAAA7AAAAAAAAAA==",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAEwBAAAAAAAAAAApwCcFAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T09:01:48.356Z",
+              "WhenOpened": "2025-04-21T09:22:04.236Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAABwAAAAAAAAAAAAAAC0AAAAKAAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\PROJECT\\projectBanHang\\WebBanHangOnline\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACsAAAAAAAAAAAApwDUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T06:58:11.685Z",
+              "WhenOpened": "2025-04-21T07:53:26.896Z",
               "EditorCaption": ""
             }
           ]

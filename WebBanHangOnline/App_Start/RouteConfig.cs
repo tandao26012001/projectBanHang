@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WebBanHangOnline.App_Start;
 
 namespace WebBanHangOnline
 {
@@ -72,10 +73,20 @@ namespace WebBanHangOnline
              defaults: new { controller = "News", action = "Index", alias = UrlParameter.Optional },
              namespaces: new[] { "WebBanHangOnline.Controllers" }
          );
+            // Route tùy chỉnh cho trang chủ
+            routes.MapRoute(
+                name: "TrangChu",
+                url: "trang-chu",
+                defaults: new { controller = "Home", action = "Index" },
+                namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+
+            // Route mặc định với ràng buộc không cho vào Home/Index
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { custom = new NotHomeIndexConstraint() },
                 namespaces: new[] { "WebBanHangOnline.Controllers" }
             );
         }

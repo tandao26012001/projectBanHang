@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Controllers
@@ -11,11 +12,31 @@ namespace WebBanHangOnline.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string search, int? page)
         {
-            var items = db.Products.ToList();
-            
-            return View(items);
+            int pageSize = 8;
+            int pageNumber = page ?? 1;
+
+            var products = db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Title.Contains(search));
+            }
+
+            ViewBag.Search = search;
+            return View(products.OrderByDescending(x => x.Id).ToPagedList(pageNumber, pageSize));
+        }
+
+        // Autocomplete Suggestion
+        public JsonResult GetSuggestions(string term)
+        {
+            var suggestions = db.Products
+                                .Where(p => p.Title.Contains(term))
+                                .Select(p => p.Title)
+                                .Take(10)
+                                .ToList();
+            return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Detail(string alias,int id)

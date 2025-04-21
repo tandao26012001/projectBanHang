@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Product>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Danh sách sản phẩm";
 }
@@ -9,6 +10,14 @@
             <h1 style="text-align:center">@ViewBag.Title</h1>
         </div>
     </div>
+    <!-- Tìm kiếm -->
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        <div class="input-group mb-4">
+            @Html.TextBox("search", ViewBag.Search as string, new { @class = "form-control", @id = "searchBox", placeholder = "Tìm sản phẩm..." })
+            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+        </div>
+    }
 </div>
 <!-- End Hero Section -->
 <div class="untree_co-section product-section before-footer-section">
@@ -24,15 +33,15 @@
                     {
                         strImge = img.ImageUrl;
                     }
-                    var wishlist = item.Wishlists.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                    var isWishlist = false;
-                    if (wishlist != null)
-                    {
-                        isWishlist = true;
-                    }
+                    //var wishlist = item.Wishlists.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                    //var isWishlist = false;
+                    //if (wishlist != null)
+                    //{
+                    //    isWishlist = true;
+                    //}
                     <!-- Start Column 1 -->
                     <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <a class="product-item" href="#">
+                        <div class="product-item" href="#">
                             <img src="@strImge" class="img-fluid product-thumbnail" title="@item.Title">
                             <h3 class="product-title">@item.Title</h3>
                             @if (item.PriceSale > 0)
@@ -48,15 +57,15 @@
                             {
                                 <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
                             }
-                        <div class="d-flex justify-content-between gap-2 mt-2">
-                            <a href="javascript:;" class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center btnAddToCart flex-fill" data-id="@item.Id">
-                                <i class="fa fa-cart-plus me-1"></i> Thêm vào giỏ
-                            </a>
-                            <a href="javascript:;" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center btnAddToWishlist flex-fill" data-id="@item.Id">
-                                <i class="fa fa-heart me-1"></i> Yêu thích
-                            </a>
+                            <div class="d-flex justify-content-between gap-2 mt-2">
+                                <a href="javascript:;" title="Thêm vào giỏ hàng" class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center btnAddToCart flex-fill" data-id="@item.Id">
+                                    <i class="fa fa-cart-plus me-1"></i>
+                                </a>
+                                <a href="javascript:;" title="Yêu thích" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center btnAddToWishlist flex-fill" data-id="@item.Id">
+                                    <i class="fa fa-heart me-1"></i>
+                                </a>
+                            </div>
                         </div>
-                        </a>
                     </div>
                     <!-- End Column 1 -->
                 }
@@ -64,3 +73,14 @@
         </div>
     </div>
 </div>
+@section scripts {
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $("#searchBox").autocomplete({
+                source: '/Products/GetSuggestions',
+                minLength: 2
+            });
+        });
+    </script>
+}
