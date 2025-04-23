@@ -1,40 +1,53 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
+
 @if (Model != null && Model.Any())
 {
-    foreach (var item in Model)
+    @foreach (var item in Model)
     {
-        <!-- Product 1 -->
         var strImge = "";
         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
         if (img != null)
         {
-            strImge = img.Image;
+            strImge = img.ImageUrl;
         }
-        <div class="product-item @item.ProductCategory.Alias">
-            <div class="product discount product_filter">
-                <div class="product_image">
-                    <img src="@strImge" alt="@item.Title">
+        <div class="col-md-6 col-lg-6 col-xl-4">
+            <div class="rounded position-relative fruite-item">
+                <div class="fruite-img">
+                    <img src="@strImge" class="img-fluid w-100 rounded-top" alt="@item.Title">
                 </div>
-                <div data-id="@item.Id" class="favorite favorite_left"></div>
-                @if (item.PriceSale > 0)
-                {
-                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-                }
-                @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
-                <div class="product_info">
-                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
-                    @if (item.PriceSale > 0)
-                    {
-                        <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</span></div>
-
-                    }
-                    else
-                    {
-                        <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</div>
-                    }
+                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                    <h4 class="truncate-2-line">@item.Title</h4>
+                    <p class="truncate-4-line">@item.Description</p>
+                    <div class="d-flex justify-content-between flex-lg-wrap">
+                        <!-- Giá sản phẩm -->
+                        @if (item.PriceSale > 0)
+                        {
+                            <p class="text-dark fs-5 fw-bold mb-0">
+                                @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
+                                <span class="old-price ms-2 text-muted text-decoration-line-through">
+                                    @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                                </span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-dark fs-5 fw-bold mb-0">
+                                @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                            </p>
+                        }
+                        <!-- Nút giỏ hàng & yêu thích -->
+                        <div class="action-buttons d-flex justify-content-between">
+                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
+                                <i class="fa fa-shopping-bag me-1 text-primary"></i>
+                            </a>
+                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
+                                <i class="fa fa-heart me-1 text-primary"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">add to cart</a></div>
         </div>
     }
 }

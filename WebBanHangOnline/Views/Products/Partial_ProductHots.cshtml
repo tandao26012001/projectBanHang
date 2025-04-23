@@ -1,106 +1,83 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 @using WebBanHangOnline.Common
 @using System.Linq
+
 <style>
-    .old-price {
-        text-decoration: line-through;
-        opacity: 0.6;
-        font-size: 90%;
-        margin-left: 5px;
-        color: #888;
+    .truncate-2-line {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
     }
 
-    .product-item {
-        transition: transform 0.3s ease-in-out;
-        position: relative; /* Đảm bảo nút nổi định vị đúng */
-    }
-
-    .product-thumbnail {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .product-item:hover .product-thumbnail {
-        opacity: 0.85;
-        transform: scale(1.03);
-    }
-
-    .btn-float-cart {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none;
-        z-index: 10;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        transition: opacity 0.3s ease-in-out;
-        border-radius: 50px;
-        padding: 8px 16px;
-    }
-
-    .product-item:hover .btn-float-cart {
-        display: flex;
+    .truncate-4-line {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
     }
 </style>
 
 @if (Model != null && Model.Any())
 {
-    <!-- Start Product Section -->
-    <div class="product-section">
-        <div class="container">
-            <div class="row">
-                <!-- Start Column 1 -->
-                <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-                    <h2 class="mb-4 section-title">Sản phẩm nổi bật – Tâm điểm phong cách</h2>
-                    <p class="mb-4">Khẳng định cá tính với sản phẩm nổi bật tại Shop – nơi xu hướng thời trang giao thoa cùng chất lượng. Từng thiết kế đều được chọn lọc kỹ lưỡng từ chất liệu đến kiểu dáng, mang đến sự thoải mái, thanh lịch và đầy tự tin cho người mặc. Dù là phong cách năng động, trẻ trung hay tinh tế, thanh lịch – đây chính là item không thể thiếu trong tủ đồ của bạn!</p>
-                    <p><a href="/san-pham" class="btn">Xem thêm</a></p>
-                </div>
-                <!-- End Column 1 -->
-
-                @foreach (var item in Model)
-                {
-                    var strImge = "";
-                    var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-                    if (img != null)
+    <div id="tab-2" class="tab-pane fade show p-0">
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="row g-4">
+                    @foreach (var item in Model)
                     {
-                        strImge = img.ImageUrl;
-                    }
-                    <!-- Start Column 2 -->
-                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                        <div class="product-item position-relative overflow-hidden text-center">
-                            <a href="/chi-tiet/@item.Alias-p-@item.Id" class="text-decoration-none d-block position-relative">
-                                <img src="@strImge" class="img-fluid product-thumbnail transition-hover" alt="@item.Title">
-                                <h3 class="product-title mt-2 text-dark">@item.Title</h3>
-                            </a>
-
-                            @if (item.PriceSale > 0)
-                            {
-                                <strong class="product_price">
-                                    @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
-                                    <span class="old-price ms-2 text-muted text-decoration-line-through">
-                                        @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
-                                    </span>
-                                </strong>
-                            }
-                            else
-                            {
-                                <strong class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ</strong>
-                            }
-
-                            <div class="d-flex justify-content-between gap-2 mt-2">
-                                <a href="javascript:;" title="Thêm vào giỏ hàng" class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-center btnAddToCart flex-fill" data-id="@item.Id">
-                                    <i class="fa fa-cart-plus me-1"></i>
-                                </a>
-                                <a href="javascript:;" title="Yêu thích" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center btnAddToWishlist flex-fill" data-id="@item.Id">
-                                    <i class="fa fa-heart me-1"></i>
-                                </a>
+                        var strImge = "";
+                        var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                        if (img != null)
+                        {
+                            strImge = img.ImageUrl;
+                        }
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="rounded position-relative fruite-item">
+                                <div class="fruite-img">
+                                    <img src="@strImge" class="img-fluid w-100 rounded-top" alt="">
+                                </div>
+                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;"> @item.ProductCategory.Title</div>
+                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                    <h4 class="truncate-2-line">@item.Title</h4>
+                                    <p class="truncate-4-line">@item.Description</p>
+                                    <div class="d-flex flex-column gap-2">
+                                        <!-- Giá sản phẩm -->
+                                        @if (item.PriceSale > 0)
+                                        {
+                                            <p class="text-dark fs-5 fw-bold mb-0">
+                                                @WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0) đ
+                                                <span class="old-price ms-2 text-muted text-decoration-line-through">
+                                                    @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                                                </span>
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-dark fs-5 fw-bold mb-0">
+                                                @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
+                                            </p>
+                                        }
+                                        <!-- Nút giỏ hàng & yêu thích -->
+                                        <div class="action-buttons d-flex justify-content-between">
+                                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
+                                                <i class="fa fa-shopping-bag me-1 text-primary"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
+                                                <i class="fa fa-heart me-1 text-primary"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Column 2 -->
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
-    <!-- End Product Section -->
 }

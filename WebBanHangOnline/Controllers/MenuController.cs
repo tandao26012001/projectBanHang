@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 
@@ -21,12 +18,12 @@ namespace WebBanHangOnline.Controllers
             var items = db.Categories.OrderBy(x=>x.Position).ToList();
             return PartialView("_MenuTop", items);
         }
-
         public ActionResult MenuProductCategory()
         {
-            var items = db.ProductCategories.ToList();
-            return PartialView("_MenuProductCategory", items);
+            var categories = db.ProductCategories.Include("Products").ToList();
+            return PartialView("_MenuProductCategory", categories);
         }
+
         public ActionResult MenuLeft(int? id)
         {
             if (id != null)

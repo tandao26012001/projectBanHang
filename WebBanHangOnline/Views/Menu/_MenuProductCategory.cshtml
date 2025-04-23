@@ -2,36 +2,16 @@
 
 @if (Model != null && Model.Any())
 {
-
-    <div class="banner">
-        <div class="container">
-            <div class="row">
-                @foreach (var item in Model)
-                {
-                    <div class="col-md-4">
-                        <div class="banner_item align-items-center" style="background-image: url(@item.Icon)">
-                            <div class="banner_category">
-                                <a href="@item.Alias">@item.Title</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-                @*<div class="col-md-4">
-                    <div class="banner_item align-items-center" style="background-image:url(images/banner_2.jpg)">
-                        <div class="banner_category">
-                            <a href="categories.html">accessories's</a>
-                        </div>
-                    </div>
+    <ul class="list-unstyled fruite-categorie">
+        @foreach (var item in Model)
+        {
+            int count = item.Products != null ? item.Products.Count : 0;
+            <li>
+                <div class="d-flex justify-content-between fruite-name">
+                    <a href="@item.Alias">@item.Title</a>
+                    <span>(@count)</span>
                 </div>
-                <div class="col-md-4">
-                    <div class="banner_item align-items-center" style="background-image:url(images/banner_3.jpg)">
-                        <div class="banner_category">
-                            <a href="categories.html">men's</a>
-                        </div>
-                    </div>
-                </div>*@
-            </div>
-        </div>
-    </div>
+            </li>
+        }
+    </ul>
 }
