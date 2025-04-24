@@ -146,7 +146,7 @@
                                         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
                                         if (img != null)
                                         {
-                                            strImge = img.Image;
+                                            strImge = img.ImageUrl;
                                         }
                                         <div class="product-item @item.ProductCategory.Alias">
                                             <div class="product discount product_filter">

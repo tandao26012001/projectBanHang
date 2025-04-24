@@ -43,7 +43,9 @@
                                 </div>
                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;"> @item.ProductCategory.Title</div>
                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                    <h4 class="truncate-2-line">@item.Title</h4>
+                                    <h4 class="truncate-2-line">
+                                        <a href="/chi-tiet/@item.Alias-p @item.Id" class="text-dark text-decoration-none">@item.Title</a>
+                                    </h4>
                                     <p class="truncate-4-line">@item.Description</p>
                                     <div class="d-flex flex-column gap-2">
                                         <!-- Giá sản phẩm -->

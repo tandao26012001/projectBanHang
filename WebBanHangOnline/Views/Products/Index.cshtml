@@ -31,7 +31,7 @@
                                 </div>
                             }
                             @*<input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>*@
+                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>*@
                         </div>
                     </div>
                     <div class="col-6"></div>
@@ -92,7 +92,7 @@
                                 <h4 class="mb-3">Sản phẩm nổi bật</h4>
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
+                                        <img src="~/Content/servers/img/featur-1.jpg" class="img-fluid rounded" alt="">
                                     </div>
                                     <div>
                                         <h6 class="mb-2">Big Banana</h6>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-2.jpg" class="img-fluid rounded" alt="">
+                                        <img src="~/Content/servers/img/featur-2.jpg" class="img-fluid rounded" alt="">
                                     </div>
                                     <div>
                                         <h6 class="mb-2">Big Banana</h6>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-3.jpg" class="img-fluid rounded" alt="">
+                                        <img src="~/Content/servers/img/featur-3.jpg" class="img-fluid rounded" alt="">
                                     </div>
                                     <div>
                                         <h6 class="mb-2">Big Banana</h6>
@@ -154,8 +154,10 @@
                         </div>
                     </div>
                     <div class="col-lg-9">
-                        <div class="row g-4 justify-content-center">
+                        <div class="row g-4 justify-content-center" id="product-container">
+                            <!--Html.Action("Partial_ItemsByCateId", "Products", new { categoryId = 0 })--> <!-- mặc định nếu muốn -->
                             @Html.Action("Partial_ItemsByCateId", "Products")
+                        </div>
                             <div class="col-12">
                                 <div class="pagination d-flex justify-content-center mt-5">
                                     <a href="#" class="rounded">&laquo;</a>
@@ -180,9 +182,27 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
         $(function () {
+            // Tự động gợi ý
             $("#searchBox").autocomplete({
                 source: '/Products/GetSuggestions',
                 minLength: 2
+            });
+
+            // Lọc sản phẩm theo danh mục
+            $(document).on('click', '.cate-filter', function () {
+                var categoryId = $(this).data('id');
+
+                $.ajax({
+                    url: '/Products/Partial_ItemsByCateId',
+                    type: 'GET',
+                    data: { categoryId: categoryId },
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
             });
         });
     </script>

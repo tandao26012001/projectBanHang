@@ -53,27 +53,40 @@ namespace WebBanHangOnline.Controllers
             ViewBag.CountReview = countReview;
             return View(item);
         }
-        public ActionResult ProductCategory(string alias,int id)
+        public ActionResult ProductCategory(string alias, int id)
         {
-            var items = db.Products.ToList();
-            if (id > 0)
+            var category = db.ProductCategories.FirstOrDefault(x => x.Id == id);
+            if (category == null)
             {
-                items = items.Where(x => x.ProductCategoryId == id).ToList();
-            }
-            var cate = db.ProductCategories.Find(id);
-            if (cate != null)
-            {
-                ViewBag.CateName = cate.Title;
+                return HttpNotFound();
             }
 
-            ViewBag.CateId = id;
-            return View(items);
+            var products = db.Products
+                .Where(x => x.ProductCategoryId == category.Id && x.IsActive)
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+
+            ViewBag.CategoryName = category.Title;
+            ViewBag.CategoryAlias = category.Alias;
+
+            return View(products); // hoặc return PartialView nếu gọi bằng Ajax
         }
-
-        public ActionResult Partial_ItemsByCateId()
+        [HttpGet]
+        public ActionResult Partial_ItemsByCateId(int? categoryId)
         {
-            var items = db.Products.Where(x => x.IsHome && x.IsActive).Take(12).ToList();
-            return PartialView(items);
+            var products = db.Products
+                .Where(p => p.IsActive);
+
+            if (categoryId.HasValue && categoryId.Value > 0)
+            {
+                products = products.Where(p => p.ProductCategoryId == categoryId.Value);
+            }
+
+            var result = products
+                .OrderByDescending(p => p.CreatedDate)
+                .ToList();
+
+            return PartialView(result);
         }
 
         public ActionResult Partial_ProductSales()

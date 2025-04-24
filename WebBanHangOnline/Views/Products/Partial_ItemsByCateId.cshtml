@@ -1,8 +1,28 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
+<style>
+    .truncate-2-line {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+
+    .truncate-4-line {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+</style>
+
 @if (Model != null && Model.Any())
 {
-    @foreach (var item in Model)
+    foreach (var item in Model)
     {
         var strImge = "";
         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
@@ -10,14 +30,16 @@
         {
             strImge = img.ImageUrl;
         }
-        <div class="col-md-6 col-lg-6 col-xl-4">
+        <div class="col-md-6 col-lg-6 col-xl-4 @item.ProductCategory.Alias">
             <div class="rounded position-relative fruite-item">
                 <div class="fruite-img">
                     <img src="@strImge" class="img-fluid w-100 rounded-top" alt="@item.Title">
                 </div>
-                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;"> @item.ProductCategory.Title</div>
                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                    <h4 class="truncate-2-line">@item.Title</h4>
+                    <h4 class="truncate-2-line">
+                        <a href="/chi-tiet/@item.Alias-p @item.Id" class="text-dark text-decoration-none">@item.Title</a>
+                    </h4>
                     <p class="truncate-4-line">@item.Description</p>
                     <div class="d-flex justify-content-between flex-lg-wrap">
                         <!-- Giá sản phẩm -->
@@ -36,15 +58,15 @@
                                 @WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0) đ
                             </p>
                         }
-                        <!-- Nút giỏ hàng & yêu thích -->
-                        <div class="action-buttons d-flex justify-content-between">
-                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
-                                <i class="fa fa-shopping-bag me-1 text-primary"></i>
-                            </a>
-                            <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
-                                <i class="fa fa-heart me-1 text-primary"></i>
-                            </a>
-                        </div>
+                    </div>
+                    <!-- Nút giỏ hàng & yêu thích -->
+                    <div class="action-buttons d-flex justify-content-end gap-2 mt-auto">
+                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
+                            <i class="fa fa-shopping-bag me-1 text-primary"></i>
+                        </a>
+                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
+                            <i class="fa fa-heart me-1 text-primary"></i>
+                        </a>
                     </div>
                 </div>
             </div>
