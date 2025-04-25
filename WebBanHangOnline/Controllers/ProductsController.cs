@@ -38,7 +38,6 @@ namespace WebBanHangOnline.Controllers
                                 .ToList();
             return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult Detail(string alias,int id)
         {
             var item = db.Products.Find(id);
@@ -70,6 +69,15 @@ namespace WebBanHangOnline.Controllers
             ViewBag.CategoryAlias = category.Alias;
 
             return View(products); // hoặc return PartialView nếu gọi bằng Ajax
+        }
+        public ActionResult RelatedProducts(int categoryId, int currentProductId)
+        {
+            var related = db.Products
+                            .Where(x => x.ProductCategoryId == categoryId && x.Id != currentProductId && x.IsActive)
+                            .OrderByDescending(x => x.CreatedDate)
+                            .Take(8)
+                            .ToList();
+            return PartialView("_RelatedProducts", related);
         }
         [HttpGet]
         public ActionResult Partial_ItemsByCateId(int? categoryId)
