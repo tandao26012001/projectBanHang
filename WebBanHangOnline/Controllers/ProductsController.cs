@@ -38,19 +38,28 @@ namespace WebBanHangOnline.Controllers
                                 .ToList();
             return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Detail(string alias,int id)
+        public ActionResult Detail(string alias)
         {
-            var item = db.Products.Find(id);
-            if (item != null)
+            var product = db.Products
+                .Include("ProductCategory")
+                .Include("ProductImage")
+                .FirstOrDefault(x => x.Alias == alias);
+
+            if (product == null)
             {
-                db.Products.Attach(item);
-                item.ViewCount = item.ViewCount + 1;
-                db.Entry(item).Property(x => x.ViewCount).IsModified = true;
-                db.SaveChanges();
+                return HttpNotFound();
             }
-            var countReview = db.Reviews.Where(x => x.ProductId == id).Count();
-            ViewBag.CountReview = countReview;
-            return View(item);
+
+            // Lấy sản phẩm cùng loại (khác Id hiện tại)
+            var relatedProducts = db.Products
+                .Where(x => x.ProductCategoryId == product.ProductCategoryId && x.Id != product.Id && x.IsActive)
+                .OrderByDescending(x => x.CreatedDate)
+                .Take(8)
+                .ToList();
+
+            ViewBag.RelatedProducts = relatedProducts;
+
+            return View(product);
         }
         public ActionResult ProductCategory(string alias, int id)
         {
@@ -69,15 +78,6 @@ namespace WebBanHangOnline.Controllers
             ViewBag.CategoryAlias = category.Alias;
 
             return View(products); // hoặc return PartialView nếu gọi bằng Ajax
-        }
-        public ActionResult RelatedProducts(int categoryId, int currentProductId)
-        {
-            var related = db.Products
-                            .Where(x => x.ProductCategoryId == categoryId && x.Id != currentProductId && x.IsActive)
-                            .OrderByDescending(x => x.CreatedDate)
-                            .Take(8)
-                            .ToList();
-            return PartialView("_RelatedProducts", related);
         }
         [HttpGet]
         public ActionResult Partial_ItemsByCateId(int? categoryId)

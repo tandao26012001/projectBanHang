@@ -3221,6 +3221,7 @@
     <Content Include="Content\clients\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\servers\css\bootstrap.min.css" />
+    <Content Include="Content\servers\css\rutgonnoidung.css" />
     <Content Include="Content\servers\css\style.css" />
     <Content Include="Content\servers\img\avatar.jpg" />
     <Content Include="Content\servers\img\baner-1.png" />
@@ -3244,6 +3245,7 @@
     <Content Include="Content\servers\img\hero-img-1.png" />
     <Content Include="Content\servers\img\hero-img-2.jpg" />
     <Content Include="Content\servers\img\hero-img.jpg" />
+    <Content Include="Content\servers\img\no-image.jpg" />
     <Content Include="Content\servers\img\payment.png" />
     <Content Include="Content\servers\img\single-item.jpg" />
     <Content Include="Content\servers\img\testimonial-1.jpg" />

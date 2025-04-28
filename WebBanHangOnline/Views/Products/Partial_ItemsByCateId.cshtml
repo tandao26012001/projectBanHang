@@ -1,24 +1,6 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
-<style>
-    .truncate-2-line {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-    }
-
-    .truncate-4-line {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-    }
-</style>
+<link href="~/Content/servers/css/rutgonnoidung.css" rel="stylesheet" />
 
 @if (Model != null && Model.Any())
 {
@@ -42,7 +24,6 @@
                     </h4>
                     <p class="truncate-4-line">@item.Description</p>
                     <div class="d-flex justify-content-between flex-lg-wrap">
-                        <!-- Giá sản phẩm -->
                         @if (item.PriceSale > 0)
                         {
                             <p class="text-dark fs-5 fw-bold mb-0">
@@ -59,12 +40,11 @@
                             </p>
                         }
                     </div>
-                    <!-- Nút giỏ hàng & yêu thích -->
                     <div class="action-buttons d-flex justify-content-end gap-2 mt-auto">
-                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
+                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
                             <i class="fa fa-shopping-bag me-1 text-primary"></i>
                         </a>
-                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
+                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
                             <i class="fa fa-heart me-1 text-primary"></i>
                         </a>
                     </div>
@@ -72,4 +52,54 @@
             </div>
         </div>
     }
+}
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            // Xử lý thêm vào giỏ hàng
+            $(document).on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '/ShoppingCart/AddToCart',
+                    type: 'POST',
+                    data: { id: id, quantity: 1 },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+
+                            // Cập nhật số lượng trong giỏ hàng
+                            if (response.count !== undefined) {
+                                $('#cartCount').text(response.count);
+                            }
+                        } else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi khi thêm vào giỏ hàng',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 }

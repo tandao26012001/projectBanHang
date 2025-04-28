@@ -8,24 +8,6 @@
 {
     foreach (var item in Model)
     {
-        <div class="user_review_container d-flex flex-column flex-sm-row">
-            <div class="user">
-                <div class="user_pic"></div>
-                <div class="user_rating">
-                    <ul class="star_rating">
-                        @Html.Raw(WebBanHangOnline.Common.Common.HtmlRate(item.Rate))
-                    </ul>
-                </div>
-            </div>
-            <div class="review">
-                <div class="review_date">@item.CreatedDate.ToString("dd MM yyyy")</div>
-                <div class="user_name">@item.FullName</div>
-                <p>@item.Content</p>
-            </div>
-        </div>
-
-        <!-- User Review -->
-
         @*<div class="user_review_container d-flex flex-column flex-sm-row">
             <div class="user">
                 <div class="user_pic"></div>
@@ -41,6 +23,38 @@
                 <p>@item.Content</p>
             </div>
         </div>*@
+        <div class="d-flex">
+            <img src="/Content/servers/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+            <div class="">
+                <p class="mb-2" style="font-size: 14px;">@item.CreatedDate.ToString("dd MM yyyy")</p>
+                <div class="d-flex justify-content-between">
+                    <h5>@item.FullName</h5>
+                    <div class="d-flex mb-3">
+                        @Html.Raw(WebBanHangOnline.Common.Common.HtmlRate(item.Rate))
+                    </div>
+                </div>
+                <p>
+                    @item.Content
+                </p>
+            </div>
+        </div>
+        <!-- User Review -->
+
+        @*<div class="user_review_container d-flex flex-column flex-sm-row">
+                <div class="user">
+                    <div class="user_pic"></div>
+                    <div class="user_rating">
+                        <ul class="star_rating">
+                            @Html.Raw(WebBanHangOnline.Common.Common.HtmlRate(item.Rate))
+                        </ul>
+                    </div>
+                </div>
+                <div class="review">
+                    <div class="review_date">@item.CreatedDate.ToString("dd MM yyyy")</div>
+                    <div class="user_name">@item.FullName</div>
+                    <p>@item.Content</p>
+                </div>
+            </div>*@
 
     }
 
