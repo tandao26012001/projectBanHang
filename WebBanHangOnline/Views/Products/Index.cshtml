@@ -188,19 +188,22 @@
             });
 
             // Lọc sản phẩm theo danh mục
-            $(document).on('click', '.cate-filter', function () {
-                var categoryId = $(this).data('id');
+            $(function () {
+                // Click vào danh mục
+                $(document).on('click', '.cate-filter', function () {
+                    var categoryId = $(this).data("id");
 
-                $.ajax({
-                    url: '/Products/Partial_ItemsByCateId',
-                    type: 'GET',
-                    data: { categoryId: categoryId },
-                    success: function (res) {
-                        $('#product-container').html(res);
-                    },
-                    error: function () {
-                        alert('Không thể tải sản phẩm.');
-                    }
+                    $.ajax({
+                        url: '/Products/Partial_ItemsByCateId',
+                        type: 'GET',
+                        data: { categoryId: categoryId },
+                        success: function (res) {
+                            $('#product-container').html(res);
+                        },
+                        error: function () {
+                            alert('Không thể tải sản phẩm.');
+                        }
+                    });
                 });
             });
         });

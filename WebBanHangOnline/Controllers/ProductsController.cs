@@ -82,8 +82,7 @@ namespace WebBanHangOnline.Controllers
         [HttpGet]
         public ActionResult Partial_ItemsByCateId(int? categoryId)
         {
-            var products = db.Products
-                .Where(p => p.IsActive);
+            var products = db.Products.Where(p => p.IsActive);
 
             if (categoryId.HasValue && categoryId.Value > 0)
             {
@@ -94,8 +93,9 @@ namespace WebBanHangOnline.Controllers
                 .OrderByDescending(p => p.CreatedDate)
                 .ToList();
 
-            return PartialView(result);
+            return PartialView("Partial_ItemsByCateId", result); // nên đặt tên rõ ràng
         }
+
 
         public ActionResult Partial_ProductSales()
         {

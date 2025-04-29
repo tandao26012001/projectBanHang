@@ -3,19 +3,19 @@
 @if (Model != null && Model.Any())
 {
     <ul class="list-unstyled fruite-categorie">
+        <!-- Tất cả sản phẩm -->
         <li>
             <div class="d-flex justify-content-between fruite-name">
-                <a href="javascript:;" class="cate-filter" data-id="0">Tất cả</a>
+                <a href="javascript:;" class="cate-filter" data-id="0">Tất cả sản phẩm</a>
+                <span></span> <!-- Bạn có thể để tổng số ở đây nếu muốn -->
             </div>
         </li>
         @foreach (var item in Model)
         {
-            int count = item.Products != null ? item.Products.Count : 0;
             <li>
                 <div class="d-flex justify-content-between fruite-name">
-                    @*<a href="/danh-muc/@item.Alias-@(item.Id)">@item.Title</a>*@
                     <a href="javascript:;" class="cate-filter" data-id="@item.Id">@item.Title</a>
-                    <span>(@count)</span>
+                    <span>(@item.Products.Count)</span>
                 </div>
             </li>
         }

@@ -55,51 +55,54 @@
 }
 
 @section scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Cần jQuery -->
+
     <script>
         $(document).ready(function () {
-            // Xử lý thêm vào giỏ hàng
-            $(document).on('click', '.btnAddToCart', function (e) {
+            $('.btnAddToCart').click(function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
 
                 $.ajax({
-                    url: '/ShoppingCart/AddToCart',
+                    url: '/ShoppingCart/AddToCart/', // Đường dẫn Controller/Action đúng nhé
                     type: 'POST',
                     data: { id: id, quantity: 1 },
-                    success: function (response) {
-                        if (response.success) {
+                    success: function (res) {
+                        if (res.success) {
                             Swal.fire({
-                                title: 'Thành công!',
-                                text: response.message,
                                 icon: 'success',
-                                timer: 1500,
-                                showConfirmButton: false
+                                title: 'Thành công!',
+                                text: res.message,
+                                showConfirmButton: false,
+                                timer: 1500
                             });
 
-                            // Cập nhật số lượng trong giỏ hàng
-                            if (response.count !== undefined) {
-                                $('#cartCount').text(response.count);
-                            }
+                            // Optionally: Update số sản phẩm trên giỏ
+                            UpdateCartCount();
                         } else {
                             Swal.fire({
-                                title: 'Lỗi!',
-                                text: response.message,
                                 icon: 'error',
-                                confirmButtonText: 'OK'
+                                title: 'Thất bại!',
+                                text: res.message
                             });
                         }
                     },
-                    error: function () {
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
                         Swal.fire({
-                            title: 'Lỗi!',
-                            text: 'Đã xảy ra lỗi khi thêm vào giỏ hàng',
                             icon: 'error',
-                            confirmButtonText: 'OK'
+                            title: 'Lỗi!',
+                            text: 'Không thể thêm sản phẩm.'
                         });
                     }
                 });
             });
+
+            function UpdateCartCount() {
+                $.get('/ShoppingCart/GetCount', function (res) {
+                    $('.cart-count').text(res.count); // cần có 1 span/cart badge
+                });
+            }
         });
     </script>
 }

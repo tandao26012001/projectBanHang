@@ -264,77 +264,72 @@ namespace WebBanHangOnline.Controllers
         public JsonResult GetCount()
         {
             var cart = Session["Cart"] as ShoppingCart;
-            int count = cart != null ? cart.Items.Sum(x => x.Quantity) : 0;
+            int count = 0;
+
+            if (cart != null)
+            {
+                count = cart.Items.Sum(x => x.Quantity);
+            }
+
             return Json(new { count }, JsonRequestBehavior.AllowGet);
         }
+
 
         [AllowAnonymous]
         [HttpPost]
         public JsonResult AddToCart(int id, int quantity = 1)
         {
+            if (quantity <= 0) quantity = 1;
+
             try
             {
-                using (var db = new ApplicationDbContext())
+                var product = db.Products.FirstOrDefault(x => x.Id == id);
+                if (product == null)
                 {
-                    var product = db.Products.FirstOrDefault(x => x.Id == id);
-                    if (product == null)
-                    {
-                        return Json(new { success = false, message = "Sản phẩm không tồn tại" });
-                    }
-
-                    // Kiểm tra số lượng tồn kho nếu cần
-                    // if (product.Quantity < quantity) {
-                    //     return Json(new { success = false, message = "Số lượng sản phẩm không đủ" });
-                    // }
-
-                    // Lấy giỏ hàng từ Session hoặc tạo mới
-                    var cart = Session["Cart"] as ShoppingCart ?? new ShoppingCart();
-
-                    // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-                    var existingItem = cart.Items.FirstOrDefault(x => x.ProductId == id);
-
-                    if (existingItem != null)
-                    {
-                        // Nếu đã có thì tăng số lượng
-                        existingItem.Quantity += quantity;
-                        existingItem.TotalPrice = existingItem.Quantity * existingItem.Price;
-                    }
-                    else
-                    {
-                        // Nếu chưa có thì thêm mới
-                        var item = new ShoppingCartItem
-                        {
-                            ProductId = product.Id,
-                            ProductName = product.Title,
-                            CategoryName = product.ProductCategory?.Title ?? "",
-                            Alias = product.Alias,
-                            Quantity = quantity,
-                            Price = product.PriceSale > 0 ? (decimal)product.PriceSale : product.Price,
-                            ProductImg = product.ProductImage?.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? ""
-                        };
-                        item.TotalPrice = item.Quantity * item.Price;
-                        cart.Items.Add(item);
-                    }
-
-                    // Lưu giỏ hàng vào Session
-                    Session["Cart"] = cart;
-
-                    // Tính tổng số lượng sản phẩm
-                    int totalQuantity = cart.Items.Sum(x => x.Quantity);
-
-                    return Json(new
-                    {
-                        success = true,
-                        message = "Thêm sản phẩm vào giỏ hàng thành công!",
-                        count = totalQuantity
-                    });
+                    return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
                 }
+
+                var cart = Session["Cart"] as ShoppingCart ?? new ShoppingCart();
+
+                var existingItem = cart.Items.FirstOrDefault(x => x.ProductId == id);
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += quantity;
+                    existingItem.TotalPrice = existingItem.Quantity * existingItem.Price;
+                }
+                else
+                {
+                    var item = new ShoppingCartItem
+                    {
+                        ProductId = product.Id,
+                        ProductName = product.Title,
+                        CategoryName = product.ProductCategory?.Title ?? "",
+                        Alias = product.Alias,
+                        Quantity = quantity,
+                        Price = product.PriceSale > 0 ? (decimal)product.PriceSale : product.Price,
+                        ProductImg = product.ProductImage?.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? ""
+                    };
+                    item.TotalPrice = item.Quantity * item.Price;
+                    cart.Items.Add(item);
+                }
+
+                Session["Cart"] = cart;
+
+                int totalQuantity = cart.Items.Sum(x => x.Quantity);
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Thêm sản phẩm vào giỏ hàng thành công!",
+                    count = totalQuantity
+                });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Lỗi: " + ex.Message });
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
             }
         }
+
 
         [AllowAnonymous]
         [HttpPost]
