@@ -5,6 +5,7 @@ using System.Web;
 
 namespace WebBanHangOnline.Models
 {
+    [Serializable]
     public class ShoppingCart
     {
         public List<ShoppingCartItem> Items { get; set; }
@@ -60,7 +61,7 @@ namespace WebBanHangOnline.Models
         }
 
     }
-
+    [Serializable]
     public class ShoppingCartItem
     {
         public int ProductId { get; set; }

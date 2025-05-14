@@ -392,6 +392,7 @@
     <Content Include="Content\assets\js\dashboards-analytics.js" />
     <Content Include="Content\assets\js\extended-ui-perfect-scrollbar.js" />
     <Content Include="Content\assets\js\form-basic-inputs.js" />
+    <Content Include="Content\assets\js\loadcountproduct.js" />
     <Content Include="Content\assets\js\main.js" />
     <Content Include="Content\assets\js\pages-account-settings-account.js" />
     <Content Include="Content\assets\js\ui-modals.js" />

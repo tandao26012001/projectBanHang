@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -7,6 +7,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline
 {
@@ -31,6 +32,11 @@ namespace WebBanHangOnline
         }
         void Session_Start(object sender, EventArgs e)
         {
+            // Khởi tạo giỏ hàng nếu chưa có
+            if (Session["Cart"] == null)
+            {
+                Session["Cart"] = new ShoppingCart();
+            }
             Session.Timeout = 150;
             Application.Lock();
             Application["visitors_online"] = Convert.ToInt32(Application["visitors_online"]) + 1;

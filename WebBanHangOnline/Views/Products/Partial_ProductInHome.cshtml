@@ -48,12 +48,14 @@
                                     </div>
                                     <!-- Nút giỏ hàng & yêu thích -->
                                     <div class="action-buttons d-flex justify-content-end gap-2 mt-auto">
-                                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart" data-id="@item.Id" title="Thêm vào giỏ hàng">
+                                        <button class="btn border border-secondary rounded-pill px-3 text-primary btnAddToCart"
+                                                data-id="@item.Id" title="Thêm vào giỏ hàng">
                                             <i class="fa fa-shopping-bag me-1 text-primary"></i>
-                                        </a>
-                                        <a href="javascript:;" class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist" data-id="@item.Id" title="Thêm vào yêu thích">
+                                        </button>
+                                        <button class="btn border border-secondary rounded-pill px-3 text-primary btnAddToWishlist"
+                                                data-id="@item.Id" title="Thêm vào yêu thích">
                                             <i class="fa fa-heart me-1 text-primary"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -63,61 +65,5 @@
             </div>
         </div>
     </div>
-}
-
-@section scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(document).ready(function () {
-            $('.btnAddToCart, .btn-float-cart').on('click', function (e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-
-                $.ajax({
-                    url: '/ShoppingCart/AddToCart',
-                    type: 'POST',
-                    data: { id: id, quantity: 1 },
-                    success: function (res) {
-                        if (res.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Đã thêm vào giỏ hàng!',
-                                text: 'Sản phẩm đã được thêm thành công.',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            updateCartCount();
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Thêm thất bại!',
-                                text: res.message || 'Đã có lỗi xảy ra.'
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi!',
-                            text: 'Không thể thêm sản phẩm vào giỏ hàng.'
-                        });
-                    }
-                });
-            });
-
-            function updateCartCount() {
-                $.ajax({
-                    url: '/ShoppingCart/GetCartItemCount',
-                    type: 'GET',
-                    success: function (res) {
-                        $('#cartCount').text(res.count);
-                    },
-                    error: function () {
-                        console.log('Không thể cập nhật số lượng giỏ hàng.');
-                    }
-                });
-            }
-        });
-    </script>
 }
 

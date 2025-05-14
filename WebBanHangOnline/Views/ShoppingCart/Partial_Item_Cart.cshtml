@@ -1,56 +1,82 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.ShoppingCartItem>
 @using WebBanHangOnline.Common
-<table class="table">
-    <tr class="text-center">
-        <th>STT</th>
-        <th>Ảnh sản phẩm</th>
-        <th>Tên sản phẩm</th>
-        <th>Danh mục</th>
-        <th>Giá</th>
-
-        <th style="width:100px;">Số lượng</th>
-        <th>Thành tiền</th>
-        <th style="width:200px;">
-
-        </th>
-    </tr>
+@{
+    ViewBag.Title = "Giỏ hàng";
+}
+<!-- Cart Page Start -->
+<div class="container-fluid py-5">
     @if (Model != null && Model.Any())
     {
         var i = 0;
         var tongtien = decimal.Zero;
-        foreach (var item in Model)
-        {
-            tongtien += item.TotalPrice;
-            <tr class="text-center" id="trow_@item.ProductId">
-                <td>@(i+1)</td>
-                <td><img src="@item.ProductImg" width="60" /></td>
-                <td>
-                    <a href="/chi-tiet/@item.Alias-p@(item.ProductId)">
-                        @item.ProductName
-                    </a>
-                </td>
-                <td>@item.CategoryName</td>
-                <td>@Common.FormatNumber(item.Price, 0)</td>
-                <td><input type="number" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" /></td>
-                <th>@Common.FormatNumber(item.TotalPrice, 2)</th>
-                <td>
-                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-success btnUpdate">Cập nhật</a>
-                </td>
-            </tr>
-            i++;
-        }
-        <tr>
-            <th colspan="6" class="text-right">Tổng: </th>
-            <th class="text-center">@Common.FormatNumber(tongtien, 0)</th>
-            <th></th>
-        </tr>
-    
+        <div class="container py-5">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><input type="checkbox" id="selectAll" /></th>
+                            <th scope="col">STT</th>
+                            <th scope="col">Ảnh sản phẩm</th>
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Giá sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Tổng cộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            tongtien += item.TotalPrice;
+                            <tr>
+                                <td><input type="checkbox" class="item-select" data-id="@item.ProductId" /></td>
+                                <td>@(i + 1)</td>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@item.ProductImg" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4"><a href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">@Common.FormatNumber(item.Price, 0) đ</p>
+                                </td>
+                                <td>
+                                    <div class="input-group quantity mt-4" style="width: 100px;">
+                                        <input type="number" class="form-control form-control-sm text-center border-0 inputQuantity" data-id="@item.ProductId" value="@item.Quantity" min="1">
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">@Common.FormatNumber(item.TotalPrice, 2)</p>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Bottom Action Bar -->
+            <div class="bg-light rounded d-flex flex-wrap align-items-center justify-content-between p-3 mt-4 border-top">
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnSelectAll">Chọn tất cả</button>
+                    <button class="btn btn-sm btn-outline-danger" id="btnRemoveSelected">Xoá mục đã chọn</button>
+                    <button class="btn btn-sm btn-outline-primary" id="btnAddToWishlist">Thêm vào yêu thích</button>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="fw-bold">Tổng cộng: <span class="cart-total-amount">@Common.FormatNumber(tongtien, 0) đ</span></div>
+                    <button class="btn btn-primary text-uppercase px-4 py-2">Mua hàng</button>
+                </div>
+            </div>
+        </div>
     }
     else
     {
-        <tr>
-            <th colspan="7">Không có sản phẩm trong giỏ hàng!!</th>
-        </tr>
+        <div class="container py-5">
+            <div class="alert alert-info" style="text-align:center">
+                Giỏ hàng của bạn hiện đang trống.
+            </div>
+            <a href="/san-pham" class="d-flex justify-content-center align-items-center">Mua ngay</a>
+        </div>
     }
-</table>
+</div>
+<!-- Cart Page End -->

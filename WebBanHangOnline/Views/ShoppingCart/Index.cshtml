@@ -4,45 +4,126 @@
     ViewBag.Title = "Giở hàng";
 
 }
-
-
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
-    <div class="row">
-        <div class="col product_section clearfix">
-
-            <!-- Breadcrumbs -->
-
-            <div class="breadcrumbs d-flex flex-row align-items-center">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
-                </ul>
-            </div>
-
-            <!-- Sidebar -->
-            <!-- Main Content -->
-
-            <div class="row">
-                <div class="col-md-12" id="load_data">
-                  @Html.Action("Partial_Item_Cart", "ShoppingCart")
-                </div>
-                <div class="col-md-12">
-                    @if (ViewBag.CheckCart != null)
-                    {
-                        <div class="text-right">
-                            <a href="#" class="btn btn-danger btnDeleteAll">Xóa</a>
-                            <a href="/thanh-toan" class="btn btn-success">Thanh toán</a>
-                        </div>
-                    }
-
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">@ViewBag.Title</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/trang-chu">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="/gio-hang">@ViewBag.Title</a></li>
+    </ol>
 </div>
+<!-- Single Page Header End -->
+@Html.Action("Partial_Item_Cart", "ShoppingCart")
 
 @section scripts{
-    <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Load số lượng giỏ hàng khi trang được tải
+        updateCartCount();
+
+        // Hàm cập nhật số lượng giỏ hàng
+        function updateCartCount() {
+            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
+                $('#cartCount').text(data.Count);
+            }).fail(function() {
+                console.error('Không thể cập nhật số lượng giỏ hàng');
+            });
+        }
+
+        // Gọi hàm này sau khi thêm sản phẩm thành công
+        window.updateCartCount = updateCartCount;
+    });
+    </script>
+    <script>
+        $('#selectAll, #btnSelectAll').on('click', function () {
+            const isChecked = $('#selectAll').prop('checked');
+            $('.item-select').prop('checked', isChecked);
+        });
+
+        $('#btnRemoveSelected').click(function () {
+            const selectedIds = $('.item-select:checked').map(function () {
+                return $(this).data('id');
+            }).get();
+
+            if (selectedIds.length === 0) {
+                alert("Vui lòng chọn ít nhất một sản phẩm để xoá.");
+                return;
+            }
+
+            if (!confirm("Bạn có chắc muốn xoá các sản phẩm đã chọn không?")) return;
+
+            $.ajax({
+                url: '/ShoppingCart/DeleteSelected',
+                type: 'POST',
+                data: { ids: selectedIds },
+                traditional: true, // QUAN TRỌNG để gửi mảng
+                success: function (res) {
+                    if (res.success) {
+                        selectedIds.forEach(id => {
+                            $(`.item-select[data-id="${id}"]`).closest('tr').remove();
+                        });
+
+                        // Cập nhật tổng tiền lại nếu cần
+                        // Gọi lại API tính tổng, hoặc tính lại thủ công
+
+                        alert("Đã xoá các sản phẩm đã chọn.");
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi xoá.");
+                }
+            });
+        });
+
+        $('#btnAddToWishlist').on('click', function () {
+            const selectedIds = $('.item-select:checked').map(function () {
+                return $(this).data('id');
+            }).get();
+
+            if (selectedIds.length === 0) {
+                alert("Vui lòng chọn sản phẩm để thêm vào mục yêu thích.");
+                return;
+            }
+
+            $.ajax({
+                url: '/Wishlist/AddMultiple',
+                type: 'POST',
+                data: { ids: selectedIds },
+                traditional: true,
+                success: function () {
+                    alert("Đã thêm sản phẩm vào mục yêu thích!");
+                }
+            });
+        });
+
+        $('.inputQuantity').on('change', function () {
+            const id = $(this).data('id');
+            const qty = parseInt($(this).val());
+            if (qty <= 0 || isNaN(qty)) return;
+
+            $.ajax({
+                url: '/ShoppingCart/UpdateQuantity',
+                type: 'POST',
+                data: { id, quantity: qty },
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+
+        function updateCartTotal() {
+            let total = 0;
+            $('.item-select').each(function () {
+                const row = $(this).closest('tr');
+                const selected = $(this).is(':checked');
+                const amount = parseInt(row.find('.inputQuantity').val());
+                const priceText = row.find('td:nth-child(5)').text().replace(/[^\d]/g, '');
+                const price = parseInt(priceText);
+                if (!isNaN(price) && !isNaN(amount)) {
+                    total += selected ? price * amount : 0;
+                }
+            });
+            $('.cart-total-amount').text(new Intl.NumberFormat('vi-VN').format(total) + ' đ');
+        }
+    </script>
 }

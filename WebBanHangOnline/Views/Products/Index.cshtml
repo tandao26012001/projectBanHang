@@ -158,17 +158,16 @@
                             <!--Html.Action("Partial_ItemsByCateId", "Products", new { categoryId = 0 })--> <!-- mặc định nếu muốn -->
                             @Html.Action("Partial_ItemsByCateId", "Products")
                         </div>
-                            <div class="col-12">
-                                <div class="pagination d-flex justify-content-center mt-5">
-                                    <a href="#" class="rounded">&laquo;</a>
-                                    <a href="#" class="active rounded">1</a>
-                                    <a href="#" class="rounded">2</a>
-                                    <a href="#" class="rounded">3</a>
-                                    <a href="#" class="rounded">4</a>
-                                    <a href="#" class="rounded">5</a>
-                                    <a href="#" class="rounded">6</a>
-                                    <a href="#" class="rounded">&raquo;</a>
-                                </div>
+                        <div class="col-12">
+                            <div class="pagination d-flex justify-content-center mt-5">
+                                <a href="#" class="rounded">&laquo;</a>
+                                <a href="#" class="active rounded">1</a>
+                                <a href="#" class="rounded">2</a>
+                                <a href="#" class="rounded">3</a>
+                                <a href="#" class="rounded">4</a>
+                                <a href="#" class="rounded">5</a>
+                                <a href="#" class="rounded">6</a>
+                                <a href="#" class="rounded">&raquo;</a>
                             </div>
                         </div>
                     </div>
@@ -176,36 +175,102 @@
             </div>
         </div>
     </div>
+</div>
 <!-- Fruits Shop End-->
 @section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
     <script>
         $(function () {
-            // Tự động gợi ý
+            // Autocomplete cho search box
             $("#searchBox").autocomplete({
                 source: '/Products/GetSuggestions',
                 minLength: 2
             });
 
             // Lọc sản phẩm theo danh mục
-            $(function () {
-                // Click vào danh mục
-                $(document).on('click', '.cate-filter', function () {
-                    var categoryId = $(this).data("id");
-
-                    $.ajax({
-                        url: '/Products/Partial_ItemsByCateId',
-                        type: 'GET',
-                        data: { categoryId: categoryId },
-                        success: function (res) {
-                            $('#product-container').html(res);
-                        },
-                        error: function () {
-                            alert('Không thể tải sản phẩm.');
-                        }
-                    });
-                });
+            $(document).on('click', '.cate-filter', function () {
+                var categoryId = $(this).data("id");
+                loadProducts(categoryId);
             });
+
+            // Xử lý thêm vào giỏ hàng
+            $(document).on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+                addToCart(productId);
+            });
+
+            // Hàm load sản phẩm
+            function loadProducts(categoryId) {
+                $.ajax({
+                    url: '/Products/Partial_ItemsByCateId',
+                    type: 'GET',
+                    data: { categoryId: categoryId },
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
+            }
+
+            // Hàm thêm vào giỏ hàng
+            function addToCart(productId) {
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "ShoppingCart")',
+                    type: 'POST',
+                    data: { id: productId, quantity: 1 },
+                    success: function (response) {
+                        if (response.success) {
+                            // Cập nhật số lượng giỏ hàng
+                            $('#cartCount').text(response.count);
+
+                            // Hiển thị thông báo
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đã thêm sản phẩm vào giỏ hàng',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Không thể thêm sản phẩm vào giỏ hàng'
+                        });
+                    }
+                });
+            }
+
+            // Cập nhật số lượng giỏ hàng
+            //function updateCartCount(count) {
+            //    $('.cart-count').text(count);
+            //}
         });
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Load số lượng giỏ hàng khi trang được tải
+        updateCartCount();
+
+        // Hàm cập nhật số lượng giỏ hàng
+        function updateCartCount() {
+            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
+                $('#cartCount').text(data.Count);
+            }).fail(function() {
+                console.error('Không thể cập nhật số lượng giỏ hàng');
+            });
+        }
+
+        // Gọi hàm này sau khi thêm sản phẩm thành công
+        window.updateCartCount = updateCartCount;
+    });
     </script>
 }
