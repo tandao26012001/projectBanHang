@@ -30,14 +30,19 @@
             });
         }
 
-        // Gọi hàm này sau khi thêm sản phẩm thành công
+        // Gọi hàm này sau khi thêm hoặc xoá sản phẩm
         window.updateCartCount = updateCartCount;
-    });
-    </script>
-    <script>
-        $('#selectAll, #btnSelectAll').on('click', function () {
-            const isChecked = $('#selectAll').prop('checked');
+
+        // Khi click vào checkbox "selectAll"
+        $('#selectAll').on('change', function () {
+            const isChecked = $(this).is(':checked');
             $('.item-select').prop('checked', isChecked);
+        });
+
+        // Khi click vào nút "Chọn tất cả" button (nếu bạn có)
+        $('#btnSelectAll').on('click', function () {
+            const isChecked = !$('#selectAll').is(':checked');
+            $('#selectAll').prop('checked', isChecked).trigger('change');
         });
 
         $('#btnRemoveSelected').click(function () {
@@ -63,8 +68,8 @@
                             $(`.item-select[data-id="${id}"]`).closest('tr').remove();
                         });
 
-                        // Cập nhật tổng tiền lại nếu cần
-                        // Gọi lại API tính tổng, hoặc tính lại thủ công
+                        updateCartCount(); // ✅ GỌI LẠI cập nhật số lượng giỏ hàng
+                        updateCartTotal(); // ✅ Cập nhật lại tổng tiền nếu cần
 
                         alert("Đã xoá các sản phẩm đã chọn.");
                     }
@@ -125,5 +130,6 @@
             });
             $('.cart-total-amount').text(new Intl.NumberFormat('vi-VN').format(total) + ' đ');
         }
+    });
     </script>
 }

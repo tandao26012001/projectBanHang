@@ -7,7 +7,6 @@
 <div class="container-fluid py-5">
     @if (Model != null && Model.Any())
     {
-        var i = 0;
         var tongtien = decimal.Zero;
         <div class="container py-5">
             <div class="table-responsive">
@@ -15,7 +14,6 @@
                     <thead>
                         <tr>
                             <th scope="col"><input type="checkbox" id="selectAll" /></th>
-                            <th scope="col">STT</th>
                             <th scope="col">Ảnh sản phẩm</th>
                             <th scope="col">Tên sản phẩm</th>
                             <th scope="col">Giá sản phẩm</th>
@@ -29,7 +27,6 @@
                             tongtien += item.TotalPrice;
                             <tr>
                                 <td><input type="checkbox" class="item-select" data-id="@item.ProductId" /></td>
-                                <td>@(i + 1)</td>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
                                         <img src="@item.ProductImg" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
@@ -50,7 +47,6 @@
                                     <p class="mb-0 mt-4">@Common.FormatNumber(item.TotalPrice, 2)</p>
                                 </td>
                             </tr>
-                            i++;
                         }
                     </tbody>
                 </table>
@@ -64,7 +60,7 @@
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <div class="fw-bold">Tổng cộng: <span class="cart-total-amount">@Common.FormatNumber(tongtien, 0) đ</span></div>
-                    <button class="btn btn-primary text-uppercase px-4 py-2">Mua hàng</button>
+                    <a href="/thanh-toan" class="btn btn-primary text-uppercase px-4 py-2">Mua hàng</a>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Models
 {
@@ -72,5 +73,6 @@ namespace WebBanHangOnline.Models
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
+        public Product Product { get; set; }
     }
 }
