@@ -20,7 +20,7 @@
     $(document).ready(function() {
         // Load số lượng giỏ hàng khi trang được tải
         updateCartCount();
-
+        updateCheckoutButton();
         // Hàm cập nhật số lượng giỏ hàng
         function updateCartCount() {
             $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
@@ -102,16 +102,27 @@
         });
 
         $('.inputQuantity').on('change', function () {
+            const row = $(this).closest('tr');
             const id = $(this).data('id');
             const qty = parseInt($(this).val());
+            const price = parseInt(row.find('.item-price').data('price')) || 0;
+
             if (qty <= 0 || isNaN(qty)) return;
 
+            // Cập nhật lại tổng tiền của dòng
+            const total = qty * price;
+            row.find('.item-total')
+                .data('total', total)
+                .text(new Intl.NumberFormat('vi-VN').format(total) + ' đ');
+
+            // Cập nhật giỏ hàng vào backend nếu muốn
             $.ajax({
                 url: '/ShoppingCart/UpdateQuantity',
                 type: 'POST',
                 data: { id, quantity: qty },
                 success: function () {
-                    location.reload();
+                    // Cập nhật lại tổng giỏ hàng
+                    updateCartTotal();
                 }
             });
         });
@@ -121,15 +132,23 @@
             $('.item-select').each(function () {
                 const row = $(this).closest('tr');
                 const selected = $(this).is(':checked');
-                const amount = parseInt(row.find('.inputQuantity').val());
-                const priceText = row.find('td:nth-child(5)').text().replace(/[^\d]/g, '');
-                const price = parseInt(priceText);
-                if (!isNaN(price) && !isNaN(amount)) {
-                    total += selected ? price * amount : 0;
+                const totalPerItem = parseInt(row.find('.item-total').data('total')) || 0;
+                if (selected) {
+                    total += totalPerItem;
                 }
             });
+
             $('.cart-total-amount').text(new Intl.NumberFormat('vi-VN').format(total) + ' đ');
         }
     });
+        function updateCheckoutButton() {
+            const anyChecked = $('.item-select:checked').length > 0;
+            $('.btn-checkout').prop('disabled', !anyChecked);
+        }
+        $(document).on('change', '.item-select, #selectAll', function () {
+            updateCartTotal();
+            updateCheckoutButton();
+        });
+
     </script>
 }

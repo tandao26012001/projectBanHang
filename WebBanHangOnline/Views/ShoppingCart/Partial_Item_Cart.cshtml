@@ -36,7 +36,7 @@
                                     <p class="mb-0 mt-4"><a href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></p>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">@Common.FormatNumber(item.Price, 0) đ</p>
+                                    <p class="mb-0 mt-4 item-price" data-price="@item.Price">@Common.FormatNumber(item.Price, 0) đ</p>
                                 </td>
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
@@ -44,7 +44,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">@Common.FormatNumber(item.TotalPrice, 2)</p>
+                                    <p class="mb-0 mt-4 item-total" data-total="@item.TotalPrice">@Common.FormatNumber(item.TotalPrice, 0) đ</p>
                                 </td>
                             </tr>
                         }
@@ -71,7 +71,7 @@
             <div class="alert alert-info" style="text-align:center">
                 Giỏ hàng của bạn hiện đang trống.
             </div>
-            <a href="/san-pham" class="d-flex justify-content-center align-items-center">Mua ngay</a>
+            <a href="/thanh-toan" class="btn btn-primary text-uppercase px-4 py-2 btn-checkout" disabled>Mua hàng</a>
         </div>
     }
 </div>
