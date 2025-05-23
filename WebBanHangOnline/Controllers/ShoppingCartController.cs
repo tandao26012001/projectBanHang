@@ -82,15 +82,12 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult CheckOut()
         {
-            ViewBag.CheckCart = Cart.Items.Any() ? Cart : null;
-            return View();
+            var cart = Cart; // Cart là property đã xử lý sẵn từ Session["Cart"]
+            return View(cart.Items); // ✅ Lấy đúng danh sách sản phẩm từ Cart
         }
 
         [AllowAnonymous]
         public ActionResult CheckOutSuccess() => View();
-
-        [AllowAnonymous]
-        public PartialViewResult Partial_Item_ThanhToan() => PartialView(Cart.Items);
 
         [AllowAnonymous]
         public PartialViewResult Partial_Item_Cart() => PartialView(Cart.Items);
@@ -110,8 +107,11 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderViewModel req)
         {
-            if (!ModelState.IsValid || !Cart.Items.Any())
-                return Json(new { Success = false, Code = -1 });
+            var cartItems = Session["Cart"] as List<ShoppingCartItem>;
+            if (!ModelState.IsValid || cartItems == null || !cartItems.Any())
+            {
+                return Json(new { Success = false, Message = "Giỏ hàng trống hoặc thông tin không hợp lệ" });
+            }
 
             var order = new Order
             {
@@ -137,42 +137,42 @@ namespace WebBanHangOnline.Controllers
             db.Orders.Add(order);
             db.SaveChanges();
 
-            // gửi mail khách + admin
-            var spHtml = string.Join("", Cart.Items.Select(sp => $@"
-                <tr>
-                    <td>{sp.ProductName}</td>
-                    <td>{sp.Quantity}</td>
-                    <td>{WebBanHangOnline.Common.Common.FormatNumber(sp.TotalPrice, 0)}</td>
-                </tr>"));
+            //// gửi mail khách + admin
+            //var spHtml = string.Join("", Cart.Items.Select(sp => $@"
+            //    <tr>
+            //        <td>{sp.ProductName}</td>
+            //        <td>{sp.Quantity}</td>
+            //        <td>{WebBanHangOnline.Common.Common.FormatNumber(sp.TotalPrice, 0)}</td>
+            //    </tr>"));
 
-            var templatePath = Server.MapPath("~/Content/templates/");
-            var ngayDat = DateTime.Now.ToString("dd/MM/yyyy");
-            var total = WebBanHangOnline.Common.Common.FormatNumber(order.TotalAmount, 0);
+            //var templatePath = Server.MapPath("~/Content/templates/");
+            //var ngayDat = DateTime.Now.ToString("dd/MM/yyyy");
+            //var total = WebBanHangOnline.Common.Common.FormatNumber(order.TotalAmount, 0);
 
-            string contentCustomer = System.IO.File.ReadAllText(templatePath + "send2.html");
-            contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code)
-                .Replace("{{SanPham}}", spHtml)
-                .Replace("{{NgayDat}}", ngayDat)
-                .Replace("{{TenKhachHang}}", order.CustomerName)
-                .Replace("{{Phone}}", order.Phone)
-                .Replace("{{Email}}", order.Email)
-                .Replace("{{DiaChiNhanHang}}", order.Address)
-                .Replace("{{ThanhTien}}", total)
-                .Replace("{{TongTien}}", total);
+            //string contentCustomer = System.IO.File.ReadAllText(templatePath + "send2.html");
+            //contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code)
+            //    .Replace("{{SanPham}}", spHtml)
+            //    .Replace("{{NgayDat}}", ngayDat)
+            //    .Replace("{{TenKhachHang}}", order.CustomerName)
+            //    .Replace("{{Phone}}", order.Phone)
+            //    .Replace("{{Email}}", order.Email)
+            //    .Replace("{{DiaChiNhanHang}}", order.Address)
+            //    .Replace("{{ThanhTien}}", total)
+            //    .Replace("{{TongTien}}", total);
 
-            string contentAdmin = System.IO.File.ReadAllText(templatePath + "send1.html")
-                .Replace("{{MaDon}}", order.Code)
-                .Replace("{{SanPham}}", spHtml)
-                .Replace("{{NgayDat}}", ngayDat)
-                .Replace("{{TenKhachHang}}", order.CustomerName)
-                .Replace("{{Phone}}", order.Phone)
-                .Replace("{{Email}}", order.Email)
-                .Replace("{{DiaChiNhanHang}}", order.Address)
-                .Replace("{{ThanhTien}}", total)
-                .Replace("{{TongTien}}", total);
+            //string contentAdmin = System.IO.File.ReadAllText(templatePath + "send1.html")
+            //    .Replace("{{MaDon}}", order.Code)
+            //    .Replace("{{SanPham}}", spHtml)
+            //    .Replace("{{NgayDat}}", ngayDat)
+            //    .Replace("{{TenKhachHang}}", order.CustomerName)
+            //    .Replace("{{Phone}}", order.Phone)
+            //    .Replace("{{Email}}", order.Email)
+            //    .Replace("{{DiaChiNhanHang}}", order.Address)
+            //    .Replace("{{ThanhTien}}", total)
+            //    .Replace("{{TongTien}}", total);
 
-            WebBanHangOnline.Common.Common.SendMail("ShopOnline", $"Đơn hàng #{order.Code}", contentCustomer, req.Email);
-            WebBanHangOnline.Common.Common.SendMail("ShopOnline", $"Đơn hàng mới #{order.Code}", contentAdmin, ConfigurationManager.AppSettings["EmailAdmin"]);
+            //WebBanHangOnline.Common.Common.SendMail("ShopOnline", $"Đơn hàng #{order.Code}", contentCustomer, req.Email);
+            //WebBanHangOnline.Common.Common.SendMail("ShopOnline", $"Đơn hàng mới #{order.Code}", contentAdmin, ConfigurationManager.AppSettings["EmailAdmin"]);
 
             Cart.ClearCart();
             return RedirectToAction("CheckOutSuccess");
@@ -286,34 +286,34 @@ namespace WebBanHangOnline.Controllers
             return Json(new { success = true });
         }
 
-        #region Thanh toán VNPay
-        public string UrlPayment(int type, string orderCode)
-        {
-            var order = db.Orders.FirstOrDefault(x => x.Code == orderCode);
-            if (order == null) return null;
+        //#region Thanh toán VNPay
+        //public string UrlPayment(int type, string orderCode)
+        //{
+        //    var order = db.Orders.FirstOrDefault(x => x.Code == orderCode);
+        //    if (order == null) return null;
 
-            var price = (long)(order.TotalAmount * 100);
-            var vnp = new VnPayLibrary();
+        //    var price = (long)(order.TotalAmount * 100);
+        //    var vnp = new VnPayLibrary();
 
-            vnp.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
-            vnp.AddRequestData("vnp_Command", "pay");
-            vnp.AddRequestData("vnp_TmnCode", ConfigurationManager.AppSettings["vnp_TmnCode"]);
-            vnp.AddRequestData("vnp_Amount", price.ToString());
-            vnp.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
-            vnp.AddRequestData("vnp_CurrCode", "VND");
-            vnp.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
-            vnp.AddRequestData("vnp_Locale", "vn");
-            vnp.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.Code);
-            vnp.AddRequestData("vnp_OrderType", "other");
-            vnp.AddRequestData("vnp_ReturnUrl", ConfigurationManager.AppSettings["vnp_Returnurl"]);
-            vnp.AddRequestData("vnp_TxnRef", order.Code);
+        //    vnp.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+        //    vnp.AddRequestData("vnp_Command", "pay");
+        //    vnp.AddRequestData("vnp_TmnCode", ConfigurationManager.AppSettings["vnp_TmnCode"]);
+        //    vnp.AddRequestData("vnp_Amount", price.ToString());
+        //    vnp.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
+        //    vnp.AddRequestData("vnp_CurrCode", "VND");
+        //    vnp.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
+        //    vnp.AddRequestData("vnp_Locale", "vn");
+        //    vnp.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.Code);
+        //    vnp.AddRequestData("vnp_OrderType", "other");
+        //    vnp.AddRequestData("vnp_ReturnUrl", ConfigurationManager.AppSettings["vnp_Returnurl"]);
+        //    vnp.AddRequestData("vnp_TxnRef", order.Code);
 
-            if (type == 1) vnp.AddRequestData("vnp_BankCode", "VNPAYQR");
-            else if (type == 2) vnp.AddRequestData("vnp_BankCode", "VNBANK");
-            else if (type == 3) vnp.AddRequestData("vnp_BankCode", "INTCARD");
+        //    if (type == 1) vnp.AddRequestData("vnp_BankCode", "VNPAYQR");
+        //    else if (type == 2) vnp.AddRequestData("vnp_BankCode", "VNBANK");
+        //    else if (type == 3) vnp.AddRequestData("vnp_BankCode", "INTCARD");
 
-            return vnp.CreateRequestUrl(ConfigurationManager.AppSettings["vnp_Url"], ConfigurationManager.AppSettings["vnp_HashSecret"]);
-        }
-        #endregion
+        //    return vnp.CreateRequestUrl(ConfigurationManager.AppSettings["vnp_Url"], ConfigurationManager.AppSettings["vnp_HashSecret"]);
+        //}
+        //#endregion
     }
 }

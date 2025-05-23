@@ -59,8 +59,8 @@
                     <button class="btn btn-sm btn-outline-primary" id="btnAddToWishlist">Thêm vào yêu thích</button>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <div class="fw-bold">Tổng cộng: <span class="cart-total-amount">@Common.FormatNumber(tongtien, 0) đ</span></div>
-                    <a href="/thanh-toan" class="btn btn-primary text-uppercase px-4 py-2">Mua hàng</a>
+                    @*<div class="fw-bold">Tổng cộng: <span class="cart-total-amount">@Common.FormatNumber(tongtien, 0) đ</span></div>*@
+                    <a href="/thanh-toan/" class="btn btn-primary text-uppercase px-4 py-2">Mua hàng</a>
                 </div>
             </div>
         </div>
@@ -69,9 +69,8 @@
     {
         <div class="container py-5">
             <div class="alert alert-info" style="text-align:center">
-                Giỏ hàng của bạn hiện đang trống.
+                Giỏ hàng của bạn hiện đang trống.<a href="/san-pham"> Mua hàng ngay</a>
             </div>
-            <a href="/thanh-toan" class="btn btn-primary text-uppercase px-4 py-2 btn-checkout" disabled>Mua hàng</a>
         </div>
     }
 </div>
