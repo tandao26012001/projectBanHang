@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            @*<div class="col-lg-12">
                                 <h4 class="mb-3">Sản phẩm nổi bật</h4>
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div class="rounded me-4" style="width: 100px; height: 100px;">
@@ -150,7 +150,7 @@
                                 <div class="d-flex justify-content-center my-4">
                                     <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -202,7 +202,26 @@
                 var productId = $(this).data('id');
                 addToCart(productId);
             });
+            // Bắt sự kiện click vào nút phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                loadProductsWithPaging(url);
+            });
 
+            // Hàm load sản phẩm kèm phân trang
+            function loadProductsWithPaging(url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
+            }
             // Hàm load sản phẩm
             function loadProducts(categoryId) {
                 $.ajax({

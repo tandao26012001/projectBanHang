@@ -1,38 +1,31 @@
 ﻿
 @{
     ViewBag.Title = "Đặt hàng thành công";
+    string orderCode = ViewBag.OrderCode as string; // Mã đơn được truyền từ controller
 }
 
-
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
-    <div class="row">
-        <div class="col product_section clearfix">
-
-            <!-- Breadcrumbs -->
-
-            <div class="breadcrumbs d-flex flex-row align-items-center">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
-                </ul>
-            </div>
-
-            <!-- Sidebar -->
-            <!-- Main Content -->
-
-            <div class="row">
-                <div class="col-md-12" id="load_data">
-                    <h2>Bạn đã mua hàng thành công,Mã đơn hàng của bạn là: @ViewBag.OrderCode</h2>
-                </div>
-                
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">@ViewBag.Title</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/trang-chu">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="/gio-hang">Giỏ hàng</a></li>
+        <li class="breadcrumb-item active text-white">@ViewBag.Title</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<!-- Checkout success Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <i class="bi bi-check-circle display-1 text-success"></i>
+                <h5>🎉 Cảm ơn bạn đã đặt hàng!</h5>
+                <p class="mb-4">Đơn hàng của bạn đã được ghi nhận thành công. Mã đơn hàng của bạn là: <strong>@orderCode</strong></p>
+                <p class="mb-4">Chúng tôi sẽ liên hệ với bạn sớm để xác nhận đơn hàng.</p>
+                <a class="btn border-secondary rounded-pill py-3 px-5" href="/trang-chu">Trở về trang chủ</a>
             </div>
         </div>
     </div>
 </div>
-
-@section scripts{
-    <script src="~/Content/assets/js/categories_custom.js"></script>
-}
-
+<!-- Checkout success End -->

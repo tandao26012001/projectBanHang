@@ -15,68 +15,86 @@
         <li class="breadcrumb-item active text-white">@ViewBag.Title</li>
     </ol>
 </div>
-@*@using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()*@
 <!-- Single Page Header End -->
+
 @if (Model == null || !Model.Any())
 {
     <div class="container py-5">
-        <div class="alert alert-info" style="text-align:center">
-            Giỏ hàng của bạn hiện đang trống.<a href="/san-pham"> Mua hàng ngay</a>
+        <div class="alert alert-info text-center">
+            Giỏ hàng của bạn hiện đang trống. <a href="/san-pham">Mua hàng ngay</a>
         </div>
     </div>
 }
 else
 {
-    <!-- Checkout Page Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <h1 class="mb-4">Thông tin khách hàng</h1>
-            <form action="#">
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
                 <div class="row g-5">
-                    <div class="col-md-12 col-lg-6 col-xl-5">
+                    <div class="col-md-12 col-lg-6 col-xl-4">
                         <div class="row">
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-item w-100">
                                     <label class="form-label my-3">Họ tên<sup>*</sup></label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="CustomerName" class="form-control" required />
+                                    @Html.ValidationMessage("CustomerName", "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-item w-100">
                                     <label class="form-label my-3">Số điện thoại<sup>*</sup></label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="Phone" class="form-control" required />
+                                    @Html.ValidationMessage("Phone", "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="form-item">
-                            <label class="form-label my-3">Company Name<sup>*</sup></label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-item">
                             <label class="form-label my-3">Địa chỉ<sup>*</sup></label>
-                            <input type="text" class="form-control" placeholder="House Number Street Name">
+                            <input type="text" name="Address" class="form-control" required />
+                            @Html.ValidationMessage("Address", "", new { @class = "text-danger" })
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Email<sup>*</sup></label>
-                            <input type="email" class="form-control">
+                            <input type="email" name="Email" class="form-control" required />
+                            @Html.ValidationMessage("Email", "", new { @class = "text-danger" })
                         </div>
                         <div class="form-item">
-                            <label class="form-label my-3">Ghi chú<sup>*</sup></label>
-                            <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
+                            <label class="form-label my-3">Phương thức thanh toán<sup>*</sup></label>
+                            <select class="form-control" name="TypePayment" required>
+                                <option value="">Chọn phương thức thanh toán</option>
+                                <option value="1">COD</option>
+                                <option value="2">Thanh toán bằng VNPay</option>
+                                <option value="3">Thanh toán tiền mặt</option>
+                            </select>
+                            @Html.ValidationMessage("TypePayment", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Ghi chú</label>
+                            <textarea name="Note" class="form-control" spellcheck="false" rows="6" placeholder="Ghi chú cho đơn hàng (nếu có)"></textarea>
                         </div>
                     </div>
-                    <div class="col-md-12 col-lg-6 col-xl-7">
+
+                    <div class="col-md-12 col-lg-6 col-xl-8">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Products</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total</th>
+                                        <th>Ảnh sản phẩm</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,89 +106,46 @@ else
                                         var total = item.Price * item.Quantity;
                                         subtotal += total;
                                         <tr>
-                                            <th scope="row">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <img src="@item.ProductImg" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="@item.ProductName">
-                                                </div>
-                                            </th>
+                                            <td>
+                                                <img src="@item.ProductImg" alt="@item.ProductName" style="width: 90px; height: 90px;" class="img-fluid rounded-circle" />
+                                            </td>
                                             <td class="py-5">@item.ProductName</td>
-                                            <td class="py-5">@Common.FormatNumber(@item.Price, 0) đ</td>
+                                            <td class="py-5">@Common.FormatNumber(item.Price, 0) đ</td>
                                             <td class="py-5">@item.Quantity</td>
-                                            <td class="py-5">@Common.FormatNumber(@item.TotalPrice, 0) đ</td>
+                                            <td class="py-5">@Common.FormatNumber(total, 0) đ</td>
                                         </tr>
                                     }
-
                                     <tr>
-                                        <th scope="row"></th>
-                                        <td class="py-5"></td>
-                                        <td class="py-5">
-                                            <p class="mb-0 text-dark py-3">Phương thức thanh toán: </p>
-                                        </td>
-                                        <td class="py-5">
-                                            @Html.LabelFor(m => m.TypePayment, "Phương thức thanh toán", new { @class = "mb-0 text-dark py-3" })
-                                            @Html.DropDownListFor(m => m.TypePayment,
-                                                         new SelectList(new[] {
-            new { Value = 1, Text = "Thanh toán khi nhận hàng (COD)" },
-            new { Value = 2, Text = "Thanh toán qua VNPAY" }
-     }, "Value", "Text"),
-                                                         "Chọn phương thức",
-                                                         new { @class = "form-control" })
-                                        </td>
-
-                                        <td class="py-5">
-                                            <p class="mb-0 text-dark py-3">Tạm tính</p>
-                                        </td>
-                                        <td class="py-5">
-                                            <div class="py-3 border-bottom border-top">
-                                                <p class="mb-0 text-dark">@string.Format("{0:N0} đ", subtotal)</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td class="py-5">
-                                            <p class="mb-0 text-dark text-uppercase py-3">TỔNG</p>
-                                        </td>
-                                        <td class="py-5"></td>
-                                        <td class="py-5"></td>
-                                        <td class="py-5">
-                                            <div class="py-3 border-bottom border-top">
-                                                <p class="mb-0 text-dark">@string.Format("{0:N0} đ", subtotal)</p>
-                                            </div>
-                                        </td>
+                                        <td colspan="3"></td>
+                                        <td class="py-5"><strong>TỔNG TIỀN</strong></td>
+                                        <td class="py-5"><strong>@Common.FormatNumber(subtotal, 0) đ</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                            <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
-                        </div>
+                    </div>
+
+                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                        <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
                     </div>
                 </div>
-            </form>
+            }
         </div>
     </div>
-    <!-- Checkout Page End -->
 }
-@*}*@
 
 @section scripts{
     <script>
-    $(document).ready(function() {
-        // Load số lượng giỏ hàng khi trang được tải
-        updateCartCount();
-
-        // Hàm cập nhật số lượng giỏ hàng
-        function updateCartCount() {
-            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
-                $('#cartCount').text(data.Count);
-            }).fail(function() {
-                console.error('Không thể cập nhật số lượng giỏ hàng');
-            });
-        }
-
-        // Gọi hàm này sau khi thêm sản phẩm thành công
-        window.updateCartCount = updateCartCount;
-    });
+        $(document).ready(function () {
+            updateCartCount();
+            function updateCartCount() {
+                $.get('@Url.Action("ShowCount", "ShoppingCart")', function (data) {
+                    $('#cartCount').text(data.Count);
+                }).fail(function () {
+                    console.error('Không thể cập nhật số lượng giỏ hàng');
+                });
+            }
+            window.updateCartCount = updateCartCount;
+        });
     </script>
 }
