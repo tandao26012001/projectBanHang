@@ -1,0 +1,5 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+16:34:54	55866/55866	---MCZ	200	added ('OK')	text/html	date:Fri,%2019%20Sep%202025%2009:34:54%20GMT	https://preview.ldpdemo.com/68cd1bd7d7140a0012ff426e	D:/projectBanHang/preview.ldpdemo.com/68cd1bd7d7140a0012ff426e.html	(from )
+16:34:55	10765/10765	---MCZ	200	added ('OK')	text/html	date:Fri,%2019%20Sep%202025%2009:34:54%20GMT	https://preview.ldpdemo.com/robots.txt		(from )
+16:34:55	386220/386220	---MCZ	200	added ('OK')	text/javascript	date:Thu,%2018%20Sep%202025%2008:35:12%20GMT	https://w.ladicdn.com/v2/source/ladipage.vi.min.js?v=1677725031820	D:/projectBanHang/w.ladicdn.com/v2/source/ladipage.vi.min0483.js	(from https://preview.ldpdemo.com/68cd1bd7d7140a0012ff426e)
+16:34:55	67355/67355	---MCZ	200	added ('OK')	text/css	date:Wed,%2017%20Sep%202025%2010:33:17%20GMT	https://w.ladicdn.com/v2/source/ladipage.min.css?v=1677725031820	D:/projectBanHang/w.ladicdn.com/v2/source/ladipage.min0483.css	(from https://preview.ldpdemo.com/68cd1bd7d7140a0012ff426e)

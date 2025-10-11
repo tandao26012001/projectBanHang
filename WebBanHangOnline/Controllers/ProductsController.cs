@@ -14,7 +14,7 @@ namespace WebBanHangOnline.Controllers
         // GET: Products
         public ActionResult Index(string search, int? page)
         {
-            int pageSize = 6;
+            int pageSize = 9;
             int pageNumber = page ?? 1;
 
             var products = db.Products.AsQueryable();
@@ -80,9 +80,11 @@ namespace WebBanHangOnline.Controllers
             return View(products); // hoặc return PartialView nếu gọi bằng Ajax
         }
         [HttpGet]
-        public ActionResult Partial_ItemsByCateId(int? categoryId, int page = 1)
+        public ActionResult Partial_ItemsByCateId(int? page = 1, int? categoryId = null)
         {
-            int pageSize = 6;
+            int pageSize = 9;
+            int pageNumber = page ?? 1;
+
             var items = db.Products.AsQueryable();
 
             if (categoryId.HasValue && categoryId.Value > 0)
@@ -92,13 +94,10 @@ namespace WebBanHangOnline.Controllers
 
             items = items.OrderByDescending(x => x.CreatedDate);
 
-            var pagedItems = items.ToPagedList(page, pageSize);
+            var pagedItems = items.ToPagedList(pageNumber, pageSize);
 
-            ViewBag.CategoryId = categoryId;
-            return PartialView("Partial_ItemsByCateId", pagedItems);
+            return PartialView("PartialProductList", pagedItems);
         }
-
-
 
         public ActionResult Partial_ProductSales()
         {

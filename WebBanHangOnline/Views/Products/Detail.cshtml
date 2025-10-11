@@ -12,7 +12,7 @@
         <h1 class="text-center text-white display-6">Chi tiết sản phẩm</h1>
         <ol class="breadcrumb justify-content-center mb-0">
             <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-            <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+            <li class="breadcrumb-item"><a href="/san-pham">Sản phẩm</a></li>
             <li class="breadcrumb-item active text-white">@ViewBag.Title</li>
         </ol>
     </div>
@@ -166,7 +166,8 @@
                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                     <h4 class="truncate-2-line">
                                         <a href="/chi-tiet/@item.Alias-p @item.Id" class="text-dark text-decoration-none">@item.Title</a>
-                                    </h4>                                    <p class="truncate-2-line">@item.Description</p>
+                                    </h4>@* <p class="truncate-2-line">@item.Description</p>*@
+                                    <br />
                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                         @if (item.PriceSale > 0)
                                         {
