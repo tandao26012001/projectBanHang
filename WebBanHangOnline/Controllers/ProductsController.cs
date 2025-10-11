@@ -54,7 +54,9 @@ namespace WebBanHangOnline.Controllers
             var relatedProducts = db.Products
                 .Where(x => x.ProductCategoryId == product.ProductCategoryId && x.Id != product.Id && x.IsActive)
                 .OrderByDescending(x => x.CreatedDate)
-                .Take(8)
+                .GroupBy(x => x.Id)
+                .Select(g => g.FirstOrDefault())
+                .Take(9)
                 .ToList();
 
             ViewBag.RelatedProducts = relatedProducts;
