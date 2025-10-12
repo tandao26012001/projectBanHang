@@ -33,7 +33,7 @@
         <div class="col">
             <div id="google_map">
                 <div class="map_container">
-                  
+
                     <div id="map">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118928.564979778!2d105.88983051047838!3d21.33006745265189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31351a7b1b7b2ac1%3A0x7a90cb6a6f9a0bd3!2zSGnhu4dwIEjDsmEsIELhuq9jIEdpYW5nLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1679375815182!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
@@ -62,10 +62,8 @@
                     <p>Sunday: Closed</p>
                 </div>
             </div>-->
-
-            <!-- Follow Us -->
-
-            <!--<div class="follow_us_contents">
+        <!-- Follow Us -->
+        <!--<div class="follow_us_contents">
                 <h1>Follow Us</h1>
                 <ul class="social d-flex flex-row">
                     <li><a href="#" style="background-color: #3a61c9"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
@@ -76,27 +74,159 @@
             </div>
 
         </div>-->
-
         @*<div class="col-lg-6 get_in_touch_col">
-            <div class="get_in_touch_contents">
-                <h1>Get In Touch With Us!</h1>
-                <p>Fill out the form below to recieve a free and confidential.</p>
-                <form action="post">
-                    <div>
-                        <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Name" required="required" data-error="Name is required.">
-                        <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Email" required="required" data-error="Valid email is required.">
-                        <input id="input_website" class="form_input input_website input_ph" type="url" name="name" placeholder="Website" required="required" data-error="Name is required.">
-                        <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Message" rows="3" required data-error="Please, write us a message."></textarea>
-                    </div>
-                    <div>
-                        <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">send message</button>
-                    </div>
-                </form>
-            </div>
-        </div>*@
+                <div class="get_in_touch_contents">
+                    <h1>Get In Touch With Us!</h1>
+                    <p>Fill out the form below to recieve a free and confidential.</p>
+                    <form action="post">
+                        <div>
+                            <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Name" required="required" data-error="Name is required.">
+                            <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Email" required="required" data-error="Valid email is required.">
+                            <input id="input_website" class="form_input input_website input_ph" type="url" name="name" placeholder="Website" required="required" data-error="Name is required.">
+                            <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Message" rows="3" required data-error="Please, write us a message."></textarea>
+                        </div>
+                        <div>
+                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">send message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>*@
 
     </div>
 </div>
-@section scripts{
+
+@section scripts {
     <script src="~/Content/assets/js/contact_custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault();
+            var url = $(this).attr("href");
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    $("#product-container").html(result);
+                },
+                error: function () {
+                    alert("Đã xảy ra lỗi khi tải dữ liệu.");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            // Autocomplete cho search box
+            $("#searchBox").autocomplete({
+                source: '/Products/GetSuggestions',
+                minLength: 2
+            });
+
+            // Lọc sản phẩm theo danh mục
+            $(document).on('click', '.cate-filter', function () {
+                var categoryId = $(this).data("id");
+                loadProducts(categoryId);
+            });
+
+            // Xử lý thêm vào giỏ hàng
+            $(document).on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+                addToCart(productId);
+            });
+            // Bắt sự kiện click vào nút phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                loadProductsWithPaging(url);
+            });
+
+            // Hàm load sản phẩm kèm phân trang
+            function loadProductsWithPaging(url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
+            }
+            // Hàm load sản phẩm
+            function loadProducts(categoryId) {
+                $.ajax({
+                    url: '/Products/Partial_ItemsByCateId',
+                    type: 'GET',
+                    data: { categoryId: categoryId },
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
+            }
+
+            // Hàm thêm vào giỏ hàng
+            function addToCart(productId) {
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "ShoppingCart")',
+                    type: 'POST',
+                    data: { id: productId, quantity: 1 },
+                    success: function (response) {
+                        if (response.success) {
+                            // Cập nhật số lượng giỏ hàng
+                            $('#cartCount').text(response.count);
+
+                            // Hiển thị thông báo
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đã thêm sản phẩm vào giỏ hàng',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Không thể thêm sản phẩm vào giỏ hàng'
+                        });
+                    }
+                });
+            }
+
+            // Cập nhật số lượng giỏ hàng
+            //function updateCartCount(count) {
+            //    $('.cart-count').text(count);
+            //}
+        });
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Load số lượng giỏ hàng khi trang được tải
+        updateCartCount();
+
+        // Hàm cập nhật số lượng giỏ hàng
+        function updateCartCount() {
+            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
+                $('#cartCount').text(data.Count);
+            }).fail(function() {
+                console.error('Không thể cập nhật số lượng giỏ hàng');
+            });
+        }
+
+        // Gọi hàm này sau khi thêm sản phẩm thành công
+        window.updateCartCount = updateCartCount;
+    });
+    </script>
 }
