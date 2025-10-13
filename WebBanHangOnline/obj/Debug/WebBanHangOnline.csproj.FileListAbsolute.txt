@@ -762,7 +762,7 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\X.PagedList.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\X.PagedList.Mvc.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\X.PagedList.Web.Common.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.ValueTuple.dll
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\PagedList.Mvc.xml
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\Antlr3.Runtime.pdb
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\CKFinder.pdb
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Dapper.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.xml
@@ -791,6 +791,7 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.OAuth.
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.Owin.Security.Twitter.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Newtonsoft.Json.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\PagedList.xml
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\PagedList.Mvc.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Buffers.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Diagnostics.DiagnosticSource.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Memory.xml
@@ -800,12 +801,11 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Text.Encodings.Web.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Threading.Tasks.Extensions.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.Helpers.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.Mvc.xml
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.Optimization.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.Razor.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.Deployment.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.WebPages.Razor.xml
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.Web.Optimization.xml
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\Antlr3.Runtime.pdb
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.AssemblyReference.cache
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.CreatedDatabase06012025.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateDatabase0701.resources
