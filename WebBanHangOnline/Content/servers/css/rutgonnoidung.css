@@ -15,3 +15,21 @@
     text-overflow: ellipsis;
     white-space: normal;
 }
+.color-option {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+    border-color: #000;
+}
+
+.color-option.active {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}

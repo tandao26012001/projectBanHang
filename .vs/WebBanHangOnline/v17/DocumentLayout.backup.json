@@ -7,8 +7,12 @@
       "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\products\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|D:\\b\u00E0i t\u1EADp\\projectBanHang\\webbanhangonline\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\b\u00E0i t\u1EADp\\projectbanhang\\webbanhangonline\\views\\shoppingcart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\shoppingcart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\b\u00E0i t\u1EADp\\projectbanhang\\webbanhangonline\\views\\shoppingcart\\partial_item_cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\shoppingcart\\partial_item_cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "RelativeToolTip": "WebBanHangOnline\\Views\\Products\\Index.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAABcAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-13T09:06:18.766Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -41,9 +32,35 @@
               "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Products\\Detail.cshtml",
               "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Products\\Detail.cshtml",
               "RelativeToolTip": "WebBanHangOnline\\Views\\Products\\Detail.cshtml",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGoAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOMAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-13T09:06:15.049Z",
+              "WhenOpened": "2025-10-16T10:16:26.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Partial_Item_Cart.cshtml",
+              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\ShoppingCart\\Partial_Item_Cart.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\ShoppingCart\\Partial_Item_Cart.cshtml",
+              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\ShoppingCart\\Partial_Item_Cart.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\ShoppingCart\\Partial_Item_Cart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T10:06:48.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\ShoppingCart\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\ShoppingCart\\Index.cshtml",
+              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\ShoppingCart\\Index.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\ShoppingCart\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T10:06:47.68Z",
               "EditorCaption": ""
             }
           ]

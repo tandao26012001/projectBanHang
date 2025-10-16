@@ -186,7 +186,7 @@ namespace WebBanHangOnline.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public JsonResult AddToCart(int id, int quantity = 1)
+        public JsonResult AddToCart(int id, int quantity = 1, string size = "M", string color = "Trắng")
         {
             if (quantity <= 0) quantity = 1;
 
@@ -211,6 +211,8 @@ namespace WebBanHangOnline.Controllers
                         ProductName = product.Title,
                         CategoryName = product.ProductCategory?.Title ?? "",
                         Alias = product.Alias,
+                        Size = size,
+                        ColorCode = color,
                         Quantity = quantity,
                         Price = price,
                         ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? "",

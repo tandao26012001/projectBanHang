@@ -200,36 +200,53 @@
                                 </h5>
                             }
                             @*<div class="d-flex mb-4">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>*@
-                            <div class="my-3">
-                                <p class="mb-1 fw-semibold">Chọn size:</p>
-                                <div class="btn-group" role="group" aria-label="Chọn size">
-                                    <input type="radio" class="btn-check" name="size" id="sizeS" autocomplete="off" checked>
-                                    <label class="btn btn-outline-secondary" for="sizeS">S</label>
+            <i class="fa fa-star text-secondary"></i>
+            <i class="fa fa-star text-secondary"></i>
+            <i class="fa fa-star text-secondary"></i>
+            <i class="fa fa-star text-secondary"></i>
+            <i class="fa fa-star"></i>
+        </div>*@
+                            <div class="mb-3">
+                                <label>Chọn Size:</label><br />
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="S">S</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="M">M</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="L">L</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="XL">XL</button>
+                            </div>
 
-                                    <input type="radio" class="btn-check" name="size" id="sizeM" autocomplete="off">
-                                    <label class="btn btn-outline-secondary" for="sizeM">M</label>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Chọn màu:</label>
+                                <div class="d-flex gap-2">
+                                    @if (ViewBag.RelatedColors != null)
+                                    {
+                                        <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias })"
+                                           class="color-option border rounded-circle p-2 @(Model.ColorCode == "Trắng" ? "active" : "")"
+                                           style="background-color:@Model.ColorCode;"
+                                           title="@Model.ColorCode">
+                                        </a>
 
-                                    <input type="radio" class="btn-check" name="size" id="sizeL" autocomplete="off">
-                                    <label class="btn btn-outline-secondary" for="sizeL">L</label>
-
-                                    <input type="radio" class="btn-check" name="size" id="sizeXL" autocomplete="off">
-                                    <label class="btn btn-outline-secondary" for="sizeXL">XL</label>
+                                        @foreach (var colorProduct in ViewBag.RelatedColors)
+                                        {
+                                            <a href="@Url.Action("Detail", "Products", new { alias = colorProduct.Alias })"
+                                               class="color-option border rounded-circle p-2"
+                                               style="background-color:@colorProduct.ColorCode;"
+                                               title="@colorProduct.Color">
+                                            </a>
+                                        }
+                                    }
                                 </div>
                             </div>
+
+
                             <p class="mb-4">@Model.Description</p>
+                            <p class="mb-1 fw-semibold">Số lượng:</p>
                             <div class="input-group quantity mb-5" style="width: 100px;">
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-minus rounded-circle bg-light border">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0" value="1" id="quantityInput">
+                                <input type="text" class="form-control form-control-sm text-center border-0" value="1" id="quantityInput" disabled>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                         <i class="fa fa-plus"></i>
@@ -612,23 +629,9 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <script>
-        $(document).on("click", ".pagination a", function (e) {
-            e.preventDefault();
-            var url = $(this).attr("href");
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
-                    $("#product-container").html(result);
-                },
-                error: function () {
-                    alert("Đã xảy ra lỗi khi tải dữ liệu.");
-                }
-            });
-        });
-    </script>
-    <script>
+        // ================================
+        // Xử lý tìm kiếm, lọc, phân trang
+        // ================================
         $(function () {
             // Autocomplete cho search box
             $("#searchBox").autocomplete({
@@ -642,32 +645,6 @@
                 loadProducts(categoryId);
             });
 
-            // Xử lý thêm vào giỏ hàng
-            $(document).on('click', '.btnAddToCart', function (e) {
-                e.preventDefault();
-                var productId = $(this).data('id');
-                addToCart(productId);
-            });
-            // Bắt sự kiện click vào nút phân trang
-            $(document).on('click', '.pagination a', function (e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                loadProductsWithPaging(url);
-            });
-
-            // Hàm load sản phẩm kèm phân trang
-            function loadProductsWithPaging(url) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (res) {
-                        $('#product-container').html(res);
-                    },
-                    error: function () {
-                        alert('Không thể tải sản phẩm.');
-                    }
-                });
-            }
             // Hàm load sản phẩm
             function loadProducts(categoryId) {
                 $.ajax({
@@ -682,13 +659,56 @@
                     }
                 });
             }
+
+            // Hàm load sản phẩm kèm phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (res) {
+                        $('#product-container').html(res);
+                    },
+                    error: function () {
+                        alert('Không thể tải sản phẩm.');
+                    }
+                });
+            });
         });
+
+
+        // ================================
+        // Xử lý size, màu, số lượng, giỏ hàng
+        // ================================
         $(document).ready(function () {
-            // Nút tăng
+
+            // --- Chọn SIZE ---
+            let selectedSize = null;
+            $(document).on('click', '.size-option', function () {
+                $('.size-option').removeClass('active');
+                $(this).addClass('active');
+                selectedSize = $(this).data('size');
+            });
+
+            // --- Chọn MÀU ---
+            let selectedColor = null;
+            $(document).on('click', '.color-option', function () {
+                $('.color-option').removeClass('active');
+                $(this).addClass('active');
+                selectedColor = $(this).data('color');
+            });
+            //$(document).on("click", ".color-option", function () {
+            //    $(".color-option").removeClass("active");
+            //    $(this).addClass("active");
+            //    let selectedColor = $(this).data("color");
+            //    $("#selectedColor").val(selectedColor);
+            //});
+
+            // --- Nút tăng ---
             $(".btn-plus").click(function () {
                 let input = $("#quantityInput");
                 let current = parseInt(input.val()) || 1;
-
                 if (current < 99) {
                     input.val(current);
                 } else {
@@ -696,11 +716,10 @@
                 }
             });
 
-            // Nút giảm
+            // --- Nút giảm ---
             $(".btn-minus").click(function () {
                 let input = $("#quantityInput");
                 let current = parseInt(input.val()) || 1;
-
                 if (current > 1) {
                     input.val(current);
                 } else {
@@ -708,20 +727,45 @@
                 }
             });
 
-            // Thêm vào giỏ hàng
+            // --- Thêm vào giỏ hàng ---
             $(".btnAddToCart").click(function () {
                 let productId = $(this).data("id");
                 let quantity = parseInt($("#quantityInput").val()) || 1;
 
+                // Kiểm tra chọn size + màu
+                if (!selectedSize) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Vui lòng chọn size!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (!selectedColor) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Vui lòng chọn màu!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
                 $.ajax({
                     url: '/ShoppingCart/AddToCart',
                     type: 'POST',
-                    data: { id: productId, quantity: quantity },
+                    data: {
+                        id: productId,
+                        quantity: quantity,
+                        size: selectedSize,
+                        color: selectedColor
+                    },
                     success: function (res) {
                         if (res.success) {
-                            // Cập nhật số lượng giỏ hàng
                             $('#cartCount').text(res.count);
-                            // Hiển thị thông báo
+                            if (typeof updateCartCount === "function") updateCartCount();
+
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Đã thêm vào giỏ hàng!',
@@ -746,25 +790,19 @@
                     }
                 });
             });
+
+            // --- Cập nhật số lượng giỏ hàng khi load ---
+            updateCartCount();
+
+            function updateCartCount() {
+                $.get('@Url.Action("ShowCount", "ShoppingCart")', function (data) {
+                    $('#cartCount').text(data.Count);
+                }).fail(function () {
+                    console.error('Không thể cập nhật số lượng giỏ hàng');
+                });
+            }
+
+            window.updateCartCount = updateCartCount;
         });
     </script>
-    <script>
-    $(document).ready(function() {
-        // Load số lượng giỏ hàng khi trang được tải
-        updateCartCount();
-
-        // Hàm cập nhật số lượng giỏ hàng
-        function updateCartCount() {
-            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
-                $('#cartCount').text(data.Count);
-            }).fail(function() {
-                console.error('Không thể cập nhật số lượng giỏ hàng');
-            });
-        }
-
-        // Gọi hàm này sau khi thêm sản phẩm thành công
-        window.updateCartCount = updateCartCount;
-    });
-    </script>
-
 }

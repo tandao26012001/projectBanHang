@@ -60,5 +60,7 @@ namespace WebBanHangOnline.Models.EF
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ReviewProduct> Reviews { get; set; }
         public virtual ICollection<Wishlist> Wishlists { get; set; }
+        public Guid? GroupId { get; set; }
+
     }
 }

@@ -50,12 +50,17 @@ namespace WebBanHangOnline.Controllers
                 return HttpNotFound();
             }
 
-            // Lấy sản phẩm cùng loại (khác Id hiện tại)
+            // Lấy các sản phẩm khác màu (cùng GroupId)
+            var relatedColors = db.Products
+                .Where(x => x.GroupId == product.GroupId && x.Id != product.Id)
+                .ToList();
+
+            ViewBag.RelatedColors = relatedColors;
+
+            // Lấy sản phẩm cùng loại (cho phần “sản phẩm liên quan”)
             var relatedProducts = db.Products
                 .Where(x => x.ProductCategoryId == product.ProductCategoryId && x.Id != product.Id && x.IsActive)
                 .OrderByDescending(x => x.CreatedDate)
-                .GroupBy(x => x.Id)
-                .Select(g => g.FirstOrDefault())
                 .Take(9)
                 .ToList();
 
@@ -63,6 +68,7 @@ namespace WebBanHangOnline.Controllers
 
             return View(product);
         }
+
         public ActionResult ProductCategory(string alias, int id)
         {
             var category = db.ProductCategories.FirstOrDefault(x => x.Id == id);

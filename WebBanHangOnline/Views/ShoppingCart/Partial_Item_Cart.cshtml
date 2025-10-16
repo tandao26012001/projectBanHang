@@ -34,10 +34,11 @@
                                 </th>
                                 <td>
                                     <p class="mb-0 mt-4"><a href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></p>
-                                </td>
-                                <td>
                                     <p class="mb-0 mt-4 item-price" data-price="@item.Price">@Common.FormatNumber(item.Price, 0) đ</p>
-                                </td>
+                                    <p class="mb-0 mt-4">Size: @item.Size</p>
+                                    <p class="mb-0 mt-4">Color: @item.ColorCode</p>
+
+                                </td>   
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <input type="number" class="form-control form-control-sm text-center border-0 inputQuantity" data-id="@item.ProductId" value="@item.Quantity" min="1">
