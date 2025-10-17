@@ -30,6 +30,7 @@
 }
 
 .color-option.active {
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    box-shadow: 0 0 0 3px #00000044;
+    transform: scale(1.1);
+    transition: 0.2s;
 }

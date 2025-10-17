@@ -196,14 +196,22 @@ namespace WebBanHangOnline.Controllers
                 if (product == null)
                     return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
 
-                var existing = Cart.Items.FirstOrDefault(x => x.ProductId == id);
+                // ✅ Kiểm tra item trùng: id + size + color
+                var existing = Cart.Items.FirstOrDefault(x =>
+                    x.ProductId == id &&
+                    x.Size == size &&
+                    x.Color == color
+                );
+
                 if (existing != null)
                 {
+                    // Nếu đã có sản phẩm trùng (cùng size + color) thì cộng dồn số lượng
                     existing.Quantity += quantity;
                     existing.TotalPrice = existing.Quantity * existing.Price;
                 }
                 else
                 {
+                    // Nếu là sản phẩm mới hoàn toàn (khác màu hoặc size)
                     var price = product.PriceSale > 0 ? (decimal)product.PriceSale : product.Price;
                     Cart.Items.Add(new ShoppingCartItem
                     {
@@ -212,16 +220,16 @@ namespace WebBanHangOnline.Controllers
                         CategoryName = product.ProductCategory?.Title ?? "",
                         Alias = product.Alias,
                         Size = size,
-                        ColorCode = color,
+                        Color = color,
                         Quantity = quantity,
                         Price = price,
-                        ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? "",
+                        ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? product.Image,
                         TotalPrice = price * quantity
                     });
                 }
 
                 int count = Cart.Items.Sum(x => x.Quantity);
-                return Json(new { success = true, message = "Đã thêm sản phẩm!", count });
+                return Json(new { success = true, message = "Đã thêm sản phẩm vào giỏ hàng!", count });
             }
             catch (Exception ex)
             {

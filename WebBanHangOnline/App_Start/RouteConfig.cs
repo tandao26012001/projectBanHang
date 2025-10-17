@@ -49,12 +49,27 @@ namespace WebBanHangOnline
             defaults: new { controller = "Article", action = "Index", alias = UrlParameter.Optional },
             namespaces: new[] { "WebBanHangOnline.Controllers" }
         );
+            //  routes.MapRoute(
+            //    name: "detailProduct",
+            //    url: "chi-tiet/{alias}-p{id}",
+            //    defaults: new { controller = "Products", action = "Detail", alias = UrlParameter.Optional },
+            //    namespaces: new[] { "WebBanHangOnline.Controllers" }
+            //);
             routes.MapRoute(
-              name: "detailProduct",
-              url: "chi-tiet/{alias}-p{id}",
-              defaults: new { controller = "Products", action = "Detail", alias = UrlParameter.Optional },
-              namespaces: new[] { "WebBanHangOnline.Controllers" }
-          );
+                name: "detailProduct",
+                url: "chi-tiet/{alias}-{color}-p{id}",
+                defaults: new
+                {
+                    controller = "Products",
+                    action = "Detail",
+                    alias = UrlParameter.Optional,
+                    id = UrlParameter.Optional,
+                    color = UrlParameter.Optional
+                },
+                namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+
+
             routes.MapRoute(
                name: "Products",
                url: "san-pham",

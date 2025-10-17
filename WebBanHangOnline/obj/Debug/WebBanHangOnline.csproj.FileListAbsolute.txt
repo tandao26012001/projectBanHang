@@ -710,11 +710,11 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\vbc.exe.config
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\vbc.rsp
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\VBCSCompiler.exe
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.SqlServer.dll
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Antlr3.Runtime.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\CKFinder.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Dapper.dll
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.dll
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.SqlServer.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.Core.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -765,8 +765,6 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\System.ValueTuple.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Antlr3.Runtime.pdb
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\CKFinder.pdb
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Dapper.xml
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.xml
-D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.SqlServer.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.Core.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Microsoft.AspNet.Identity.Owin.xml
@@ -818,6 +816,8 @@ D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrati
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateNews1504.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateCategory1504.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.AddImageToUser.resources
+D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateDatabase17102025.resources
+D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.FixColor.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.GenerateResource.cache
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.CoreCompileInputs.cache
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHa.7E290493.Up2Date
