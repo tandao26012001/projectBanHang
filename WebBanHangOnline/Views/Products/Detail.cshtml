@@ -5,24 +5,197 @@
 }
 <link href="~/Content/servers/css/rutgonnoidung.css" rel="stylesheet" />
 
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Shop Detail</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Shop Detail</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<!-- Single Product Start -->
 @if (Model != null)
 {
-    <!-- Single Page Header start -->
-    <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6">Chi tiết sản phẩm</h1>
-        <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-            <li class="breadcrumb-item"><a href="/san-pham">Sản phẩm</a></li>
-            <li class="breadcrumb-item active text-white">@ViewBag.Title</li>
-        </ol>
-    </div>
-    <!-- Single Page Header End -->
-
-
+    var strImge = Model.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? "";
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
         <div class="container py-5">
-            <h1 class="fw-bold mb-0 mt-5">Sản phẩm cùng loại</h1>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-8 col-xl-9">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="border rounded">
+                                <img src="@strImge" class="img-fluid w-100 rounded-top" alt="@Model.Title" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h4 class="fw-bold mb-3">@Model.Title</h4>
+                            <p class="mb-3">Mã sản phẩm: @Model.ProductCode</p>
+                            <p class="mb-3">Danh mục sản phẩm: @Model.ProductCategory.Title</p>
+                            @if (@Model.PriceSale > 0)
+                            {
+                                <h5 class="mb-3">
+                                    <span class="mb-3 text-decoration-line-through">
+                                        @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) VND
+                                    </span>&ensp;
+                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.PriceSale, 0) VND
+                                </h5>
+                            }
+                            else
+                            {
+                                <h5 class="mb-3">
+                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) VND
+                                </h5>
+                            }
+                            <div class="mb-3">
+                                <label>Chọn Size:</label><br />
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="S">S</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="M">M</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="L">L</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="XL">XL</button>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Chọn màu:</label>
+                                <div class="d-flex gap-2">
+                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id })"
+                                       class="color-option border rounded-circle p-2 @(Model.Color == "Trắng" ? "active" : "")"
+                                       style="background-color:#ffffff;"
+                                       data-color="Trắng"
+                                       title="Trắng">
+                                    </a>
+
+                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "xam" })"
+                                       class="color-option border rounded-circle p-2 @(Model.Color == "Xám" ? "active" : "")"
+                                       style="background-color:#808080;"
+                                       data-color="Xám"
+                                       title="Xám">
+                                    </a>
+
+                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "den" })"
+                                       class="color-option border rounded-circle p-2 @(Model.Color == "Đen" ? "active" : "")"
+                                       style="background-color:#000000;"
+                                       data-color="Đen"
+                                       title="Đen">
+                                    </a>
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedColor" value="@Model.Color" />
+
+                            <p class="mb-1 fw-semibold">Số lượng:</p>
+                            <div class="input-group quantity mb-5" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control form-control-sm text-center border-0" value="1" id="quantityInput" disabled>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="action-buttons d-flex flex-column gap-2">
+                                <!-- Nút toggle thông tin -->
+                                <a href="javascript:;" id="toggleInfoBtn"
+                                   class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary"
+                                   data-id="@Model.Id" title="Thông tin sản phẩm">
+                                    <i class="fa fa-eye me-1 text-primary"></i>Thông tin sản phẩm
+                                </a>
+
+                                <!-- Khu vực hiển thị nội dung sản phẩm (ẩn mặc định) -->
+                                <div id="productInfo" class="border rounded p-3 bg-light" style="display: none;">
+                                    <p>@Html.Raw(Model.Detail)</p>
+                                </div>
+
+                                <!-- Nút viết đánh giá -->
+                                <a href="javascript:;" id="toggleReviewBtn"
+                                   class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary"
+                                   data-id="@Model.Id" title="Viết đánh giá">
+                                    <i class="fa fa-pen me-1 text-primary"></i>Viết đánh giá
+                                </a>
+
+                                <!-- Form viết đánh giá (ẩn mặc định) -->
+                                <div id="reviewForm" class="border rounded p-4 bg-light" style="display: none;">
+                                    @Html.Action("_Review", "Review", new { productId = Model.Id })
+                                </div>
+                            </div>
+                            <div class="action-buttons d-flex gap-2">
+                                <a href="javascript:;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btnAddToCart" data-id="@Model.Id" title="Thêm vào giỏ hàng">
+                                    <i class="fa fa-shopping-bag me-1 text-primary"></i>Thêm vào giỏ hàng
+                                </a>
+                                <a href="javascript:;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btnAddToWishlist" data-id="@Model.Id" title="Thêm vào yêu thích">
+                                    <i class="fa fa-heart me-1 text-primary"></i>Thêm vào yêu thích
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <nav>
+                                <div class="nav nav-tabs mb-3">
+                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                            aria-controls="nav-about" aria-selected="true">
+                                        Hình ảnh sản phẩm thực tế
+                                    </button>
+                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                            aria-controls="nav-mission" aria-selected="false">
+                                        Đánh giá từ khách hàng
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="tab-content mb-5">
+                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+
+                                </div>
+                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                    @Html.Action("_Load_Review", "Review", new { productId = Model.Id })
+                                </div>
+                                <div class="tab-pane" id="nav-vision" role="tabpanel">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-3">
+                    <div class="row g-4 fruite">
+                        <div class="col-lg-12">
+                            <h4 class="mb-4 fw-bold">Cùng Gu Của Bạn</h4>
+                            <div class="d-flex align-items-center justify-content-start">
+                                <div class="rounded" style="width: 100px; height: 100px;">
+                                    <img src="img/featur-1.jpg" class="img-fluid rounded" alt="Image">
+                                </div>
+                                <div>
+                                    <h6 class="mb-2">Big Banana</h6>
+                                    <div class="d-flex mb-2">
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="d-flex mb-2">
+                                        <h5 class="fw-bold me-2">2.99 $</h5>
+                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="position-relative">
+                                <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
+                                <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
+                                    <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="fw-bold mb-0">Related products</h1>
             <div class="vesitable">
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     @if (ViewBag.RelatedProducts != null)
@@ -72,472 +245,13 @@
                             </div>
                         }
                     }
-                </div>
-            </div>
-        </div>
-    </div>
-}
 
-@if (Model != null)
-{
-    <!-- Single Product Start -->
-    <div class="container-fluid py-5 mt-5">
-        <div class="container py-5">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-8 col-xl-9">
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="border rounded">
-                                <a href="#">
-                                    <img src="img/single-item.jpg" class="img-fluid rounded" alt="Image">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h4 class="fw-bold mb-3">@Model.Title</h4>
-                            <p class="mb-3">Mã sản phẩm: @Model.ProductCode</p>
-                            <p class="mb-3">Danh mục sản phẩm: @Model.ProductCategory.Title</p>
-                            @if (@Model.PriceSale > 0)
-                            {
-                                <h5 class="fw-bold mb-3">
-                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.PriceSale, 0) đ
-                                    <span class="fw-bold mb-3 text-decoration-line-through">
-                                        @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) đ
-                                    </span>
-                                </h5>
-                            }
-                            else
-                            {
-                                <h5 class="fw-bold mb-3">
-                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) đ
-                                </h5>
-                            }
-                            @*<div class="d-flex mb-4">
-            <i class="fa fa-star text-secondary"></i>
-            <i class="fa fa-star text-secondary"></i>
-            <i class="fa fa-star text-secondary"></i>
-            <i class="fa fa-star text-secondary"></i>
-            <i class="fa fa-star"></i>
-        </div>*@
-                            <div class="mb-3">
-                                <label>Chọn Size:</label><br />
-                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="S">S</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="M">M</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="L">L</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="XL">XL</button>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Chọn màu:</label>
-                                <div class="d-flex gap-2">
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Trắng" ? "active" : "")"
-                                       style="background-color:#ffffff;"
-                                       data-color="Trắng"
-                                       title="Trắng">
-                                    </a>
-
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "xam" })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Xám" ? "active" : "")"
-                                       style="background-color:#808080;"
-                                       data-color="Xám"
-                                       title="Xám">
-                                    </a>
-
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "den" })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Đen" ? "active" : "")"
-                                       style="background-color:#000000;"
-                                       data-color="Đen"
-                                       title="Đen">
-                                    </a>
-                                </div>
-                            </div>
-                            <input type="hidden" id="selectedColor" value="@Model.Color" />
-
-                            <p class="mb-4">@Model.Description</p>
-                            <p class="mb-1 fw-semibold">Số lượng:</p>
-                            <div class="input-group quantity mb-5" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0" value="1" id="quantityInput" disabled>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="action-buttons d-flex gap-2">
-                                <a href="javascript:;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btnAddToCart" data-id="@Model.Id" title="Thêm vào giỏ hàng">
-                                    <i class="fa fa-shopping-bag me-1 text-primary"></i>Thêm vào giỏ hàng
-                                </a>
-                                <a href="javascript:;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btnAddToWishlist" data-id="@Model.Id" title="Thêm vào yêu thích">
-                                    <i class="fa fa-heart me-1 text-primary"></i>Thêm vào yêu thích
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <nav>
-                                <div class="nav nav-tabs mb-3">
-                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                            aria-controls="nav-about" aria-selected="true">
-                                        Thông tin sản phẩm
-                                    </button>
-                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                            aria-controls="nav-mission" aria-selected="false">
-                                        Đánh giá
-                                    </button>
-                                </div>
-                            </nav>
-                            <div class="tab-content mb-5">
-                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                    @Html.Raw(Model.Detail)
-                                </div>
-                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                    @Html.Action("_Load_Review", "Review", new { productId = Model.Id })
-                                </div>
-                                <div class="tab-pane" id="nav-vision" role="tabpanel">
-                                </div>
-                            </div>
-                        </div>
-                        <form action="#">
-                            <h4 class="mb-5 fw-bold">Leave a Reply</h4>
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="border-bottom rounded">
-                                        <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="border-bottom rounded">
-                                        <input type="email" class="form-control border-0" placeholder="Your Email *">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="border-bottom rounded my-4">
-                                        <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="d-flex justify-content-between py-3 mb-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="mb-0 me-3">Please rate:</p>
-                                            <div class="d-flex align-items-center" style="font-size: 12px;">
-                                                <i class="fa fa-star text-muted"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xl-3">
-                    <div class="row g-4 fruite">
-                        <div class="col-lg-12">
-                            <div class="input-group w-100 mx-auto d-flex mb-4">
-                                <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                            </div>
-                            <div class="mb-4">
-                                <h4>Categories</h4>
-                                <ul class="list-unstyled fruite-categorie">
-                                    <li>
-                                        <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                            <span>(3)</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                            <span>(5)</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                            <span>(2)</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                            <span>(8)</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                            <span>(5)</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <h4 class="mb-4">Featured products</h4>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded" style="width: 100px; height: 100px;">
-                                    <img src="img/featur-1.jpg" class="img-fluid rounded" alt="Image">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded" style="width: 100px; height: 100px;">
-                                    <img src="img/featur-2.jpg" class="img-fluid rounded" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded" style="width: 100px; height: 100px;">
-                                    <img src="img/featur-3.jpg" class="img-fluid rounded" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                    <img src="img/vegetable-item-4.jpg" class="img-fluid rounded" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                    <img src="img/vegetable-item-5.jpg" class="img-fluid rounded" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                    <img src="img/vegetable-item-6.jpg" class="img-fluid rounded" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="mb-2">Big Banana</h6>
-                                    <div class="d-flex mb-2">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <h5 class="fw-bold me-2">2.99 $</h5>
-                                        <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center my-4">
-                                <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="position-relative">
-                                <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
-                                <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                    <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h1 class="fw-bold mb-0">Related products</h1>
-            <div class="vesitable">
-                <div class="owl-carousel vegetable-carousel justify-content-center">
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Parsely</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-1.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Parsely</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-3.png" class="img-fluid w-100 rounded-top bg-light" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Banana</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-4.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Bell Papper</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Potatoes</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Parsely</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Potatoes</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
-                            <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                        </div>
-                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                        <div class="p-4 pb-0 rounded-bottom">
-                            <h4>Parsely</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Single Product End -->
 }
-
-
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -621,12 +335,6 @@
                 let link = $(this).attr('href');
                 window.location.href = link;
             });
-            //$(document).on("click", ".color-option", function () {
-            //    $(".color-option").removeClass("active");
-            //    $(this).addClass("active");
-            //    let selectedColor = $(this).data("color");
-            //    $("#selectedColor").val(selectedColor);
-            //});
 
             // --- Nút tăng ---
             $(".btn-plus").click(function () {
@@ -649,71 +357,6 @@
                     input.val(1);
                 }
             });
-
-            // --- Thêm vào giỏ hàng ---
-            //$(".btnAddToCart").click(function () {
-            //    let productId = $(this).data("id");
-            //    let quantity = parseInt($("#quantityInput").val()) || 1;
-
-            //    // Kiểm tra chọn size + màu
-            //    if (!selectedSize) {
-            //        Swal.fire({
-            //            icon: 'warning',
-            //            title: 'Vui lòng chọn size!',
-            //            timer: 1500,
-            //            showConfirmButton: false
-            //        });
-            //        return;
-            //    }
-            //    //if (!selectedColor) {
-            //    //    Swal.fire({
-            //    //        icon: 'warning',
-            //    //        title: 'Vui lòng chọn màu!',
-            //    //        timer: 1500,
-            //    //        showConfirmButton: false
-            //    //    });
-            //    //    return;
-            //    //}
-
-            //    $.ajax({
-            //        url: '/ShoppingCart/AddToCart',
-            //        type: 'POST',
-            //        data: {
-            //            id: productId,
-            //            quantity: quantity,
-            //            size: selectedSize,
-            //            color: selectedColor
-            //        },
-            //        success: function (res) {
-            //            if (res.success) {
-            //                $('#cartCount').text(res.count);
-            //                if (typeof updateCartCount === "function") updateCartCount();
-
-            //                Swal.fire({
-            //                    icon: 'success',
-            //                    title: 'Đã thêm vào giỏ hàng!',
-            //                    text: 'Sản phẩm đã được thêm vào trong giỏ hàng.',
-            //                    timer: 1500,
-            //                    showConfirmButton: false
-            //                });
-            //            } else {
-            //                Swal.fire({
-            //                    icon: 'error',
-            //                    title: 'Lỗi!',
-            //                    text: res.message || 'Không thể thêm sản phẩm vào giỏ hàng.',
-            //                });
-            //            }
-            //        },
-            //        error: function () {
-            //            Swal.fire({
-            //                icon: 'error',
-            //                title: 'Lỗi hệ thống!',
-            //                text: 'Vui lòng thử lại sau.',
-            //            });
-            //        }
-            //    });
-            //});
-        //});
             // --- Thêm vào giỏ hàng ---
             $(".btnAddToCart").click(function () {
                 let productId = $(this).data("id");
@@ -778,6 +421,33 @@
             }
 
             window.updateCartCount = updateCartCount;
+        });
+
+        $(document).ready(function () {
+            // ==== Toggle Thông tin sản phẩm ====
+            $("#toggleInfoBtn").click(function () {
+                $("#productInfo").slideToggle(300);
+                $(this).toggleClass("active");
+
+                if ($(this).hasClass("active")) {
+                    $(this).html('<i class="fa fa-chevron-up me-1 text-primary"></i>Ẩn thông tin sản phẩm');
+                } else {
+                    $(this).html('<i class="fa fa-eye me-1 text-primary"></i>Thông tin sản phẩm');
+                }
+            });
+
+            // ==== Toggle Viết đánh giá ====
+            $("#toggleReviewBtn").click(function () {
+                $("#reviewForm").slideToggle(300);
+                $(this).toggleClass("active");
+
+                if ($(this).hasClass("active")) {
+                    $(this).html('<i class="fa fa-chevron-up me-1 text-primary"></i>Ẩn form đánh giá');
+                } else {
+                    $(this).html('<i class="fa fa-pen me-1 text-primary"></i>Viết đánh giá');
+                }
+            });
+
         });
     </script>
 }
