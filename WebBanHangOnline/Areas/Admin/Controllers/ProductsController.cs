@@ -66,12 +66,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Add()
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
+            // Danh sách màu cố định
+            ViewBag.Colors = db.Colors.ToList(); // Lấy danh sách màu
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Product model, List<string> Images, List<int> rDefault)
+        public ActionResult Add(Product model, List<string> Images, List<int> rDefault, List<int> SelectedColors)
         {
             if (ModelState.IsValid)
             {
@@ -100,6 +102,18 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                         }
                     }
                 }
+                //  Gán màu cho sản phẩm
+                if (SelectedColors != null && SelectedColors.Count > 0)
+                {
+                    model.ProductColors = new List<ProductColor>();
+                    foreach (var colorId in SelectedColors)
+                    {
+                        model.ProductColors.Add(new ProductColor
+                        {
+                            ColorId = colorId
+                        });
+                    }
+                }
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 if (string.IsNullOrEmpty(model.SeoTitle))
@@ -113,6 +127,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
+            ViewBag.Colors = db.Colors.ToList();
             return View(model);
         }
 
@@ -121,12 +136,21 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
 
-            var item = db.Products.Find(id);
+            var item = db.Products
+                .Include("ProductColors") // để load danh sách màu sản phẩm
+                .FirstOrDefault(x => x.Id == id);
+
+            if (item == null) return HttpNotFound();
+
             var images = db.ProductImages.Where(x => x.ProductId == id).ToList();
             ViewBag.ProductImages = images;
 
+            ViewBag.Colors = db.Colors.ToList(); // ✅ tất cả màu
+            ViewBag.SelectedColorIds = item.ProductColors.Select(pc => pc.ColorId).ToList(); // ✅ màu đã chọn
+
             return View(item);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -169,12 +193,30 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     }
                     db.SaveChanges();
                 }
+                // Cập nhật danh sách màu
+                var selectedColors = form.GetValues("SelectedColors");
+                var oldColors = db.ProductColors.Where(x => x.ProductId == model.Id);
+                db.ProductColors.RemoveRange(oldColors);
+                db.SaveChanges();
 
+                if (selectedColors != null)
+                {
+                    foreach (var colorId in selectedColors)
+                    {
+                        db.ProductColors.Add(new ProductColor
+                        {
+                            ProductId = model.Id,
+                            ColorId = int.Parse(colorId)
+                        });
+                    }
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
             ViewBag.ProductImages = db.ProductImages.Where(x => x.ProductId == model.Id).ToList();
+            ViewBag.Colors = db.Colors.ToList();
             return View(model);
         }
 

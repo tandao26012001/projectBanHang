@@ -186,7 +186,7 @@ namespace WebBanHangOnline.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public JsonResult AddToCart(int id, int quantity = 1, string size = "M", string color = "Trắng")
+        public JsonResult AddToCart(int id, int quantity = 1, string size = "", int colorId = 0)
         {
             if (quantity <= 0) quantity = 1;
 
@@ -196,11 +196,16 @@ namespace WebBanHangOnline.Controllers
                 if (product == null)
                     return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
 
-                // ✅ Kiểm tra item trùng: id + size + color
+                // Tìm ColorId theo alias (nếu có)
+                var colorEntity = db.Colors.FirstOrDefault(c => c.Id == colorId);
+                string colorName = colorEntity != null ? colorEntity.Name : "Không xác định";
+                string colorHex = colorEntity != null ? colorEntity.HexColor : "#FFFFFF";
+
+                //  Kiểm tra item trùng: id + size + color
                 var existing = Cart.Items.FirstOrDefault(x =>
                     x.ProductId == id &&
                     x.Size == size &&
-                    x.Color == color
+                    x.ColorId == colorId
                 );
 
                 if (existing != null)
@@ -220,7 +225,9 @@ namespace WebBanHangOnline.Controllers
                         CategoryName = product.ProductCategory?.Title ?? "",
                         Alias = product.Alias,
                         Size = size,
-                        Color = color,
+                        ColorId = colorId,       // lưu ID màu
+                        ColorName = colorName,   // tên hiển thị
+                        ColorHex = colorHex,     // mã HEX
                         Quantity = quantity,
                         Price = price,
                         ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? product.Image,

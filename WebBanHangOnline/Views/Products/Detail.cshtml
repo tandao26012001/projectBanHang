@@ -25,30 +25,36 @@
             <div class="row g-4 mb-5">
                 <div class="col-lg-8 col-xl-9">
                     <div class="row g-4">
+                        <!-- ẢNH SẢN PHẨM -->
                         <div class="col-lg-6">
                             <div class="border rounded">
                                 <img src="@strImge" class="img-fluid w-100 rounded-top" alt="@Model.Title" loading="lazy">
                             </div>
                         </div>
+
+                        <!-- THÔNG TIN SẢN PHẨM -->
                         <div class="col-lg-6">
                             <h4 class="fw-bold mb-3">@Model.Title</h4>
                             <p class="mb-3">Mã sản phẩm: @Model.ProductCode</p>
                             <p class="mb-3">Danh mục sản phẩm: @Model.ProductCategory.Title</p>
-                            @if (@Model.PriceSale > 0)
+
+                            @if ((Model?.PriceSale ?? 0) > 0)
                             {
                                 <h5 class="mb-3">
                                     <span class="mb-3 text-decoration-line-through">
-                                        @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) VND
+                                        @WebBanHangOnline.Common.Common.FormatNumber(Model?.Price ?? 0, 0) VND
                                     </span>&ensp;
-                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.PriceSale, 0) VND
+                                    @WebBanHangOnline.Common.Common.FormatNumber(Model?.PriceSale ?? 0, 0) VND
                                 </h5>
                             }
                             else
                             {
                                 <h5 class="mb-3">
-                                    @WebBanHangOnline.Common.Common.FormatNumber(Model.Price, 0) VND
+                                    @WebBanHangOnline.Common.Common.FormatNumber(Model?.Price ?? 0, 0) VND
                                 </h5>
                             }
+
+                            <!-- SIZE -->
                             <div class="mb-3">
                                 <label>Chọn Size:</label><br />
                                 <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="S">S</button>
@@ -57,33 +63,36 @@
                                 <button type="button" class="btn btn-outline-secondary btn-sm size-option" data-size="XL">XL</button>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Chọn màu:</label>
-                                <div class="d-flex gap-2">
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Trắng" ? "active" : "")"
-                                       style="background-color:#ffffff;"
-                                       data-color="Trắng"
-                                       title="Trắng">
-                                    </a>
+                            <!-- Chọn MÀU -->
+                            @if (Model.ProductColors != null && Model.ProductColors.Any())
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Chọn màu:</label>
+                                    <!-- ✅ Hidden input để lưu màu hiện tại -->
+                                    <input type="hidden" id="selectedColorId" value="@ViewBag.SelectedColorId" />
+                                    <input type="hidden" id="selectedColorName" value="" />
+                                    <div class="d-flex gap-2">
+                                        @foreach (var pc in Model.ProductColors)
+                                        {
+                                            var colorName = pc.Color?.Name ?? "";
+                                            var colorAlias = WebBanHangOnline.Models.Common.Filter.FilterChar(colorName);
+                                            var isActive = (ViewBag.SelectedColor as string)?.ToLower() == colorAlias.ToLower();
 
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "xam" })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Xám" ? "active" : "")"
-                                       style="background-color:#808080;"
-                                       data-color="Xám"
-                                       title="Xám">
-                                    </a>
+                                            <a href="@Url.RouteUrl("detailProduct", new { alias = Model.Alias, color = colorAlias, id = Model.Id, colorId = pc.ColorId })"
+                                               class="color-option border rounded-circle p-2 @(isActive ? "active shadow-lg border-primary" : "")"
+                                               data-colorid="@pc.ColorId"
+                                               data-color="@colorName"
+                                               data-coloralias="@colorAlias"
+                                               style="background-color:@pc.Color.HexColor; width:30px; height:30px; display:inline-block;"
+                                               title="@colorName">
+                                            </a>
+                                        }
 
-                                    <a href="@Url.Action("Detail", "Products", new { alias = Model.Alias, id = Model.Id, color = "den" })"
-                                       class="color-option border rounded-circle p-2 @(Model.Color == "Đen" ? "active" : "")"
-                                       style="background-color:#000000;"
-                                       data-color="Đen"
-                                       title="Đen">
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <input type="hidden" id="selectedColor" value="@Model.Color" />
+                            }
 
+                            <!-- SỐ LƯỢNG -->
                             <p class="mb-1 fw-semibold">Số lượng:</p>
                             <div class="input-group quantity mb-5" style="width: 100px;">
                                 <div class="input-group-btn">
@@ -98,31 +107,27 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- CÁC NÚT TÁC VỤ -->
                             <div class="action-buttons d-flex flex-column gap-2">
-                                <!-- Nút toggle thông tin -->
-                                <a href="javascript:;" id="toggleInfoBtn"
-                                   class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary"
-                                   data-id="@Model.Id" title="Thông tin sản phẩm">
+                                <!-- Toggle thông tin -->
+                                <a href="javascript:;" id="toggleInfoBtn" class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary">
                                     <i class="fa fa-eye me-1 text-primary"></i>Thông tin sản phẩm
                                 </a>
-
-                                <!-- Khu vực hiển thị nội dung sản phẩm (ẩn mặc định) -->
                                 <div id="productInfo" class="border rounded p-3 bg-light" style="display: none;">
                                     <p>@Html.Raw(Model.Detail)</p>
                                 </div>
 
-                                <!-- Nút viết đánh giá -->
-                                <a href="javascript:;" id="toggleReviewBtn"
-                                   class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary"
-                                   data-id="@Model.Id" title="Viết đánh giá">
+                                <!-- Toggle review -->
+                                <a href="javascript:;" id="toggleReviewBtn" class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary">
                                     <i class="fa fa-pen me-1 text-primary"></i>Viết đánh giá
                                 </a>
-
-                                <!-- Form viết đánh giá (ẩn mặc định) -->
                                 <div id="reviewForm" class="border rounded p-4 bg-light" style="display: none;">
                                     @Html.Action("_Review", "Review", new { productId = Model.Id })
                                 </div>
                             </div>
+
+                            <!-- Giỏ hàng + yêu thích -->
                             <div class="action-buttons d-flex gap-2">
                                 <a href="javascript:;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btnAddToCart" data-id="@Model.Id" title="Thêm vào giỏ hàng">
                                     <i class="fa fa-shopping-bag me-1 text-primary"></i>Thêm vào giỏ hàng
@@ -132,34 +137,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <nav>
-                                <div class="nav nav-tabs mb-3">
-                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                            aria-controls="nav-about" aria-selected="true">
-                                        Hình ảnh sản phẩm thực tế
-                                    </button>
-                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                            aria-controls="nav-mission" aria-selected="false">
-                                        Đánh giá từ khách hàng
-                                    </button>
-                                </div>
-                            </nav>
-                            <div class="tab-content mb-5">
-                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-
-                                </div>
-                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                    @Html.Action("_Load_Review", "Review", new { productId = Model.Id })
-                                </div>
-                                <div class="tab-pane" id="nav-vision" role="tabpanel">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-xl-3">
                     <div class="row g-4 fruite">
                         <div class="col-lg-12">
@@ -251,6 +231,13 @@
         </div>
     </div>
     <!-- Single Product End -->
+}
+else
+{
+    <div class="container py-5 text-center">
+        <h4 class="text-danger">Sản phẩm không tồn tại hoặc đã bị xóa.</h4>
+        <a href="/" class="btn btn-primary mt-3">Quay lại trang chủ</a>
+    </div>
 }
 
 @section scripts {
@@ -361,7 +348,7 @@
             $(".btnAddToCart").click(function () {
                 let productId = $(this).data("id");
                 let quantity = parseInt($("#quantityInput").val()) || 1;
-                let color = $("#selectedColor").val(); //  lấy từ hidden input
+                let colorId = $("#selectedColorId").val() || 0;
 
                 if (!selectedSize) {
                     Swal.fire({
@@ -380,7 +367,7 @@
                         id: productId,
                         quantity: quantity,
                         size: selectedSize,
-                        color: color
+                        colorId: colorId // dùng id thật
                     },
                     success: function (res) {
                         if (res.success) {
@@ -447,7 +434,21 @@
                     $(this).html('<i class="fa fa-pen me-1 text-primary"></i>Viết đánh giá');
                 }
             });
+        });
+        $(document).on('click', '.color-option', function (e) {
+            e.preventDefault();
 
+            let colorAlias = $(this).data('coloralias');
+            let colorName = $(this).data('color'); // ✅ Lấy tên có dấu
+            let colorId = $(this).data('colorid'); // 🟢 lấy id
+
+            $("#selectedColor").val(colorAlias);
+            $("#selectedColorName").val(colorName); // ✅ lưu tên có dấu
+            $("#selectedColorId").val(colorId); // 🟢 lưu vào input ẩn
+
+            // Chuyển sang URL chứa alias (để reload trang với màu)
+            let link = $(this).attr('href');
+            window.location.href = link;
         });
     </script>
 }

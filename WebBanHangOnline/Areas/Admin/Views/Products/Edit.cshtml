@@ -35,6 +35,27 @@
                                 @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "- Chọn danh mục sản phẩm -", new { @class = "form-select", required = "required", @data_parsley_trigger = "change" })
                             </div>
                             <div class="mb-3">
+                                <label class="form-label fw-bold">Chọn màu sắc</label>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var color in ViewBag.Colors as List<WebBanHangOnline.Models.EF.Color>)
+                                    {
+                                        var selectedIds = ViewBag.SelectedColorIds as List<int>;
+                                        bool isChecked = selectedIds != null && selectedIds.Contains(color.Id);
+
+                                        <div class="form-check me-4 mb-2 d-flex align-items-center">
+                                            <input class="form-check-input me-2" type="checkbox"
+                                                   name="SelectedColors" value="@color.Id"
+                                                   id="color_@color.Id" @(isChecked ? "checked" : "") />
+                                            <label class="form-check-label d-flex align-items-center" for="color_@color.Id">
+                                                <span>@color.Name</span>
+                                                <span style="display:inline-block;width:20px;height:20px;margin-left:6px;border:1px solid #ccc;border-radius:4px;background-color:@color.HexColor;"></span>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
                                 <label class="form-label">Giới thiệu ngắn</label>
                                 @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3, required = "required", @data_parsley_required_message = "Không được để trống" })
                             </div>

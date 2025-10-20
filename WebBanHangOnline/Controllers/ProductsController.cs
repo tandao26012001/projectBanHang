@@ -38,32 +38,39 @@ namespace WebBanHangOnline.Controllers
                                 .ToList();
             return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Detail(string alias, int? id, string color)
+        public ActionResult Detail(string alias, int? id, string color,int colorId = 0)
         {
             var product = db.Products
                 .Include("ProductCategory")
                 .Include("ProductImage")
+                .Include("ProductColors.Color")
                 .FirstOrDefault(x => x.Id == id);
 
             if (product == null)
                 return HttpNotFound();
 
-            // Nếu có color → chọn đúng phiên bản sản phẩm có màu đó
-            if (!string.IsNullOrEmpty(color))
-            {
-                var colorProduct = db.Products
-                    .FirstOrDefault(x => x.GroupId == product.GroupId && x.Color.ToLower() == color.ToLower());
-                if (colorProduct != null)
-                    product = colorProduct;
-            }
+            //// Nếu có color → chọn đúng phiên bản sản phẩm có màu đó
+            //if (!string.IsNullOrEmpty(color))
+            //{
+            //    // chuẩn hóa sang chữ thường không dấu để so sánh an toàn
+            //    string normalizedColor = color.Trim().ToLower();
 
-            // Các màu khác cùng nhóm
-            var relatedColors = db.Products
-                .Where(x => x.GroupId == product.GroupId && x.Id != product.Id)
-                .ToList();
+            //    var colorProduct = db.Products
+            //        .FirstOrDefault(x => x.GroupId == product.GroupId &&
+            //            x.Color.ToLower().Contains(normalizedColor)); // dùng Contains để dễ match
 
-            ViewBag.RelatedColors = relatedColors;
+            //    if (colorProduct != null)
+            //        product = colorProduct;
+            //}
 
+            //// Các màu khác cùng nhóm
+            //var relatedColors = db.Products
+            //    .Where(x => x.GroupId == product.GroupId && x.Id != product.Id)
+            //    .ToList();
+
+            //ViewBag.RelatedColors = relatedColors;
+            ViewBag.SelectedColor = color;
+            ViewBag.SelectedColorId = colorId; // 🟢 thêm dòng này
             return View(product);
         }
 

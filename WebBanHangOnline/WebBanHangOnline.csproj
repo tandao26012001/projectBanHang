@@ -329,6 +329,18 @@
     <Compile Include="Migrations\202510170601371_FixColor.Designer.cs">
       <DependentUpon>202510170601371_FixColor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510200736345_AddProductColor2010.cs" />
+    <Compile Include="Migrations\202510200736345_AddProductColor2010.Designer.cs">
+      <DependentUpon>202510200736345_AddProductColor2010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510200749248_FixColorRelation.cs" />
+    <Compile Include="Migrations\202510200749248_FixColorRelation.Designer.cs">
+      <DependentUpon>202510200749248_FixColorRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510200927138_FixCart2010.cs" />
+    <Compile Include="Migrations\202510200927138_FixCart2010.Designer.cs">
+      <DependentUpon>202510200927138_FixCart2010.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -338,12 +350,14 @@
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\EF\Adv.cs" />
     <Compile Include="Models\EF\Category.cs" />
+    <Compile Include="Models\EF\Color.cs" />
     <Compile Include="Models\EF\Contact.cs" />
     <Compile Include="Models\EF\News.cs" />
     <Compile Include="Models\EF\Order.cs" />
     <Compile Include="Models\EF\OrderDetail.cs" />
     <Compile Include="Models\EF\Product.cs" />
     <Compile Include="Models\EF\ProductCategory.cs" />
+    <Compile Include="Models\EF\ProductColor.cs" />
     <Compile Include="Models\EF\ProductImage.cs" />
     <Compile Include="Models\EF\ReviewProduct.cs" />
     <Compile Include="Models\EF\Subscribe.cs" />
@@ -3683,6 +3697,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510170601371_FixColor.resx">
       <DependentUpon>202510170601371_FixColor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510200736345_AddProductColor2010.resx">
+      <DependentUpon>202510200736345_AddProductColor2010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510200749248_FixColorRelation.resx">
+      <DependentUpon>202510200749248_FixColorRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510200927138_FixCart2010.resx">
+      <DependentUpon>202510200927138_FixCart2010.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

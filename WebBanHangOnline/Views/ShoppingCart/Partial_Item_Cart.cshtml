@@ -16,7 +16,6 @@
                             <th scope="col"><input type="checkbox" id="selectAll" /></th>
                             <th scope="col">Ảnh sản phẩm</th>
                             <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Giá sản phẩm</th>
                             <th scope="col">Số lượng</th>
                             <th scope="col">Tổng cộng</th>
                         </tr>
@@ -36,8 +35,12 @@
                                     <p class="mb-0 mt-4"><a href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></p>
                                     <p class="mb-0 mt-4 item-price" data-price="@item.Price">@Common.FormatNumber(item.Price, 0) đ</p>
                                     <p class="mb-0 mt-4">Size: @item.Size</p>
-                                    <p class="mb-0 mt-4">Color: @item.Color</p>
-
+                                    <p class="mb-0 mt-4">
+                                        Màu sắc:
+                                        <span class="border rounded-circle d-inline-block"
+                                              style="width:15px; height:15px; background-color:@item.ColorHex; margin-right:5px;"></span>
+                                        @item.ColorName
+                                    </p>
                                 </td>   
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">

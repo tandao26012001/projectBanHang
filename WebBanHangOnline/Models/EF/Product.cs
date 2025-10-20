@@ -46,10 +46,10 @@ namespace WebBanHangOnline.Models.EF
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
         public int ProductCategoryId { get; set; }
-        [StringLength(80)]
-        public string Color { get; set; }
-        [StringLength(80)]
-        public string HexColor { get; set; }
+        //[StringLength(80)]
+        //public string Color { get; set; }
+        //[StringLength(80)]
+        //public string HexColor { get; set; }
         [StringLength(8)]
         public string Size { get; set; }
 
@@ -62,6 +62,7 @@ namespace WebBanHangOnline.Models.EF
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ReviewProduct> Reviews { get; set; }
         public virtual ICollection<Wishlist> Wishlists { get; set; }
-        public Guid? GroupId { get; set; }
+        public virtual ICollection<ProductColor> ProductColors { get; set; }
+        //public Guid? GroupId { get; set; }
     }
 }

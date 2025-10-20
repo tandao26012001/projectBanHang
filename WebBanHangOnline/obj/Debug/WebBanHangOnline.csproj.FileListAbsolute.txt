@@ -818,6 +818,9 @@ D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrati
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.AddImageToUser.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateDatabase17102025.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.FixColor.resources
+D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.AddProductColor2010.resources
+D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.FixColorRelation.resources
+D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.FixCart2010.resources
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.GenerateResource.cache
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHangOnline.csproj.CoreCompileInputs.cache
 D:\bài tập\projectBanHang\WebBanHangOnline\obj\Debug\WebBanHa.7E290493.Up2Date

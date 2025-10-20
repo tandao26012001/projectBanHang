@@ -33,6 +33,22 @@
                                 @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "- Chọn danh mục sản phẩm -", new { @class = "form-select", required = "required", @data_parsley_trigger = "change" })
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">Màu sắc sản phẩm</label>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var color in ViewBag.Colors as List<WebBanHangOnline.Models.EF.Color>)
+                                    {
+                                        <div class="form-check me-3 mb-2" style="min-width: 120px;">
+                                            <input class="form-check-input" type="checkbox" name="SelectedColors" value="@color.Id" id="color_@color.Id" />
+                                            <label class="form-check-label" for="color_@color.Id">
+                                                <span style="display:inline-block;width:15px;height:15px;background-color:@color.HexColor;border:1px solid #ccc;margin-right:5px;"></span>
+                                                @color.Name
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
                                 <label class="form-label">Giới thiệu ngắn</label>
                                 @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3, required = "required", @data_parsley_required_message = "Không được để trống" })
                             </div>
