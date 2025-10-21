@@ -712,6 +712,7 @@ D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\VBCSCompiler.exe
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\roslyn\VBCSCompiler.exe.config
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.SqlServer.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\EntityFramework.dll
+D:\bài tập\projectBanHang\WebBanHangOnline\bin\QRCoder.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Antlr3.Runtime.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\CKFinder.dll
 D:\bài tập\projectBanHang\WebBanHangOnline\bin\Dapper.dll

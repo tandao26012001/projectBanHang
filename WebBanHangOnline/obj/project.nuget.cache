@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "QjDJQ/H3oVg=",
+  "dgSpecHash": "o76CxWZhrbc=",
   "success": true,
   "projectFilePath": "D:\\bài tập\\projectBanHang\\WebBanHangOnline\\WebBanHangOnline.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Windows\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
-    "C:\\Users\\Windows\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+    "C:\\Users\\Windows\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Windows\\.nuget\\packages\\qrcoder\\1.7.0\\qrcoder.1.7.0.nupkg.sha512"
   ],
   "logs": []
 }

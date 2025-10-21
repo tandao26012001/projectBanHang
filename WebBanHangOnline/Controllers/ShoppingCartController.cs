@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -129,11 +132,11 @@ namespace WebBanHangOnline.Controllers
                         Quantity = x.Quantity,
                         Price = x.Price
                     }));
-                    order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
+                    order.TotalAmount = cart.Items.Sum(x => x.Price * x.Quantity);
                     order.TypePayment = req.TypePayment;
                     order.CreatedDate = DateTime.Now;
                     order.ModifiedDate = DateTime.Now;
-                    order.CreatedBy = req.Phone;
+                    order.Status = 1;
                     Random rd = new Random();
                     order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
                     //order.E = req.CustomerName;
@@ -212,7 +215,7 @@ namespace WebBanHangOnline.Controllers
                 {
                     // Nếu đã có sản phẩm trùng (cùng size + color) thì cộng dồn số lượng
                     existing.Quantity += quantity;
-                    existing.TotalPrice = existing.Quantity * existing.Price;
+                    //existing.TotalPrice = existing.Quantity * existing.Price;
                 }
                 else
                 {
@@ -231,7 +234,7 @@ namespace WebBanHangOnline.Controllers
                         Quantity = quantity,
                         Price = price,
                         ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.ImageUrl ?? product.Image,
-                        TotalPrice = price * quantity
+                        //TotalPrice = price * quantity
                     });
                 }
 
@@ -273,7 +276,7 @@ namespace WebBanHangOnline.Controllers
             if (item != null && quantity > 0)
             {
                 item.Quantity = quantity;
-                item.TotalPrice = item.Quantity * item.Price;
+                //item.TotalPrice = item.Quantity * item.Price;
             }
 
             decimal total = Cart.Items.Sum(x => x.TotalPrice);
@@ -308,35 +311,29 @@ namespace WebBanHangOnline.Controllers
             Cart.Items.RemoveAll(x => ids.Contains(x.ProductId));
             return Json(new { success = true });
         }
+        public ActionResult GeneratePaymentQR(decimal amount, string orderCode, string method = "bank")
+        {
+            string qrUrl = "";
 
-        //#region Thanh toán VNPay
-        //public string UrlPayment(int type, string orderCode)
-        //{
-        //    var order = db.Orders.FirstOrDefault(x => x.Code == orderCode);
-        //    if (order == null) return null;
+            if (method == "momo")
+            {
+                // 👉 QR Momo
+                string momoPhone = "0347363130"; // số Momo của bạn
+                string message = Uri.EscapeDataString($"Thanh toan don hang {orderCode}");
+                qrUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=2|99|{momoPhone}|||0|0|{amount}|{message}";
+            }
+            else
+            {
+                // 👉 QR ngân hàng VietQR
+                string bankCode = "VCB"; // Vietcombank
+                string accountNumber = "0123456789";
+                string accountName = "DAO NGOC TAN";
+                string addInfo = Uri.EscapeDataString($"Thanh toan don hang {orderCode}");
 
-        //    var price = (long)(order.TotalAmount * 100);
-        //    var vnp = new VnPayLibrary();
+                qrUrl = $"https://img.vietqr.io/image/{bankCode}-{accountNumber}-compact2.png?amount={amount}&addInfo={addInfo}&accountName={Uri.EscapeDataString(accountName)}";
+            }
 
-        //    vnp.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
-        //    vnp.AddRequestData("vnp_Command", "pay");
-        //    vnp.AddRequestData("vnp_TmnCode", ConfigurationManager.AppSettings["vnp_TmnCode"]);
-        //    vnp.AddRequestData("vnp_Amount", price.ToString());
-        //    vnp.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
-        //    vnp.AddRequestData("vnp_CurrCode", "VND");
-        //    vnp.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
-        //    vnp.AddRequestData("vnp_Locale", "vn");
-        //    vnp.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.Code);
-        //    vnp.AddRequestData("vnp_OrderType", "other");
-        //    vnp.AddRequestData("vnp_ReturnUrl", ConfigurationManager.AppSettings["vnp_Returnurl"]);
-        //    vnp.AddRequestData("vnp_TxnRef", order.Code);
-
-        //    if (type == 1) vnp.AddRequestData("vnp_BankCode", "VNPAYQR");
-        //    else if (type == 2) vnp.AddRequestData("vnp_BankCode", "VNBANK");
-        //    else if (type == 3) vnp.AddRequestData("vnp_BankCode", "INTCARD");
-
-        //    return vnp.CreateRequestUrl(ConfigurationManager.AppSettings["vnp_Url"], ConfigurationManager.AppSettings["vnp_HashSecret"]);
-        //}
-        //#endregion
+            return Redirect(qrUrl);
+        }
     }
 }

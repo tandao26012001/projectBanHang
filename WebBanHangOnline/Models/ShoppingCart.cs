@@ -22,7 +22,7 @@ namespace WebBanHangOnline.Models
             if (checkExits != null)
             {
                 checkExits.Quantity += Quantity;
-                checkExits.TotalPrice = checkExits.Price * checkExits.Quantity;
+                //checkExits.TotalPrice = checkExits.Price * checkExits.Quantity;
             }
             else
             {
@@ -45,7 +45,7 @@ namespace WebBanHangOnline.Models
             if (checkExits != null)
             {
                 checkExits.Quantity = quantity;
-                checkExits.TotalPrice = checkExits.Price * checkExits.Quantity;
+                //checkExits.TotalPrice = checkExits.Price * checkExits.Quantity;
             }
         }
 
@@ -77,7 +77,7 @@ namespace WebBanHangOnline.Models
         public string ColorHex { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal TotalPrice => (Price * Quantity);
         public Product Product { get; set; }
     }
 }
