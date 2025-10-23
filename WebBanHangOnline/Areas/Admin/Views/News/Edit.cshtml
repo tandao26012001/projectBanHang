@@ -38,7 +38,10 @@
                             <label class="form-label">Danh mục</label>
                             @Html.DropDownListFor(x => x.CategoryId, ViewBag.Category as SelectList, "- Chọn danh mục -", new { @class = "form-select", required = "required", @data_parsley_trigger = "change" })
                         </div>
-
+                        <div class="mb-3">
+                            <label class="form-label">Giới thiệu ngắn</label>
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Description", required = "required", @data_parsley_required_message = "Không được để trống" })
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">SeoTitle</label>
                             @Html.TextBoxFor(x => x.SeoTitle, new { @class = "form-control", placeholder = "SeoTitle", required = "required", @data_parsley_required_message = "Không được để trống" })

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using WebBanHangOnline.Common;
 using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Controllers
@@ -160,8 +161,6 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -169,34 +168,115 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
+        // POST: /Account/SendVerificationCode
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult SendVerificationCode(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return Json(new { success = false, message = "Email không được để trống." });
+
+            // Sinh mã OTP 6 chữ số
+            string code = new Random().Next(100000, 999999).ToString();
+
+            // Lưu vào Session để kiểm tra sau
+            Session["RegisterEmail"] = email;
+            Session["RegisterCode"] = code;
+            Session["RegisterCodeTime"] = DateTime.UtcNow; // dùng UTC để nhất quán
+
+            string subject = "Mã xác nhận đăng ký tài khoản";
+            string content = $@"
+        <p>Xin chào,</p>
+        <p>Mã xác nhận của bạn là: <b>{code}</b></p>
+        <p>Mã có hiệu lực trong 5 phút. Vui lòng không chia sẻ mã này cho người khác.</p>";
+
+            bool isSent = false;
+            try
+            {
+                // Gọi Common.SendMail (đồng bộ) hoặc SendMailAsync nếu bạn đã đổi
+                isSent = Common.Common.SendMail("Hệ thống", subject, content, email);
+            }
+            catch (Exception ex)
+            {
+                // Ghi log nếu có logger
+                isSent = false;
+            }
+
+            if (isSent)
+                return Json(new { success = true, message = "Đã gửi mã xác nhận đến email của bạn." });
+            else
+                return Json(new { success = false, message = "Không thể gửi email. Vui lòng thử lại sau." });
+        }
+
+        // POST: /Account/VerifyEmailCode
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult VerifyEmailCode(string email, string code)
+        {
+            var savedEmail = Session["RegisterEmail"] as string;
+            var savedCode = Session["RegisterCode"] as string;
+            var savedTimeObj = Session["RegisterCodeTime"];
+            DateTime? savedTime = savedTimeObj == null ? (DateTime?)null : (DateTime)savedTimeObj;
+
+            if (savedEmail == null || savedCode == null || savedTime == null)
+                return Json(new { success = false, message = "Chưa có mã xác nhận nào được gửi." });
+
+            // Hết hạn sau 5 phút
+            if ((DateTime.UtcNow - savedTime.Value).TotalMinutes > 5)
+                return Json(new { success = false, message = "Mã xác nhận đã hết hạn." });
+
+            if (!string.Equals(email, savedEmail, StringComparison.OrdinalIgnoreCase))
+                return Json(new { success = false, message = "Email không khớp." });
+
+            if (code != savedCode)
+                return Json(new { success = false, message = "Mã xác nhận không đúng." });
+
+            // Nếu đúng: đánh dấu đã verified trong session
+            Session["RegisterEmailVerified"] = savedEmail;
+            return Json(new { success = true, message = "Xác thực email thành công!" });
+        }
+
+        // POST: /Account/Register (AJAX)
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<JsonResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            // Kiểm tra đã verify email hay chưa
+            var verifiedEmail = Session["RegisterEmailVerified"] as string;
+            if (verifiedEmail == null || !string.Equals(verifiedEmail, model.Email, StringComparison.OrdinalIgnoreCase))
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    UserManager.AddToRole(user.Id, "Customer");
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                return Json(new { success = false, message = "Vui lòng xác thực email trước khi đăng ký." });
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                // Trả về lỗi ModelState (lấy first error để hiển thị)
+                var firstErr = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+                return Json(new { success = false, message = firstErr ?? "Dữ liệu không hợp lệ." });
+            }
+
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                // Gán role (đảm bảo role "Customer" tồn tại)
+                await UserManager.AddToRoleAsync(user.Id, "Customer");
+
+                // Xóa session dùng rồi
+                Session.Remove("RegisterEmail");
+                Session.Remove("RegisterCode");
+                Session.Remove("RegisterCodeTime");
+                Session.Remove("RegisterEmailVerified");
+
+                return Json(new { success = true, returnUrl = Url.Action("Login", "Account") });
+            }
+
+            // Nếu lỗi tạo user
+            string errors = string.Join("; ", result.Errors);
+            return Json(new { success = false, message = errors });
         }
 
         //
@@ -510,5 +590,6 @@ namespace WebBanHangOnline.Controllers
             }
         }
         #endregion
+
     }
 }

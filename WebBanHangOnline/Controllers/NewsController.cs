@@ -15,7 +15,7 @@ namespace WebBanHangOnline.Controllers
         // GET: News
         public ActionResult Index(int? page)
         {
-            var pageSize = 1;
+            var pageSize = 10;
             if (page == null)
             {
                 page = 1;
@@ -30,6 +30,20 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Detail(int id)
         {
             var item = db.News.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Lấy tối đa 10 tin tức khác (trừ tin hiện tại)
+            var relatedNews = db.News
+                .Where(x => x.Id != id)
+                .OrderByDescending(x => x.CreatedDate)
+                .Take(10)
+                .ToList();
+
+            ViewBag.RelatedNews = relatedNews;
+
             return View(item);
         }
         public ActionResult Partial_News_Home()

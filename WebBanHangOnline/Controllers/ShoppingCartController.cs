@@ -11,7 +11,6 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
-using WebBanHangOnline.Models.Payments;
 
 namespace WebBanHangOnline.Controllers
 {

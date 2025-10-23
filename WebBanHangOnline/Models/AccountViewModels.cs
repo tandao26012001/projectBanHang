@@ -38,6 +38,17 @@ namespace WebBanHangOnline.Models
 
         public bool RememberMe { get; set; }
     }
+    public class VerifyEmailCodeViewModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Mã xác nhận")]
+        public string Code { get; set; }
+    }
 
     public class ForgotViewModel
     {

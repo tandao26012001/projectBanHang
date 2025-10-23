@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "VerifyEmail";
+    Layout = "~/Views/Shared/_LayoutLoginClient.cshtml";
+}
+
+@using (Html.BeginForm("VerifyEmail", "Account", FormMethod.Post))
+{
+    <div class="login-card">
+        <div class="login-header">
+            <div class="material-logo">
+                <div class="logo-layers">
+                    <div class="layer layer-1"></div>
+                    <div class="layer layer-2"></div>
+                    <div class="layer layer-3"></div>
+                </div>
+            </div>
+            <h2>
+                Xác minh đăng nhập
+            </h2>
+        </div>
+
+        <div class="login-form" novalidate>
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <label>Vui lòng kiểm tra email của bạn, chúng tôi đã gửi cho bạn mã xác minh</label>
+                    <input type="text" name="code" required placeholder="Mã xác minh">
+                    <div class="input-line"></div>
+                    <div class="ripple-container"></div>
+                </div>
+                <button type="submit" class="login-btn material-btn">
+                    <div class="btn-ripple"></div>
+                    <span class="btn-text">SIGN IN</span>
+                    <div class="btn-loader">
+                        <svg class="loader-circle" viewBox="0 0 50 50">
+                            <circle class="loader-path" cx="25" cy="25" r="12" fill="none" stroke="currentColor" stroke-width="3" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+}

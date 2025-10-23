@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Brutalist Login Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-square"></div>
+                </div>
+                <h2>Sign In</h2>
+                <p>Enter your credentials</p>
+            </div>
+            
+            <form class="login-form" id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" required autocomplete="email">
+                    </div>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper password-wrapper">
+                        <input type="password" id="password" name="password" required autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                            <span class="toggle-text">SHOW</span>
+                        </button>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-options">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember" class="checkbox-label">
+                            <div class="checkbox-box"></div>
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <span class="btn-text">SIGN IN</span>
+                    <div class="btn-loader">
+                        <div class="loader-bar"></div>
+                        <div class="loader-bar"></div>
+                        <div class="loader-bar"></div>
+                    </div>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn">
+                    <span class="social-text">GOOGLE</span>
+                </button>
+                <button type="button" class="social-btn">
+                    <span class="social-text">GITHUB</span>
+                </button>
+            </div>
+
+            <div class="signup-link">
+                <span>No account? </span>
+                <a href="#">Create one</a>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✓</div>
+                <h3>Success</h3>
+                <p>Redirecting...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../shared/js/form-utils.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -4,63 +4,52 @@
 @{
     ViewBag.Title = "Index";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
 <!-- Slider -->
-<style>
-    .news_section_container {
-        margin-top: 180px;
-    }
-
-    .row-item-new {
-        margin-bottom: 20px;
-    }
-
-    .title-news {
-        font-size: 24px;
-        border-bottom: 1px solid;
-        padding: 15px 0;
-        margin-bottom: 25px;
-    }
-
-    .img-box img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-</style>
-<div class="container news_section_container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="title-news"> Tin tức</h1>
-        </div>
-    </div>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var item in Model)
-        {
-            <div class="row row-item-new">
-                <div class="col-md-3">
-                    <div class="img-box">
-                        <a href="" title="@item.Title"><img src="@item.Image" alt="@item.Title" /></a>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="content-box">
-                        <h3><a href="/@item.Alias-n@(item.Id)" title="@item.Title">@item.Title</a></h3>
-                        <div class="description-box">
-                            @item.Description
+<link href="~/Content/servers/css/rutgonnoidung.css" rel="stylesheet" />
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Testimonial</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active text-white">Tin tức</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<div class="container-fluid py-5 mt-5">
+    <div class="container py-5">
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8 col-xl-12">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="row row-item-new">
+                            <div class="col-md-3">
+                                <div class="img-box">
+                                    <a href="" title="@item.Title"><img src="@item.Image" alt="@item.Title" height="163" width="260" /></a>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="content-box">
+                                    <h5><a href="/@item.Alias-n@(item.Id)" title="@item.Title">@item.Title</a></h5>
+                                    <div class="description-box">
+                                        @item.Description
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-6"></div>
+                        <div class="col-6" style="text-align:right;">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                         </div>
                     </div>
-                </div>
-            </div>
-        }
-        <div class="row">
-            <div class="col-6"></div>
-            <div class="col-6" style="text-align:right;">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                }
+
             </div>
         </div>
-    }
-
+    </div>
 </div>
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -83,116 +72,21 @@
                 }
             });
         });
-    </script>
+        $(document).ready(function() {
+            // Load số lượng giỏ hàng khi trang được tải
+            updateCartCount();
 
-    <script>
-        $(function () {
-            // Autocomplete cho search box
-            $("#searchBox").autocomplete({
-                source: '/Products/GetSuggestions',
-                minLength: 2
-            });
-
-            // Lọc sản phẩm theo danh mục
-            $(document).on('click', '.cate-filter', function () {
-                var categoryId = $(this).data("id");
-                loadProducts(categoryId);
-            });
-
-            // Xử lý thêm vào giỏ hàng
-            $(document).on('click', '.btnAddToCart', function (e) {
-                e.preventDefault();
-                var productId = $(this).data('id');
-                addToCart(productId);
-            });
-            // Bắt sự kiện click vào nút phân trang
-            $(document).on('click', '.pagination a', function (e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                loadProductsWithPaging(url);
-            });
-
-            // Hàm load sản phẩm kèm phân trang
-            function loadProductsWithPaging(url) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (res) {
-                        $('#product-container').html(res);
-                    },
-                    error: function () {
-                        alert('Không thể tải sản phẩm.');
-                    }
-                });
-            }
-            // Hàm load sản phẩm
-            function loadProducts(categoryId) {
-                $.ajax({
-                    url: '/Products/Partial_ItemsByCateId',
-                    type: 'GET',
-                    data: { categoryId: categoryId },
-                    success: function (res) {
-                        $('#product-container').html(res);
-                    },
-                    error: function () {
-                        alert('Không thể tải sản phẩm.');
-                    }
+            // Hàm cập nhật số lượng giỏ hàng
+            function updateCartCount() {
+                $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
+                    $('#cartCount').text(data.Count);
+                }).fail(function() {
+                    console.error('Không thể cập nhật số lượng giỏ hàng');
                 });
             }
 
-            // Hàm thêm vào giỏ hàng
-            function addToCart(productId) {
-                $.ajax({
-                    url: '@Url.Action("AddToCart", "ShoppingCart")',
-                    type: 'POST',
-                    data: { id: productId, quantity: 1 },
-                    success: function (response) {
-                        if (response.success) {
-                            // Cập nhật số lượng giỏ hàng
-                            $('#cartCount').text(response.count);
-
-                            // Hiển thị thông báo
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công!',
-                                text: 'Đã thêm sản phẩm vào giỏ hàng',
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Không thể thêm sản phẩm vào giỏ hàng'
-                        });
-                    }
-                });
-            }
-
-            // Cập nhật số lượng giỏ hàng
-            //function updateCartCount(count) {
-            //    $('.cart-count').text(count);
-            //}
+            // Gọi hàm này sau khi thêm sản phẩm thành công
+            window.updateCartCount = updateCartCount;
         });
-    </script>
-    <script>
-    $(document).ready(function() {
-        // Load số lượng giỏ hàng khi trang được tải
-        updateCartCount();
-
-        // Hàm cập nhật số lượng giỏ hàng
-        function updateCartCount() {
-            $.get('@Url.Action("ShowCount", "ShoppingCart")', function(data) {
-                $('#cartCount').text(data.Count);
-            }).fail(function() {
-                console.error('Không thể cập nhật số lượng giỏ hàng');
-            });
-        }
-
-        // Gọi hàm này sau khi thêm sản phẩm thành công
-        window.updateCartCount = updateCartCount;
-    });
     </script>
 }

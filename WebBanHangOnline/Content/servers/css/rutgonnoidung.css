@@ -34,3 +34,116 @@
     transform: scale(1.1);
     transition: 0.2s;
 }
+.news_section_container {
+    margin-top: 180px;
+}
+
+.row-item-new {
+    margin-bottom: 20px;
+}
+
+.title-news {
+    font-size: 24px;
+    border-bottom: 1px solid;
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.img-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.news_section_container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title-news {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #222;
+}
+
+.news-detail-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.news-detail-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #333;
+}
+.sidebar-box {
+    padding-left: 10px;
+}
+
+.sidebar-title {
+    color: #c00;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* Container cho mỗi tin */
+.sidebar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* Ảnh bên trái */
+.sidebar-thumb {
+    width: 110px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Phần nội dung bên phải */
+.sidebar-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-start;
+    flex: 1;
+    min-width: 0; /* tránh text bị tràn khi dùng flex */
+}
+
+/* Tiêu đề tin */
+.news-link {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* giới hạn 3 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.3;
+    flex: 1;
+    margin-right: 8px;
+}
+
+/* Ngày đăng */
+.news-date {
+    color: #999;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Mobile: có thể để ảnh trên, chữ dưới nếu cần */
+@media (max-width: 768px) {
+    .sidebar-item {
+        flex-direction: row;
+    }
+
+    .sidebar-thumb {
+        width: 100px;
+        height: 70px;
+    }
+}
