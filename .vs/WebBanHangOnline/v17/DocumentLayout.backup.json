@@ -7,16 +7,12 @@
       "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\b\u00E0i t\u1EADp\\projectbanhang\\webbanhangonline\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|D:\\b\u00E0i t\u1EADp\\projectBanHang\\webbanhangonline\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\b\u00E0i t\u1EADp\\projectbanhang\\webbanhangonline\\common\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\common\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|d:\\b\u00E0i t\u1EADp\\projectbanhang\\webbanhangonline\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|D:\\b\u00E0i t\u1EADp\\projectBanHang\\webbanhangonline\\views\\shared\\_layoutloginclient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{80580E5F-367D-40AB-81F3-4A2ED48350EC}|WebBanHangOnline\\WebBanHangOnline.csproj|solutionrelative:webbanhangonline\\views\\shared\\_layoutloginclient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,34 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Common.cs",
-              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Common\\Common.cs",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Common\\Common.cs",
-              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Common\\Common.cs",
-              "RelativeToolTip": "WebBanHangOnline\\Common\\Common.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAAwDsAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-23T14:12:29.038Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Web.config",
-              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Web.config",
-              "RelativeDocumentMoniker": "WebBanHangOnline\\Web.config",
-              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Web.config",
-              "RelativeToolTip": "WebBanHangOnline\\Web.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-10-23T14:11:45.693Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -62,10 +32,22 @@
               "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Account\\Register.cshtml",
               "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Account\\Register.cshtml",
               "RelativeToolTip": "WebBanHangOnline\\Views\\Account\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAOQAAAAAAAAAAAAAAPIAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-23T09:34:55.297Z",
+              "WhenOpened": "2025-10-24T10:57:06.894Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_LayoutLoginClient.cshtml",
+              "DocumentMoniker": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Shared\\_LayoutLoginClient.cshtml",
+              "RelativeDocumentMoniker": "WebBanHangOnline\\Views\\Shared\\_LayoutLoginClient.cshtml",
+              "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Views\\Shared\\_LayoutLoginClient.cshtml",
+              "RelativeToolTip": "WebBanHangOnline\\Views\\Shared\\_LayoutLoginClient.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-24T08:55:43.526Z"
             },
             {
               "$type": "Document",
@@ -75,7 +57,7 @@
               "RelativeDocumentMoniker": "WebBanHangOnline\\Controllers\\AccountController.cs",
               "ToolTip": "D:\\b\u00E0i t\u1EADp\\projectBanHang\\WebBanHangOnline\\Controllers\\AccountController.cs",
               "RelativeToolTip": "WebBanHangOnline\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAAYCAAAAAAAAAAAAAE8CAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAABAAAAAAAAAAAswKYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-23T09:27:43.008Z",
               "EditorCaption": ""

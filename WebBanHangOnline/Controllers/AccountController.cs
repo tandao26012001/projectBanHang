@@ -60,7 +60,7 @@ namespace WebBanHangOnline.Controllers
             var item = new CreateAccountViewModel();
             item.Email = user.Email;
             item.FullName = user.FullName;
-            item.Phone = user.Phone;
+            item.PhoneNumber = user.Phone;
             item.UserName = user.UserName;
             return View(item);
         }
@@ -71,7 +71,7 @@ namespace WebBanHangOnline.Controllers
         {
             var user = await UserManager.FindByEmailAsync(req.Email);
             user.FullName = req.FullName;
-            user.Phone = req.Phone;
+            user.Phone = req.PhoneNumber;
             var rs = await UserManager.UpdateAsync(user);
             if (rs.Succeeded)
             {
@@ -175,7 +175,30 @@ namespace WebBanHangOnline.Controllers
         public JsonResult SendVerificationCode(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
-                return Json(new { success = false, message = "Email không được để trống." });
+                return Json(new { success = false, message = "Email không được để trống.", messageType = "warning" });
+            // Kiểm tra email đã tồn tại trong hệ thống chưa
+            var userExist = UserManager.FindByEmail(email);
+            if (userExist != null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Email này đã được đăng ký. Vui lòng dùng email khác.",
+                    messageType = "warning"
+                });
+            }
+
+            // Giới hạn thời gian gửi lại (tránh spam)
+            var lastSent = Session["RegisterCodeTime"] as DateTime?;
+            if (lastSent.HasValue && (DateTime.Now - lastSent.Value).TotalSeconds < 60)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Vui lòng đợi 1 phút trước khi gửi lại mã xác thực.",
+                    messageType = "warning"
+                });
+            }
 
             // Sinh mã OTP 6 chữ số
             string code = new Random().Next(100000, 999999).ToString();
@@ -204,9 +227,9 @@ namespace WebBanHangOnline.Controllers
             }
 
             if (isSent)
-                return Json(new { success = true, message = "Đã gửi mã xác nhận đến email của bạn." });
+                return Json(new { success = true, message = "Đã gửi mã xác nhận đến email của bạn.", messageType = "success" });
             else
-                return Json(new { success = false, message = "Không thể gửi email. Vui lòng thử lại sau." });
+                return Json(new { success = false, message = "Không thể gửi email. Vui lòng thử lại sau.", messageType = "error" });
         }
 
         // POST: /Account/VerifyEmailCode
@@ -221,21 +244,21 @@ namespace WebBanHangOnline.Controllers
             DateTime? savedTime = savedTimeObj == null ? (DateTime?)null : (DateTime)savedTimeObj;
 
             if (savedEmail == null || savedCode == null || savedTime == null)
-                return Json(new { success = false, message = "Chưa có mã xác nhận nào được gửi." });
+                return Json(new { success = false, message = "Chưa có mã xác nhận nào được gửi.", messageType = "error" });
 
             // Hết hạn sau 5 phút
             if ((DateTime.UtcNow - savedTime.Value).TotalMinutes > 5)
-                return Json(new { success = false, message = "Mã xác nhận đã hết hạn." });
+                return Json(new { success = false, message = "Mã xác nhận đã hết hạn.", messageType = "warning" });
 
             if (!string.Equals(email, savedEmail, StringComparison.OrdinalIgnoreCase))
-                return Json(new { success = false, message = "Email không khớp." });
+                return Json(new { success = false, message = "Email không khớp.", messageType = "warning" });
 
             if (code != savedCode)
-                return Json(new { success = false, message = "Mã xác nhận không đúng." });
+                return Json(new { success = false, message = "Mã xác nhận không đúng.", messageType = "error" });
 
             // Nếu đúng: đánh dấu đã verified trong session
             Session["RegisterEmailVerified"] = savedEmail;
-            return Json(new { success = true, message = "Xác thực email thành công!" });
+            return Json(new { success = true, message = "Xác thực email thành công!", messageType = "success" });
         }
 
         // POST: /Account/Register (AJAX)
@@ -248,14 +271,14 @@ namespace WebBanHangOnline.Controllers
             var verifiedEmail = Session["RegisterEmailVerified"] as string;
             if (verifiedEmail == null || !string.Equals(verifiedEmail, model.Email, StringComparison.OrdinalIgnoreCase))
             {
-                return Json(new { success = false, message = "Vui lòng xác thực email trước khi đăng ký." });
+                return Json(new { success = false, message = "Vui lòng xác thực email trước khi đăng ký.", messageType = "warning" });
             }
 
             if (!ModelState.IsValid)
             {
                 // Trả về lỗi ModelState (lấy first error để hiển thị)
                 var firstErr = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
-                return Json(new { success = false, message = firstErr ?? "Dữ liệu không hợp lệ." });
+                return Json(new { success = false, message = firstErr ?? "Dữ liệu không hợp lệ.", messageType = "error" });
             }
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -273,10 +296,25 @@ namespace WebBanHangOnline.Controllers
 
                 return Json(new { success = true, returnUrl = Url.Action("Login", "Account") });
             }
+            else
+            {
+                // Gộp lỗi thân thiện
+                string friendlyMessage = "";
+                foreach (var error in result.Errors)
+                {
+                    if (error.Contains("is already taken"))
+                        friendlyMessage += "Email này đã được đăng ký trước đó.<br/>";
+                    else if (error.Contains("Passwords must have"))
+                        friendlyMessage += "Mật khẩu phải có ít nhất 6 kí tự !.<br/>";
+                    else
+                        friendlyMessage += error + "<br/>";
+                }
 
-            // Nếu lỗi tạo user
-            string errors = string.Join("; ", result.Errors);
-            return Json(new { success = false, message = errors });
+                return Json(new { success = false, message = friendlyMessage, messageType = "error" });
+            }
+            //Nếu lỗi tạo user
+            //string errors = string.Join("; ", result.Errors);
+            //return Json(new { success = false, message = errors, messageType = "error" });
         }
 
         //

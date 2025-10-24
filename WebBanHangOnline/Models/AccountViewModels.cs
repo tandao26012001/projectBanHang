@@ -77,7 +77,7 @@ namespace WebBanHangOnline.Models
         [Required]
         public string FullName { get; set; }
 
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
         public List<string> Roles { get; set; }
 
         [Required]
@@ -116,21 +116,22 @@ namespace WebBanHangOnline.Models
     }
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email không được để trống.")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+        [StringLength(100, ErrorMessage = "Mật khẩu ít nhất {6} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Mật khẩu nhập lại không khớp.")]
         public string ConfirmPassword { get; set; }
+
+        public string FullName { get; set; }
+
+        public string PhoneNumber { get; set; }
     }
 
     public class ResetPasswordViewModel

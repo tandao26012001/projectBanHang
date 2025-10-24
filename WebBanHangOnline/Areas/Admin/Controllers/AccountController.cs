@@ -185,7 +185,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     Image = model.Image,
                     Email = model.Email,
                     FullName = model.FullName,
-                    Phone = model.Phone
+                    Phone = model.PhoneNumber
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
