@@ -1,4 +1,9 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Category>
+@using Microsoft.AspNet.Identity
+
+@{
+    var userName = User.Identity.GetUserName();
+}
 
 <style>
     #cartCount {
@@ -45,10 +50,51 @@
                             0
                         </span>
                     </a>
-
-                    <a href="/tai-khoan" class="my-auto">
+                    @*<a href="/dang-nhap" class="my-auto">
                         <i class="fas fa-user fa-2x"></i>
-                    </a>
+                    </a>*@
+
+                    @if (Request.IsAuthenticated)
+                        {
+                            <div class="dropdown my-auto">
+                                <a class="text-decoration-none dropdown-toggle" href="#" role="button"
+                                   id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-2x text-primary"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <h6 class="dropdown-header">Xin chào, @User.Identity.GetUserName()!</h6>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Profile", "Account")">
+                                            <i class="fas fa-user-circle me-2"></i> Tài khoản cá nhân
+                                        </a>
+                                    </li>
+                                    <li>
+                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                                            </button>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="dropdown my-auto">
+                                <a class="text-decoration-none dropdown-toggle" href="#" role="button"
+                                   id="guestDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-2x text-primary"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="guestDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("Login", "Account")">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Register", "Account")">Đăng ký</a></li>
+                                </ul>
+                            </div>
+                        }
                 </div>
 
             </div>

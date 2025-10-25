@@ -70,7 +70,7 @@
                 </div>
                 <div class="signup-image">
                     <figure><img src="~/Content/clients/account/images/signup-image.jpg" alt="sing up image"></figure>
-                    <a href="#" class="signup-image-link">Đã có tài khoản, đăng nhập ngay</a>
+                    <a href="/dang-nhap" class="signup-image-link">Đã có tài khoản, đăng nhập ngay</a>
                 </div>
             </div>
         </div>
@@ -141,8 +141,17 @@
         // Send code
         $("#btnSendCode").on("click", function () {
             var email = $("#Email").val().trim();
-            if (!email) { alert("Vui lòng nhập email."); return; }
-
+            // Kiểm tra trống
+            if (email === "") {
+                showToast("Vui lòng nhập địa chỉ email.", "warning");
+                return;
+            }
+            // Kiểm tra định dạng email bằng regex
+            var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast("Email không hợp lệ. Vui lòng nhập đúng định dạng (vd: example@gmail.com).", "warning");
+                return;
+            }
             $.ajax({
                 url: '@Url.Action("SendVerificationCode", "Account")',
                 method: 'POST',

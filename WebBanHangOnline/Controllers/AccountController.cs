@@ -97,6 +97,8 @@ namespace WebBanHangOnline.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["LoginMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+                TempData["MessageType"] = "warning";
                 return View(model);
             }
 
@@ -106,14 +108,19 @@ namespace WebBanHangOnline.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    TempData["LoginMessage"] = "Đăng nhập thành công! Đang chuyển hướng...";
+                    TempData["MessageType"] = "success";
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
+                    TempData["LoginMessage"] = "Tài khoản đã bị khóa tạm thời.";
+                    TempData["MessageType"] = "error";
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    TempData["LoginMessage"] = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                    TempData["MessageType"] = "error";
                     return View(model);
             }
         }

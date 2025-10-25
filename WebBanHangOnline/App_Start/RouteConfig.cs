@@ -20,23 +20,48 @@ namespace WebBanHangOnline
               namespaces: new[] { "WebBanHangOnline.Controllers" }
           );
             routes.MapRoute(
-         name: "CheckOut",
-         url: "thanh-toan",
-         defaults: new { controller = "ShoppingCart", action = "CheckOut", alias = UrlParameter.Optional },
-         namespaces: new[] { "WebBanHangOnline.Controllers" }
-     );
-            routes.MapRoute(
-       name: "vnpay_return",
-       url: "vnpay_return",
-       defaults: new { controller = "ShoppingCart", action = "VnpayReturn", alias = UrlParameter.Optional },
-       namespaces: new[] { "WebBanHangOnline.Controllers" }
-   );
+             name: "CheckOut",
+             url: "thanh-toan",
+             defaults: new { controller = "ShoppingCart", action = "CheckOut", alias = UrlParameter.Optional },
+             namespaces: new[] { "WebBanHangOnline.Controllers" }
+         );
             routes.MapRoute(
              name: "ShoppingCart",
              url: "gio-hang",
              defaults: new { controller = "ShoppingCart", action = "Index", alias = UrlParameter.Optional },
              namespaces: new[] { "WebBanHangOnline.Controllers" }
          );
+            routes.MapRoute(
+               name: "Products",
+               url: "san-pham",
+               defaults: new { controller = "Products", action = "Index", alias = UrlParameter.Optional },
+               namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+            routes.MapRoute(
+             name: "NewsList",
+             url: "tin-tuc",
+             defaults: new { controller = "News", action = "Index", alias = UrlParameter.Optional },
+             namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+            routes.MapRoute(
+             name: "Login",
+             url: "dang-nhap",
+             defaults: new { controller = "Account", action = "Login", alias = UrlParameter.Optional },
+             namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+            routes.MapRoute(
+             name: "Register",
+             url: "dang-ky",
+             defaults: new { controller = "Account", action = "Register", alias = UrlParameter.Optional },
+             namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
+            // Route tùy chỉnh cho trang chủ
+            routes.MapRoute(
+                name: "TrangChu",
+                url: "trang-chu",
+                defaults: new { controller = "Home", action = "Index" },
+                namespaces: new[] { "WebBanHangOnline.Controllers" }
+            );
             routes.MapRoute(
               name: "CategoryProduct",
               url: "danh-muc/{alias}-{id}",
@@ -56,36 +81,17 @@ namespace WebBanHangOnline
             //    namespaces: new[] { "WebBanHangOnline.Controllers" }
             //);
             routes.MapRoute(
-                name: "detailProduct", 
-                url: "chi-tiet/{alias}-{color}-p{id}", 
+                name: "detailProduct",
+                url: "chi-tiet/{alias}-{color}-p{id}",
                 defaults: new { controller = "Products", action = "Detail", alias = UrlParameter.Optional, id = UrlParameter.Optional, color = UrlParameter.Optional },
-                namespaces: new[] { "WebBanHangOnline.Controllers" });
-
-            routes.MapRoute(
-               name: "Products",
-               url: "san-pham",
-               defaults: new { controller = "Products", action = "Index", alias = UrlParameter.Optional },
-               namespaces: new[] { "WebBanHangOnline.Controllers" }
-           );
-            routes.MapRoute(
-          name: "DetailNew",
-          url: "{alias}-n{id}",
-          defaults: new { controller = "News", action = "Detail", id = UrlParameter.Optional },
-          namespaces: new[] { "WebBanHangOnline.Controllers" }
-      );
-            routes.MapRoute(
-             name: "NewsList",
-             url: "tin-tuc",
-             defaults: new { controller = "News", action = "Index", alias = UrlParameter.Optional },
-             namespaces: new[] { "WebBanHangOnline.Controllers" }
-         );
-            // Route tùy chỉnh cho trang chủ
-            routes.MapRoute(
-                name: "TrangChu",
-                url: "trang-chu",
-                defaults: new { controller = "Home", action = "Index" },
                 namespaces: new[] { "WebBanHangOnline.Controllers" }
-            );
+                );
+            routes.MapRoute(
+              name: "DetailNew",
+              url: "{alias}-n{id}",
+              defaults: new { controller = "News", action = "Detail", id = UrlParameter.Optional },
+              namespaces: new[] { "WebBanHangOnline.Controllers" }
+           );
 
             // Route mặc định với ràng buộc không cho vào Home/Index
             routes.MapRoute(

@@ -27,7 +27,7 @@ namespace WebBanHangOnline.Controllers
             ViewBag.Page = page;
             return View(items);
         }
-        public ActionResult Detail(int id)
+        public ActionResult Detail(int? id)
         {
             var item = db.News.Find(id);
             if (item == null)
